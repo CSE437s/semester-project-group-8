@@ -14,6 +14,16 @@ const db = mysql.createConnection({
     password: "password",
     database: "LiftingApp"
 })
+
+// Test if the database is connected.
+db.connect((err) => {
+  if(err) {
+    console.log(err)
+  } else {
+    console.log("Connected to MySQL")
+  }
+})
+
 db.on('error', function(err) {
     console.log("[mysql error]",err);
 });
