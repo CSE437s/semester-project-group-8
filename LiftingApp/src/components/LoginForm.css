@@ -1,0 +1,27 @@
+ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 90%;
+    max-width: 500px;
+    margin:auto;
+    padding: 20px;
+}
+
+.login-form .ion-item {
+    width: 100%; 
+    max-width: 500px;
+    margin: auto;
+}
+
+.login-input {
+    width: 100%;
+}
