@@ -15,6 +15,7 @@ import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Login from './pages/Login';
+import SignUp from './pages/Signup';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,9 +52,14 @@ const App: React.FC = () => (
           <Route path="/tab3">
             <Tab3 />
           </Route>
+          
           <Route path="/Login">
             <Login />
           </Route>
+          <Route path="/Signup">
+            <SignUp />
+          </Route>
+
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
@@ -74,6 +80,10 @@ const App: React.FC = () => (
           <IonTabButton tab="Login" href="/Login">
             <IonIcon aria-hidden="true" icon={square} />
             <IonLabel>Login</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="Signup" href="/Signup">
+            <IonIcon aria-hidden="true" icon={square} />
+            <IonLabel>Signup</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
