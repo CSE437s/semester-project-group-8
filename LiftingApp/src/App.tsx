@@ -11,6 +11,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { images, square, triangle } from 'ionicons/icons';
+import Homepage from './pages/homepage';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -41,7 +42,13 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
+      <IonRouterOutlet>
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/Login" component={Login} />
+        <Route exact path="/Signup" component={SignUp} />
+      </IonRouterOutlet>
+
+      {/* <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/tab1">
             <Tab1 />
@@ -64,6 +71,7 @@ const App: React.FC = () => (
             <Redirect to="/tab1" />
           </Route>
         </IonRouterOutlet>
+
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon aria-hidden="true" icon={triangle} />
@@ -82,7 +90,8 @@ const App: React.FC = () => (
             <IonLabel>Login</IonLabel>
           </IonTabButton>
         </IonTabBar>
-      </IonTabs>
+      </IonTabs> */}
+
     </IonReactRouter>
   </IonApp>
 );
