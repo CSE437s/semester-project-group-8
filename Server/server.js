@@ -44,8 +44,8 @@ app.post('/login', (req, res) =>{
   })
 })
 
-app.post('/register', (req, res) =>{
-  console.log("register request");
+app.post('/signup', (req, res) =>{
+  console.log("signpup request");
   credentials = req.body.credentials;
   console.log(credentials);
   username = credentials.username;
@@ -63,8 +63,27 @@ app.post('/register', (req, res) =>{
           db.query(sql, [username,password], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
-              return res.json({ message: 'Registry successful' });
+              return res.json({ message: 'Signup successful' });
           })
+          //make new table for user
+          const sql2 = `CREATE TABLE LiftingApp.(?) (
+            id INT auto_increment NOT NULL,
+            exercise_name varchar(100) NOT NULL,
+            rep_num INT NOT NULL,
+            weight INT NULL,
+            rpe varchar(100) NULL,
+            sleep_quality varchar(100) NULL,
+            CONSTRAINT lift_number PRIMARY KEY (id)
+          )
+          ENGINE=InnoDB
+          DEFAULT CHARSET=utf8mb4
+          COLLATE=utf8mb4_0900_ai_ci;
+          `;
+          db.query(sql, [username], (err, data) => {
+            console.log(err, data);
+            if(err) return res.json(err);
+            return res.json({ message: 'New user table successfully created' });
+        })
       }
   })
 })
