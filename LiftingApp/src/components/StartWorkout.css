@@ -1,0 +1,34 @@
+ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workout-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.workout-range {
+    width: 80%;
+}
+
+ion-range {
+    --bar-background: #ff4b4b;
+    --bar-background-active: #fc8787;
+    --bar-height: 8px;
+    --bar-border-radius: 8px;
+    --knob-background: black;
+    --knob-size: 40px;
+    --pin-background: black;
+    --pin-color: #ffffff;
+
+  }
+
+  .workout-form ion-button {
+    --background: #ff4b4b;
+    color: white;
+}
+

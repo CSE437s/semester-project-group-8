@@ -17,6 +17,7 @@ import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
+import Workout from './pages/Workout';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,6 +47,7 @@ const App: React.FC = () => (
         <Route exact path="/" component={Homepage} />
         <Route exact path="/Login" component={Login} />
         <Route exact path="/Signup" component={SignUp} />
+        <Route exact path="/StartWorkout" component={Workout} />
       </IonRouterOutlet>
 
       {/* <IonTabs>
