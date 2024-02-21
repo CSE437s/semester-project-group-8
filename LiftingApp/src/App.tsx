@@ -52,7 +52,7 @@ const App: React.FC = () => (
           <Route path="/tab3">
             <Tab3 />
           </Route>
-          
+
           <Route path="/Login">
             <Login />
           </Route>
@@ -80,10 +80,6 @@ const App: React.FC = () => (
           <IonTabButton tab="Login" href="/Login">
             <IonIcon aria-hidden="true" icon={square} />
             <IonLabel>Login</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Signup" href="/Signup">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Signup</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
