@@ -1,3 +1,8 @@
+-- Create Database
+CREATE DATABASE LiftingApp;
+
+
+--Show create tables
 CREATE TABLE LiftingApp.users (
 	id INT auto_increment NOT NULL,
 	username varchar(100) NOT NULL,
