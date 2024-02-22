@@ -29,15 +29,16 @@ db.connect((err) => {
 //from Geoffrey's creative project. will need to adjust
 app.post('/login', (req, res) =>{
   console.log("login request");
-  credentials = req.body.credentials;
+  const credentials = req.body;
   console.log(credentials);
-  username = credentials.username;
-  password = credentials.password;
-  const sql = `SELECT Password FROM users WHERE Username = ?`;
-  db.query(sql, [username], (err, data) => {
+  const username = credentials.username;
+  const password = credentials.password;
+  const sql = `SELECT password FROM users WHERE username = ?`;
+  db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      if(password == data[0].Password){
+      const match = await bcrypt.compare(password, data[0].password);
+      if(match){
           return res.json({ success: "true" , message: 'Login successful' });
       } else {
           return res.status(401).json({ success: "false", message: 'Invalid username or password' });
