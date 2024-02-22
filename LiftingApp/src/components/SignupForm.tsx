@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {IonInput, IonButton, IonItem, IonLabel} from '@ionic/react';
 import './SignupForm.css';
 import Login from '../pages/Login';
@@ -8,12 +8,27 @@ function SignupForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [signupStatus, setSignupStatus] = useState('');
-    const [isError, setIsError] = useState(false);
+    const [signupStatus, setSignupStatus] = useState(''); // This is the message that will be displayed after the user tries to sign up
+    const [isError, setIsError] = useState(false); // This is a boolean that will be used to determine if the message is an error or a success message
     const history = useHistory();
+    const [timeoutId, setTimeoutId] = useState(null);
+    
+    useEffect(() => {
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+        };
+    }, [timeoutId]);
 
     const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // redirect to login page after 3 seconds if signup is successful.
+        const id = setTimeout(() => {
+            history.push('/Login');
+        }, 3000);
+        setTimeoutId(id);
+
+        // Send a POST request to the server to sign up the user
         fetch('http://localhost:3000/signup', {
             method: 'POST',
             headers: {
@@ -26,7 +41,6 @@ function SignupForm() {
             if (data.message) {
                 setSignupStatus(data.message);
                 setIsError(false);
-                history.push('/Login');
             } else {
                 setIsError(true);
                 setSignupStatus(data.error);
