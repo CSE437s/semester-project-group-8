@@ -16,11 +16,11 @@ function SignupForm() {
         <form onSubmit={handleSignup} className='signup-form'>
             <IonItem className="signup-input">
                 <IonLabel position="floating">Username</IonLabel>
-                <IonInput value={username} onIonChange={e=>setUsername(e.detail.value!)}></IonInput>
+                <IonInput value={username} onIonChange={e=>setUsername(e.detail.value!)} required></IonInput>
             </IonItem>
             <IonItem className="signup-input">
                 <IonLabel position="floating">Password</IonLabel>
-                <IonInput value={password} type="password" onIonChange={e=>setPassword(e.detail.value!)}></IonInput>
+                <IonInput value={password} type="password" onIonChange={e=>setPassword(e.detail.value!)} required></IonInput>
             </IonItem>
             <IonItem className="signup-input">
                 <IonLabel position="floating">Email</IonLabel>
