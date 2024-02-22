@@ -39,11 +39,11 @@ function LoginForm() {
         <form onSubmit={handleSubmit} className='login-form'>
             <IonItem className="login-input">
                 <IonLabel position="floating">Username</IonLabel>
-                <IonInput value={username} onIonChange={e => setUsername(e.detail.value!)}></IonInput>
+                <IonInput value={username} onIonChange={e => setUsername(e.detail.value!)} required></IonInput>
             </IonItem>
             <IonItem className="login-input">
                 <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
+                <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} required></IonInput>
             </IonItem>
             <IonButton type="submit" expand="block">Login</IonButton>
             <IonButton expand="block" fill="clear" onClick={() => navigateTo('/signup')}>
