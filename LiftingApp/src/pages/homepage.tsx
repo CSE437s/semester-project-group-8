@@ -10,7 +10,7 @@ const Homepage: React.FC = () => {
     <IonPage>
       <IonContent className="ion-padding ion-text-center">
         <IonText className="welcome-text">
-          <h1>Welcome To App Name</h1>
+          <h1>Welcome To Lifting App</h1>
         </IonText>
         <IonButton expand="block" onClick={() => history.push('/Signup')} className="signup-button">
           Sign Up
