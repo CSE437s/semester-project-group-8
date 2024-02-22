@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const mysql = require('mysql');
 const cors = require("cors")
+const bcrypt = require('bcrypt');
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
@@ -46,25 +47,28 @@ app.post('/login', (req, res) =>{
 
 app.post('/signup', (req, res) =>{
   console.log("signpup request");
-  credentials = req.body.credentials;
-  console.log(credentials);
-  username = credentials.username;
-  password = credentials.password;
-  const sqlCheckDup = `SELECT Username FROM users WHERE Username = ?`;
+  const credentials = req.body;
+  const username = credentials.username;
+  const password = credentials.password;
+
+  const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      if(data.length > 0 && username == data[0].Username){
+      if(data.length > 0 && username == data[0].username){
           console.log("User already exists");
-          return res.json({ message: 'User already exists' });
+          return res.json({ error: 'User already exists' });
       }
       else{
-          const sql = `INSERT INTO users (Username, Password)  VALUES (?,?)`;
-          db.query(sql, [username,password], (err, data) => {
+          bcrypt.hash(password, 10, function(err, hash) {
+            if (err) return res.json(err);
+            const sql = `INSERT INTO users (username, password)  VALUES (?,?)`;
+            db.query(sql, [username, hash], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
               return res.json({ message: 'Signup successful' });
           })
+        });
       }
   })
 })
