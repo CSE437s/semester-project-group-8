@@ -51,6 +51,11 @@ app.post('/signup', (req, res) =>{
   const credentials = req.body;
   const username = credentials.username;
   const password = credentials.password;
+  const email = credentials.email;
+  const goal = credentials.goal;
+  const birthday = credentials.birthday;
+  const gender = credentials.gender;
+  const intensity = credentials.intensity;
 
   const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
@@ -63,8 +68,8 @@ app.post('/signup', (req, res) =>{
       else{
           bcrypt.hash(password, 10, function(err, hash) {
             if (err) return res.json(err);
-            const sql = `INSERT INTO users (username, password)  VALUES (?,?)`;
-            db.query(sql, [username, hash], (err, data) => {
+            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity)  VALUES (?,?,?,?,?,?,?)`;
+            db.query(sql, [username, hash, email, goal, birthday, gender, intensity], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
               return res.json({ message: 'Signup successful' });
