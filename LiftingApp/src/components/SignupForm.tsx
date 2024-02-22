@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {IonInput, IonButton, IonItem, IonLabel} from '@ionic/react';
 import './SignupForm.css';
+import Login from '../pages/Login';
+import { useHistory } from 'react-router-dom';
 
 function SignupForm() {
     const [username, setUsername] = useState('');
@@ -8,6 +10,7 @@ function SignupForm() {
     const [email, setEmail] = useState('');
     const [signupStatus, setSignupStatus] = useState('');
     const [isError, setIsError] = useState(false);
+    const history = useHistory();
 
     const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -23,7 +26,7 @@ function SignupForm() {
             if (data.message) {
                 setSignupStatus(data.message);
                 setIsError(false);
-                //TODO: we could redirect to the user's main page here.
+                history.push('/Login');
             } else {
                 setIsError(true);
                 setSignupStatus(data.error);
