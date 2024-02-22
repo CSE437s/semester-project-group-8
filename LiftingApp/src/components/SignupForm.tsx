@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {IonInput, IonButton, IonItem, IonLabel} from '@ionic/react';
 import './SignupForm.css';
-import Login from '../pages/Login';
 import { useHistory } from 'react-router-dom';
 
 function SignupForm() {

@@ -30,3 +30,35 @@ ion-content {
 .login-input {
     width: 100%;
 }
+
+.error-message{
+    color: red;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+.success-message{
+    color: green;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
