@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonBackButton, IonButtons } from '@ionic/react';
 import './SignUp.css';
+import SignupForm from '../components/SignupForm';
 
 const SignUp: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-  const handleSignUp = () => {
-    // Implement your sign-up logic here
-    console.log(username, password, email);
-  };
-
   return (
     <IonPage>
       <IonHeader>
@@ -22,13 +14,8 @@ const SignUp: React.FC = () => {
           <IonTitle>Sign Up</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="ion-padding">
-        <div className="signup-form">
-          <IonInput placeholder="Username" value={username} onIonChange={e => setUsername(e.detail.value!)} clearInput></IonInput>
-          <IonInput type="password" placeholder="Password" value={password} onIonChange={e => setPassword(e.detail.value!)} clearInput></IonInput>
-          <IonInput type="email" placeholder="Email Address" value={email} onIonChange={e => setEmail(e.detail.value!)} clearInput></IonInput>
-          <IonButton expand="block" onClick={handleSignUp}>Sign Up</IonButton>
-        </div>
+      <IonContent fullscreen>
+        <SignupForm />
       </IonContent>
     </IonPage>
   );
