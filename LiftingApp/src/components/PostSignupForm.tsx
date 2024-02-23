@@ -45,7 +45,9 @@ function PostSignupForm() {
         return (
             <IonItem>
                 <IonLabel>Gender</IonLabel>
-                <IonSelect onIonChange={e => handleInputChange('gender', e.detail.value)}>
+                <IonSelect 
+                    value={formData.gender}
+                    onIonChange={e => handleInputChange('gender', e.detail.value)}>
                     <IonSelectOption value="0">Female</IonSelectOption>
                     <IonSelectOption value="1">Male</IonSelectOption>
                 </IonSelect>
@@ -57,15 +59,21 @@ function PostSignupForm() {
             <>
             <IonItem>
                 <IonLabel position="stacked">Birthday</IonLabel>
-                <IonDatetime displayFormat="MM/DD/YYYY" onIonChange={e => handleInputChange('birthday', e.detail.value)}></IonDatetime>
+                <IonDatetime 
+                value={formData.birthday}
+                presentation="date"
+                showDefaultButtons={true}
+                preferWheel={true}
+                onIonChange={e => handleInputChange('birthday', e.detail.value)}>
+                </IonDatetime>
             </IonItem>
             <IonItem>
                 <IonLabel position="stacked">Weight (kg)</IonLabel>
-                <IonInput type="number" onIonChange={e => handleInputChange('weight', e.detail.value)}></IonInput>
+                <IonInput value={formData.weight} type="number" onIonChange={e => handleInputChange('weight', e.detail.value)}></IonInput>
             </IonItem>
             <IonItem>
                 <IonLabel position="stacked">Height (cm)</IonLabel>
-                <IonInput type="number" onIonChange={e => handleInputChange('height', e.detail.value)}></IonInput>
+                <IonInput value={formData.height} type="number" onIonChange={e => handleInputChange('height', e.detail.value)}></IonInput>
             </IonItem>
         </>
         );
@@ -75,7 +83,9 @@ function PostSignupForm() {
         return (
             <IonItem>
                 <IonLabel>What is your fitness goal?</IonLabel>
-                <IonSelect onIonChange={e => handleInputChange('goal', e.detail.value)}>
+                <IonSelect 
+                    value={formData.goal}
+                    onIonChange={e => handleInputChange('goal', e.detail.value)}>
                     <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
                     <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
                     <IonSelectOption value="Overall fitness">Overall fitness</IonSelectOption>
@@ -93,7 +103,7 @@ function PostSignupForm() {
             </IonItem>
         )
     }
-    const TOTAL_STEPS = 3;
+    const TOTAL_STEPS = 4;
     const renderStep = () => {
         switch(currentStep) {
             case 1:
@@ -102,6 +112,8 @@ function PostSignupForm() {
                 return renderGenderStep();
             case 3:
                 return renderInfoStep();
+            case 4:
+                return renderGoalStep();
             default:
             return renderEndStep();
         }
