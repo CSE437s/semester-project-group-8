@@ -26,7 +26,7 @@ function LoginForm() {
         .then(data => {
             console.log(data);
             if(data.success == "true") {
-                history.push('/StartWorkout');
+                history.push('/PostSignup');
             } else {
                 setIsError(true);
                 setLoginStatus(data.message);
