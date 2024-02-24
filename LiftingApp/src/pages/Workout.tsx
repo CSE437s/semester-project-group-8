@@ -1,29 +1,24 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Workout.css';
-import StartWorkout from "../components/StartWorkout"
+import React from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
+import './workout.css';
+import { useHistory } from 'react-router';
+
 
 const Workout: React.FC = () => {
     return (
         <IonPage>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Start Workout</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-
-          <IonContent fullscreen>
-            <IonHeader collapse="condense">
-              <IonToolbar>
-                <IonTitle size="large">Start Workout</IonTitle>
-              </IonToolbar>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>Workout</IonTitle>
+                </IonToolbar>
             </IonHeader>
 
-            <StartWorkout /> {/* Comes from components */}
-
-          </IonContent>
+            <IonContent className="ion-padding">
+                {/* ADD COMPONENTS + CONTENT... */}
+                <h2>Welcome to your Workout!</h2>
+            </IonContent>
         </IonPage>
-      );
-}
+    );
+};
 
 export default Workout;
-
