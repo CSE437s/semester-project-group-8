@@ -79,20 +79,68 @@ app.post('/signup', (req, res) =>{
   })
 })
 
+app.post('/signup2', (req, res) =>{
+  console.log("signpup2 request");
+  const profileInfo = req.body;
+  const username = profileInfo.email;
+  const goal = profileInfo.goal;
+  const birthday = profileInfo.birthday;
+  const gender = profileInfo.gender;
+  const intensity = profileInfo.intensity;
+
+  const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
+  db.query(sqlCheckDup, [username], (err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    if(data.length > 0 && username == data[0].username){
+      const sql = `INSERT INTO users (goal, birthday, gender, intensity) VALUES (?,?,?,?) WHERE username = ?`;
+      db.query(sql, [goal, birthday, gender, intensity, username], (err, data) => {
+        console.log(err, data);
+        if(err) return res.json(err);
+        return res.json({ message: 'Signup successful' });
+      })
+    }
+    else{
+      console.log("User not found");
+      return res.json({ error: 'User not found'});
+    }
+  })
+})
+
 app.post('/liftentry', (req, res) =>{
   console.log("lift entry");
-  credentials = req.body.credentials;
+  const credentials = req.body;
   console.log(credentials);
-  username = credentials.username;
-  lift = credentials.lift;
-  date = credentials.date;
-  weight = credentials.weight;
+  const username = credentials.username;
+  const lift = credentials.lift;
+  const date = credentials.date;
+  const weight = credentials.weight;
   const sql = `INSERT INTO lifts (Username, Lift, Date, Weight) VALUES (?,?,?,?)`;
   db.query(sql, [username, lift, date, weight], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
       return res.json({message: 'Lift input into database' });
   })
+})
+
+app.post('/simpleMaxCalculate', (req, res) =>{
+  console.log("rpe request");
+  const liftInfo = req.body;
+  const weight = liftInfo.weight;
+  const reps = liftInfo.reps;
+  const rpe = liftInfo.rpe;
+  const sql = `SELECT ? FROM RPE WHERE reps = ?`
+  db.query(sql, [rpe, reps], (err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    if (data.length > 0) {
+      const percentage = data[0].rpe; // Assuming the query returns only one row
+      const theoreticMaxLift = weight/percentage;
+      res.json({ theoreticMaxLift: theoreticMaxLift });
+    } else {
+      res.json({ error: 'No data found for the given reps' });
+    }
+  })  
 })
 
 //from Geoffrey's creative project. will need to adjust
