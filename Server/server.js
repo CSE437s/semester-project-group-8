@@ -1,5 +1,6 @@
-const express = require("express")
-const app = express()
+const express = require("express");
+const app = express();
+const session = require("express-session");
 const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
@@ -7,6 +8,12 @@ const bcrypt = require('bcrypt');
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
+
+app.use(session({
+  secret: 'secret',
+  cookie: {maxAge: 30000},
+  saveUninitialized: true
+}))
 
 
 const db = mysql.createConnection({
@@ -157,12 +164,24 @@ app.listen(3000, () => {
 app.post('/workout', (req, res) => {
   // Extract data from the request body
   const { sleepQuality, stressLevel, desireToTrain } = req.body;
-
+  console.log(sessionID)
   console.log('Sleep Quality:', sleepQuality);
   console.log('Stress Level:', stressLevel);
   console.log('Desire to Train:', desireToTrain);
 
-  // Process the data here (e.g., save to database, perform logic)
+  //add variables to session
+  if(req.session.authenticated) {
+    res.json(req.session);
+  }
+  else if(sleepQuality == null || stressLevel == null || desireToTrain == null){
+    res.json({ error: 'sleepQuality, stressLevel, and desireToTrain are not filled in fields' });
+  }
+  else{
+    req.session.authenticated = true;
+    req.session.sleepQuality = sleepQuality;
+    req.session.stressLevel = stressLevel;
+    req.session.desireToTrain = desireToTrain;
+  }
 
   // Respond to the client
   res.json({ success: true, message: 'Data received successfully' });
