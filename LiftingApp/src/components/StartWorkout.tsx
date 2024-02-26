@@ -16,9 +16,11 @@ function StartWorkout() {
         history.push('/Workout'); 
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault(); 
+
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch('http://localhost:3000/workout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'},
