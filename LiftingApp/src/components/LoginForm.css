@@ -16,9 +16,13 @@ ion-content {
     padding: 20px;
 }
 
-.login-form ion-button {
+.login-form .login-button {
     --background: #ff4b4b;
     color: white;
+}
+
+.login-form .login-sign-up-button {
+    color: #ff4b4b
 }
 
 .login-form .ion-item {

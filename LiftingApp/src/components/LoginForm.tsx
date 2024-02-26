@@ -45,8 +45,8 @@ function LoginForm() {
                 <IonLabel position="floating">Password</IonLabel>
                 <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} required></IonInput>
             </IonItem>
-            <IonButton type="submit" expand="block">Login</IonButton>
-            <IonButton expand="block" fill="clear" onClick={() => navigateTo('/signup')}>
+            <IonButton className="login-button" type="submit" expand="block">Login</IonButton>
+            <IonButton className="login-sign-up-button" fill="clear" onClick={() => navigateTo('/signup')}>
                 Don't have an account? Sign Up
             </IonButton>
             {loginStatus && (

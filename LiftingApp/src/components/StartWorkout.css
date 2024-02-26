@@ -29,7 +29,7 @@ ion-range {
 
   }
 
-  .workout-form .workout-begin-button {
+.workout-form .workout-begin-button {
     --background: #ff4b4b;
     color: white;
 }
