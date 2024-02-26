@@ -152,3 +152,18 @@ db.on('error', function(err) {
 app.listen(3000, () => {
   console.log("app listening on port 3000")
 })
+
+//startworkout form data
+app.post('/workout', (req, res) => {
+  // Extract data from the request body
+  const { sleepQuality, stressLevel, desireToTrain } = req.body;
+
+  console.log('Sleep Quality:', sleepQuality);
+  console.log('Stress Level:', stressLevel);
+  console.log('Desire to Train:', desireToTrain);
+
+  // Process the data here (e.g., save to database, perform logic)
+
+  // Respond to the client
+  res.json({ success: true, message: 'Data received successfully' });
+});
