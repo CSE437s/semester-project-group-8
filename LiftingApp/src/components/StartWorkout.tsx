@@ -17,25 +17,28 @@ function StartWorkout() {
     };
 
     const handleSubmit = async () => {
-        console.log(sleepQuality);
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'},
+                body: JSON.stringify({ sleepQuality, stressLevel, desireToTrain }),
+            });
 
-        fetch('http://localhost:3000/Workout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({sleepQuality, stressLevel, desireToTrain}),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if(data.success == "true") {
-                history.push('/Workout');
-            } else {
-                setIsError(true);
+            const data = await response.json();
+
+            if (data.success) {
+                // Navigating to the /workout page if the backend responds with success
+                history.push('/workout');
+            } 
+            else {
+                // Handle the error case
+                console.error('Error submitting workout preferences:', data.error);
             }
-        })
-        .catch(error => console.log(error));
+        } 
+        catch (error) {
+            console.error('Network or server error:', error);
+        }
     };
 
     return(
@@ -60,7 +63,7 @@ function StartWorkout() {
                 Begin Workout
             </IonButton>
             
-            <IonButton expand="block" fill="clear" className='workout-skip-button' onClick={handleSubmit}>
+            <IonButton expand="block" fill="clear" className='workout-skip-button' onClick={navigateToWorkout}>
                 Skip and Begin Workout
             </IonButton>
         </form>
