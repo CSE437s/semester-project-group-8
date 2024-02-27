@@ -20,7 +20,6 @@ import SignUp from './pages/Signup';
 import StartingWorkoutPage from './pages/Startworkout';
 import PostSignup from './pages/PostSignup';
 import Workout from './pages/workout';
-import NavigationHomepage from './pages/NavigationHome';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
