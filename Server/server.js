@@ -158,14 +158,17 @@ app.post('/simpleMaxCalculate', (req, res) =>{
   })  
 })
 
-app.get('/getlifts'), (req, res) => {
-  console.log("request for lifts from lift table");
+app.get('/getlifts', (req, res) => {
+  console.log("Request for lifts from lift table");
   const sql = "SELECT * FROM Lift";
   db.query(sql, (err, data) => {
-      if(err) return res.status(500).json(err);
+      if (err) {
+          return res.status(500).json(err);
+      }
       return res.json(data);
-  })
-}
+  });
+});
+
 
 //from Geoffrey's creative project. will need to adjust
 
