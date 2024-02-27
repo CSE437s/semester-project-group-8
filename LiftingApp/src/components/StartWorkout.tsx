@@ -61,7 +61,7 @@ function StartWorkout() {
                 ticks={true} snaps={true} pin={true} min={0} max={5}  value={desireToTrain} onIonChange={e => setDesireToTrain(e.detail.value as number)}></IonRange>
             </IonItem>
 
-            <IonButton expand="block" className='workout-begin-button' onClick={handleSubmit}>
+            <IonButton expand="block" className='workout-begin-button' onClick={navigateToWorkout}>
                 Begin Workout
             </IonButton>
             

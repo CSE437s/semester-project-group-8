@@ -38,12 +38,51 @@ function WorkoutForm() {
         const updatedSets = [...sets];
         updatedSets[exerciseIndex][setIndex] = { ...updatedSets[exerciseIndex][setIndex], [field]: value };
         setSets(updatedSets);
+        submitSet(exerciseIndex, setIndex);
     };
     const cancelWorkout = () => {
         setSelectedExercises([]);
         setSets([]);
         history.push('/StartWorkout'); //FIX: REROUTE TO HOME PAGE
     }
+    
+    const submitWorkout = async () => {
+        for (let exerciseIndex = 0; exerciseIndex < selectedExercises.length; exerciseIndex++) {
+            const exerciseName = selectedExercises[exerciseIndex];
+            //const lift_id; //SET TO 0 FOR NOW.
+    
+            for (let setIndex = 0; setIndex < sets[exerciseIndex].length; setIndex++) {
+                const set = sets[exerciseIndex][setIndex];
+                const data = {
+                    user_id: 0, 
+                    lift_id: 0,
+                    set_num: set.setNumber,
+                    rep_num: set.reps,
+                    weight: set.lbs,
+                    date: new Date().toISOString().slice(0, 10),
+                };
+    
+                try {
+                    const response = await fetch('http://localhost:3000/addset', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+    
+                    const responseData = await response.json();
+                    if (!response.ok) {
+                        throw new Error(responseData.message || 'Failed to submit set');
+                    }
+                    console.log('Set submitted successfully', responseData);
+                } catch (error) {
+                    console.error('Error submitting set:', error);
+                    return;
+                }
+            }
+        }
+    };
+    
+    
     
     return (
         <div>
@@ -75,8 +114,12 @@ function WorkoutForm() {
                                 onIonChange={e => updateSet(exerciseIndex, setIndex, 'reps', e.detail.value)}
                             />
                         </div>
-                    ))}
+                        
+                    ))
+                    }
+                    <IonButton onClick={submitWorkout}>Submit Workout</IonButton>
                     <IonButton onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
+                    
                 </div>
             ))}
             <IonButton onClick={cancelWorkout}>Cancel Workout</IonButton>
