@@ -42,7 +42,7 @@ function WorkoutForm() {
     const cancelWorkout = () => {
         setSelectedExercises([]);
         setSets([]);
-        history.push('/StartWorkout');
+        history.push('/StartWorkout'); //FIX: REROUTE TO HOME PAGE
     }
     
     return (
