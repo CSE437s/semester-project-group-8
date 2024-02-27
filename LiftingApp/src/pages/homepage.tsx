@@ -8,16 +8,21 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent className="ion-padding ion-text-center">
+      <IonContent className="workout-form">
         <IonText className="welcome-text">
-          <h1>Welcome To Lifting App</h1>
+          <h1>Welcome To "AppName"</h1>
         </IonText>
-        <IonButton expand="block" onClick={() => history.push('/Signup')} className="signup-button">
-          Sign Up
-        </IonButton>
-        <IonButton fill="clear" onClick={() => history.push('/Login')}>
-          Log In
-        </IonButton>
+
+        <div className='button-container'>
+            <IonButton expand="block" onClick={() => history.push('/Signup')} className="home-signup-button">
+            Sign Up
+            </IonButton>
+
+            <IonButton fill="clear" onClick={() => history.push('/Login')} className='home-login-button'>
+            Log In
+            </IonButton>
+        </div>
+        
       </IonContent>
     </IonPage>
   );

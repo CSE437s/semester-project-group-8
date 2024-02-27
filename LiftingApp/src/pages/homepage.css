@@ -1,13 +1,55 @@
 /* src/pages/homepage.css */
+  
+.workout-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    height: 100vh; 
+}
 
 .welcome-text h1 {
-    margin-bottom: 2rem;
-  }
-  
-  .signup-button {
-    --background: #ff4b4b; 
-    --border-radius: 20px;
-    margin-bottom: 1rem;
-    font-weight: bold;
-  }
+  margin-top: 20vh; 
+  text-align: center;
+  flex-grow: 1;
+  flex-basis: 25%;
+}
+
+.welcome-text {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: auto;
+}
+
+.home-signup-button {
+  margin-top: 100%;
+  margin-bottom: 1em;
+  --background: #ff4b4b;
+  color: white;
+  width: 80%; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.home-login-button {
+  margin-left: auto; 
+  margin-right: auto;
+  color: #ff4b4b
+
+}
+
+/* .home-signup-button {
+  margin-top: 2em;
+  --background: #ff4b4b;
+  color: white;
+}
+
+.home-login-button {
+  color: #ff4b4b
+} */
   

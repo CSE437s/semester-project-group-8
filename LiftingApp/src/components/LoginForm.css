@@ -17,6 +17,7 @@ ion-content {
 }
 
 .login-form .login-button {
+    margin-top: 2em;
     --background: #ff4b4b;
     color: white;
 }
