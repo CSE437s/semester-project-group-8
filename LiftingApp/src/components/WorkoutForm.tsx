@@ -38,7 +38,7 @@ function WorkoutForm() {
         const updatedSets = [...sets];
         updatedSets[exerciseIndex][setIndex] = { ...updatedSets[exerciseIndex][setIndex], [field]: value };
         setSets(updatedSets);
-        submitSet(exerciseIndex, setIndex);
+        //submitSet(exerciseIndex, setIndex);
     };
     const cancelWorkout = () => {
         setSelectedExercises([]);
