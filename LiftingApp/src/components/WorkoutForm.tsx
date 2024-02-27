@@ -85,7 +85,7 @@ function WorkoutForm() {
     
     
     return (
-        <div>
+        <div className='workout-container'>
             <IonButton onClick={() => setShowModal(true)}>Add Exercises</IonButton>
             <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
                 <IonList>
