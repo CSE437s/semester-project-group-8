@@ -17,7 +17,7 @@ function WorkoutForm() {
         })
         .then(response => response.json())
         .then(data => {
-            setExercises(data); // Assuming data is the array of exercises
+            setExercises(data); 
         })
         .catch(error => console.error('Fetch error:', error));
     }, []);
