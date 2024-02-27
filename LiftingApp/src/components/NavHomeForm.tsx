@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IonFooter, IonTitle, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonPage, IonText } from '@ionic/react';
-import { homeOutline, searchOutline, heartOutline, personOutline } from 'ionicons/icons';
+import { homeOutline, createOutline, barbell, personOutline } from 'ionicons/icons';
 import { useNavigation } from '../hooks/useNavigation'; 
 import './NavHomeForm.css';
 import { useHistory } from 'react-router-dom';
@@ -10,29 +10,52 @@ function NavHomeForm() {
 
     return (
         <IonPage>
-            <IonText>
-                <h1>Start Workout</h1>
-            </IonText>
+            <div>
+                <IonText className='start-workout-text'>
+                    <h1>Start Workout</h1>
+                </IonText>
 
-            <IonButton onClick={() => history.push('/StartWorkout')}>
-                Quick Start
-            </IonButton>
+                <IonText className="quick-start-label">
+                    <h2>Quick Start</h2>
+                </IonText>
+
+                <IonButton className="start-empty-workout-button" onClick={() => history.push('/StartWorkout')}>
+                    Start an Empty Workout
+                </IonButton>
+            </div>
+
+            <div className="template-history-container">
+              <div className="template-builder">
+                <IonText>
+                  <h2>Template Builder</h2>
+                  {/* Content for template builder */}
+                </IonText>
+              </div>
+
+              <div className="history">
+                <IonText>
+                  <h2>History</h2>
+                  {/* Content for history */}
+                </IonText>
+              </div>
+
+            </div>
 
                 <IonFooter>
                     <IonTabBar>
-                        <IonTabButton tab="home">
+                        <IonTabButton tab="Home">
                             <IonIcon icon={homeOutline} />
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
-                        <IonTabButton tab="search">
-                            <IonIcon icon={searchOutline} />
-                            <IonLabel>Search</IonLabel>
+                        <IonTabButton tab="Exercises">
+                            <IonIcon icon={barbell} />
+                            <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
-                        <IonTabButton tab="favorites">
-                            <IonIcon icon={heartOutline} />
-                            <IonLabel>Favorites</IonLabel>
+                        <IonTabButton tab="Templates">
+                            <IonIcon icon={createOutline} />
+                            <IonLabel>Templates</IonLabel>
                         </IonTabButton>
-                        <IonTabButton tab="profile">
+                        <IonTabButton tab="Profile">
                             <IonIcon icon={personOutline} />
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
