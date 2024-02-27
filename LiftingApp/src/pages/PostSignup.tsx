@@ -10,9 +10,9 @@ const PostSignup: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding ion-text-center">
-        <IonText className="welcome-text">
-          <h1>Welcome To Lifting App</h1>
-        </IonText>
+        {/* <IonText className="welcome-text">
+          <h1>Let's Get Started <br></br>"Username"</h1>
+        </IonText> */}
         <PostSignupForm />
       </IonContent>
     </IonPage>

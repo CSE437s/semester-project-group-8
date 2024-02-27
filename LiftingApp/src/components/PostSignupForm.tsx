@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
-import { IonInput, IonButton, IonItem, IonLabel, 
-         IonSelect, IonSelectOption, IonDatetime } from '@ionic/react';
+import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent,
+         IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router';
+import "./PostSignupForm.css"
 
 function PostSignupForm() {
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState( {
         gender: '',
         birthday: '',
-        height: '',
+        // height: '',
         weight: '',
         goal: '',
         workoutIntensity: '',
     });
     const history = useHistory();
+
     // A handler function that updates user's input.
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -35,85 +37,115 @@ function PostSignupForm() {
     const renderWelcomeStep = () => {
         return (
             <IonItem>
-                <IonLabel>
-                    Welcome! Let's Get started with your fitness journey.
-                </IonLabel>
+                <IonText className="welcome-text">
+                    <h1>Let's Get Started <br></br>"Username"</h1>
+                    <h3>The following information helps us refine our lifting recommendations.</h3>
+                </IonText>
+
             </IonItem>
-        );
-    }
-    const renderGenderStep = () => {
-        return (
-            <IonItem>
-                <IonLabel>Gender</IonLabel>
-                <IonSelect 
-                    value={formData.gender}
-                    onIonChange={e => handleInputChange('gender', e.detail.value)}>
-                    <IonSelectOption value="0">Female</IonSelectOption>
-                    <IonSelectOption value="1">Male</IonSelectOption>
-                </IonSelect>
-            </IonItem>
-        );
-    }
-    const renderInfoStep = () => {
-        return (
-            <>
-            <IonItem>
-                <IonLabel position="stacked">Birthday</IonLabel>
-                <IonDatetime 
-                value={formData.birthday}
-                presentation="date"
-                showDefaultButtons={true}
-                preferWheel={true}
-                onIonChange={e => handleInputChange('birthday', e.detail.value)}>
-                </IonDatetime>
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Weight (kg)</IonLabel>
-                <IonInput value={formData.weight} type="number" onIonChange={e => handleInputChange('weight', e.detail.value)}></IonInput>
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Height (cm)</IonLabel>
-                <IonInput value={formData.height} type="number" onIonChange={e => handleInputChange('height', e.detail.value)}></IonInput>
-            </IonItem>
-        </>
         );
     }
 
     const renderGoalStep = () => {
         return (
-            <IonItem>
-                <IonLabel>What is your fitness goal?</IonLabel>
-                <IonSelect 
-                    value={formData.goal}
-                    onIonChange={e => handleInputChange('goal', e.detail.value)}>
-                    <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
-                    <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
-                    <IonSelectOption value="Overall fitness">Overall fitness</IonSelectOption>
-                    <IonSelectOption value="Toning">Toning</IonSelectOption>
-                    <IonSelectOption value="Cardiovascular Fitness">Cardiovascular Fitness</IonSelectOption>
-                </IonSelect>
-            </IonItem>
+            <div>
+                <IonText>
+                    <h1>"Username",</h1>
+                </IonText>
+                <IonItem>
+                    <IonLabel>What is your fitness goal?</IonLabel>
+                    <IonSelect 
+                        value={formData.goal}
+                        onIonChange={e => handleInputChange('goal', e.detail.value)}>
+                        <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
+                        <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
+                        <IonSelectOption value="Overall fitness">Overall fitness</IonSelectOption>
+                        <IonSelectOption value="Toning">Toning</IonSelectOption>
+                        <IonSelectOption value="Cardiovascular Fitness">Cardiovascular Fitness</IonSelectOption>
+                        <IonSelectOption value="Flexibility">Flexibility</IonSelectOption>
+
+                    </IonSelect>
+                </IonItem>
+            </div>
+            
+        );
+    }
+   
+    const renderInfoStep = () => {
+        return (
+            <div>
+                <IonText>
+                    <h1>"Username",</h1>
+                </IonText>
+
+                {/* NAME INPUT */}
+                <IonItem> 
+                    <IonLabel position="stacked">Name</IonLabel>
+                    <IonInput></IonInput>
+                </IonItem>
+
+                {/* BIRTHDAY INPUT */}
+                <IonItem>
+                    <IonLabel position="stacked">Birthday</IonLabel>
+                    <IonDatetime 
+                    value={formData.birthday}
+                    presentation="date"
+                    showDefaultButtons={true}
+                    preferWheel={true}
+                    onIonChange={e => handleInputChange('birthday', e.detail.value)}>
+                    </IonDatetime>
+                </IonItem>
+
+                {/* GENDER INPUT */}
+                <IonItem>
+                    <IonLabel position="stacked">Gender</IonLabel>
+                    <IonSelect 
+                        value={formData.gender}
+                        onIonChange={e => handleInputChange('gender', e.detail.value)}>
+                        <IonSelectOption value="0">Female</IonSelectOption>
+                        <IonSelectOption value="1">Male</IonSelectOption>
+                    </IonSelect>
+                </IonItem>
+
+                {/* WEIGHT INPUT */}
+                <IonItem>
+                    <IonLabel position="stacked">Weight (lbs)</IonLabel>
+                    <IonInput value={formData.weight} type="number" onIonChange={e => handleInputChange('weight', e.detail.value)}></IonInput>
+                </IonItem>
+
+                {/* <IonItem>
+                <IonLabel position="stacked">Height (cm)</IonLabel> 
+                <IonInput value={formData.height} type="number" onIonChange={e => handleInputChange('height', e.detail.value)}></IonInput>
+                </IonItem> */}
+            </div>
+            
+        
         );
     }
 
     const renderEndStep = () => {
         return (
-            <IonItem>
-                You are all set! We are ready to help you achieve your fitness goals.
-            </IonItem>
+            <div>
+                <IonItem>
+                    <IonText className="welcome-text">
+                        <h1>Welcome to "App Name",<br></br>"Username"</h1>
+                    </IonText>
+                </IonItem>
+            </div>
+            
         )
     }
-    const TOTAL_STEPS = 4;
+
+    const TOTAL_STEPS = 3;
     const renderStep = () => {
         switch(currentStep) {
             case 1:
                 return renderWelcomeStep();
             case 2:
-                return renderGenderStep();
+                return renderGoalStep();
             case 3:
                 return renderInfoStep();
-            case 4:
-                return renderGoalStep();
+
             default:
             return renderEndStep();
         }
@@ -121,8 +153,11 @@ function PostSignupForm() {
     return (
         <div>
             {renderStep()}
-            {currentStep > 1 && <IonButton onClick={prevStep}>Back</IonButton>}
-            {currentStep <= TOTAL_STEPS ? <IonButton onClick={nextStep}>Next</IonButton> : <IonButton onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
+            <div className='nav-buttons'>
+                {currentStep > 1 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
+                {currentStep <= TOTAL_STEPS ? <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton> : <IonButton onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
+            </div>
+            
         </div>
     );
 }
