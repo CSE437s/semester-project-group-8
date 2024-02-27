@@ -27,3 +27,22 @@
     align-items: center;
     text-align: center;
 }
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50vh;
+}
+
+.start-workout-button {
+    margin-top: 2em;
+    --background: #ff4b4b;
+    color: white;
+}
+
+.go-home-button {
+    --background:#b4b3b3;
+    margin-top: auto;
+    width: auto;
+  }

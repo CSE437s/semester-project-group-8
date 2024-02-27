@@ -53,9 +53,10 @@ function PostSignupForm() {
                     <h1>"Username",</h1>
                 </IonText>
                 <IonItem>
-                    <IonLabel>What is your fitness goal?</IonLabel>
+                    <IonLabel position="stacked">What is your fitness goal?</IonLabel>
                     <IonSelect 
                         value={formData.goal}
+                        multiple={true}
                         onIonChange={e => handleInputChange('goal', e.detail.value)}>
                         <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
                         <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
@@ -115,7 +116,7 @@ function PostSignupForm() {
 
                 {/* WORKOUT INTENSITY */}
                 <IonItem>
-                    <IonLabel position="stacked">Workout Intensity (1-10)</IonLabel>
+                    <IonLabel position="stacked">Workout Intensity Preference (1-10)</IonLabel>
                     <IonRange ticks={true} snaps={true} pin={true} min={1} max={10} value={formData.workoutIntensity} 
                     onIonChange={e => handleInputChange('workoutIntensity', e.detail.value)}>
                     </IonRange>
@@ -135,12 +136,25 @@ function PostSignupForm() {
     const renderEndStep = () => {
         return (
             <div>
-                <IonItem>
+                <IonItem className='end-step-container'>
                     <IonText className="welcome-text">
                         <h1>Welcome to "App Name",<br></br>"Username"</h1>
                     </IonText>
+
                 </IonItem>
+
+                <div className='button-container'>
+                        <IonButton className="start-workout-button" onClick={() => history.push('/StartWorkout')}>
+                            <h2>Start A Workout!</h2>
+                        </IonButton>
+                        
+                        <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
+                            Go To Home
+                        </IonButton>
+                </div>
+
             </div>
+
             
         )
     }
@@ -161,13 +175,15 @@ function PostSignupForm() {
     }
     return (
         <div>
-            {renderStep()}
+            {renderStep()}                
+            {currentStep <= TOTAL_STEPS && (
             <div className='nav-buttons'>
                 {currentStep > 1 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
-                {currentStep <= TOTAL_STEPS ? <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton> : <IonButton className='next-back-button' onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
+                {currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
             </div>
-            
+             )}
         </div>
+            
     );
 }
 export default PostSignupForm;
