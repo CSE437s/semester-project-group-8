@@ -8,6 +8,7 @@ function WorkoutForm() {
     const [exercises, setExercises] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const history = useHistory();
     useEffect(() => {
         fetch('http://localhost:3000/getlifts', {
             method: 'GET',
@@ -47,8 +48,8 @@ function WorkoutForm() {
                     ))}
                 </div>
             )}
+            <IonButton onClick={() => history.push('\StartWorkout')}>Cancel Workout</IonButton>
         </div>
-
     );
 }
 
