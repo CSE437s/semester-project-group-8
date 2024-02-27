@@ -13,7 +13,7 @@ function PostSignupForm() {
         goal: '',
         workoutIntensity: '',
     });
-
+    const history = useHistory();
     // A handler function that updates user's input.
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -122,7 +122,7 @@ function PostSignupForm() {
         <div>
             {renderStep()}
             {currentStep > 1 && <IonButton onClick={prevStep}>Back</IonButton>}
-            {currentStep <= TOTAL_STEPS ? <IonButton onClick={nextStep}>Next</IonButton> : <IonButton>Submit</IonButton>}
+            {currentStep <= TOTAL_STEPS ? <IonButton onClick={nextStep}>Next</IonButton> : <IonButton onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
         </div>
     );
 }

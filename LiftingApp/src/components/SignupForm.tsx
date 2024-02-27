@@ -21,11 +21,7 @@ function SignupForm() {
     const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // redirect to login page after 3 seconds if signup is successful.
-        const id = setTimeout(() => {
-            history.push('/Login');
-        }, 3000);
-        setTimeoutId(id);
+        
 
         // Send a POST request to the server to sign up the user
         fetch('http://localhost:3000/signup', {
@@ -40,6 +36,11 @@ function SignupForm() {
             if (data.message) {
                 setSignupStatus(data.message);
                 setIsError(false);
+                // redirect to login page after 3 seconds if signup is successful.
+                const id = setTimeout(() => {
+                    history.push('/PostSignup');
+                }, 1500);
+                setTimeoutId(id);
             } else {
                 setIsError(true);
                 setSignupStatus(data.error);
