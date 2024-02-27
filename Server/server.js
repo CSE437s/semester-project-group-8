@@ -116,17 +116,22 @@ app.post('/signup2', (req, res) =>{
 })
 
 //fix to use correct db column names, also need to retrieve userId
-app.post('/liftentry', (req, res) =>{
-  console.log("lift entry");
+app.post('/addset', (req, res) =>{
+  console.log("add set");
   const credentials = req.body;
   console.log(credentials);
-  const username = credentials.username;
-  const lift = credentials.lift;
-  const date = credentials.date;
+  const user_id = credentials.user_id;
+  const lift_id = credentials.lift_id;
+  const set_num = credentials.set_num;
+  const rep_num = credentials.rep_num;
   const weight = credentials.weight;
-  const reps = credentials.reps;
-  const sql = `INSERT INTO lifts (Username, Lift, Date, Weight) VALUES (?,?,?,?)`;
-  db.query(sql, [username, lift, date, weight], (err, data) => {
+  //not yet implemented
+  // const sleepQuality
+  // const stressLevel
+  // const desireToTrain
+  const date = credentials.date;
+  const sql = `INSERT INTO Lift (user_id, lift_id, set_num, rep_num, weight, date) VALUES (?,?,?,?,?,?)`;
+  db.query(sql, [user_id, lift_id, set_num, rep_num, weight, date], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
       return res.json({message: 'Lift input into database' });
@@ -152,6 +157,15 @@ app.post('/simpleMaxCalculate', (req, res) =>{
     }
   })  
 })
+
+app.get('/getlifts'), (req, res) => {
+  console.log("request for lifts from lift table");
+  const sql = "SELECT * FROM Lift";
+  db.query(sql, (err, data) => {
+      if(err) return res.status(500).json(err);
+      return res.json(data);
+  })
+}
 
 //from Geoffrey's creative project. will need to adjust
 
