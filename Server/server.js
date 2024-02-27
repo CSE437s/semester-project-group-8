@@ -75,6 +75,7 @@ app.post('/signup', (req, res) =>{
       else{
           bcrypt.hash(password, 10, function(err, hash) {
             if (err) return res.json(err);
+            //take out goal, birthday, gender, intensity
             const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity)  VALUES (?,?,?,?,?,?,?)`;
             db.query(sql, [username, hash, email, goal, birthday, gender, intensity], (err, data) => {
               console.log(err, data);
@@ -114,6 +115,7 @@ app.post('/signup2', (req, res) =>{
   })
 })
 
+//fix to use correct db column names, also need to retrieve userId
 app.post('/liftentry', (req, res) =>{
   console.log("lift entry");
   const credentials = req.body;
@@ -122,6 +124,7 @@ app.post('/liftentry', (req, res) =>{
   const lift = credentials.lift;
   const date = credentials.date;
   const weight = credentials.weight;
+  const reps = credentials.reps;
   const sql = `INSERT INTO lifts (Username, Lift, Date, Weight) VALUES (?,?,?,?)`;
   db.query(sql, [username, lift, date, weight], (err, data) => {
       console.log(err, data);
