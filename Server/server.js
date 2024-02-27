@@ -130,11 +130,11 @@ app.post('/addset', (req, res) =>{
   // const stressLevel
   // const desireToTrain
   const date = credentials.date;
-  const sql = `INSERT INTO Lift (user_id, lift_id, set_num, rep_num, weight, date) VALUES (?,?,?,?,?,?)`;
+  const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, date) VALUES (?,?,?,?,?,?)`;
   db.query(sql, [user_id, lift_id, set_num, rep_num, weight, date], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      return res.json({message: 'Lift input into database' });
+      return res.json({message: 'set input into database' });
   })
 })
 
