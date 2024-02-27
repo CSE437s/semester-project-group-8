@@ -182,12 +182,9 @@ app.listen(3000, () => {
 
 //startworkout form data
 app.post('/workout', (req, res) => {
+  console.log("Start workout request");
   // Extract data from the request body
   const { sleepQuality, stressLevel, desireToTrain } = req.body;
-  console.log(sessionID)
-  console.log('Sleep Quality:', sleepQuality);
-  console.log('Stress Level:', stressLevel);
-  console.log('Desire to Train:', desireToTrain);
 
   //add variables to session
   if(req.session.authenticated) {
@@ -201,6 +198,7 @@ app.post('/workout', (req, res) => {
     req.session.sleepQuality = sleepQuality;
     req.session.stressLevel = stressLevel;
     req.session.desireToTrain = desireToTrain;
+    console.log(req.session);
   }
 
   // Respond to the client
