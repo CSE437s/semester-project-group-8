@@ -1,0 +1,12 @@
+
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    background: #f4f4f4;
+  }
+
+.footer ion-tab-button {
+    flex-grow: 1;
+  }
+  

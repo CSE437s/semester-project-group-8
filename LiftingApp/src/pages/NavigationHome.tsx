@@ -8,10 +8,7 @@ const NavigationHomepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent className="ion-padding ion-text-center">
-        <IonText className="welcome-text">
-          <h1>Welcome To Lifting App</h1>
-        </IonText>
+      <IonContent>
 
         <NavHomeForm />
 
