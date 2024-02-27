@@ -6,9 +6,9 @@ import { useHistory } from 'react-router';
 
 
 function StartWorkout() {
-    const [sleepQuality, setSleepQuality] = useState(5);
-    const [stressLevel, setStressLevel] = useState(5);
-    const [desireToTrain, setDesireToTrain] = useState(5);
+    const [sleepQuality, setSleepQuality] = useState(1);
+    const [stressLevel, setStressLevel] = useState(1);
+    const [desireToTrain, setDesireToTrain] = useState(1);
     const [isError, setIsError] = useState(false);
     const history = useHistory();
 
@@ -48,17 +48,17 @@ function StartWorkout() {
         <form className='workout-form'>
             <IonItem className='workout-range'>
                 <IonRange label-placement="fixed" label="Sleep Quality" 
-                ticks={true} snaps={true} pin={true} min={0} max={10} value={sleepQuality} onIonChange={e => setSleepQuality(e.detail.value as number)}></IonRange>
+                ticks={true} snaps={true} pin={true} min={0} max={5} value={sleepQuality} onIonChange={e => setSleepQuality(e.detail.value as number)}></IonRange>
             </IonItem>
 
             <IonItem className='workout-range'>
                 <IonRange label-placement="fixed" label="Stress Level" 
-                ticks={true} snaps={true} pin={true} min={0} max={10}  value={stressLevel} onIonChange={e => setStressLevel(e.detail.value as number)}></IonRange>
+                ticks={true} snaps={true} pin={true} min={0} max={5}  value={stressLevel} onIonChange={e => setStressLevel(e.detail.value as number)}></IonRange>
             </IonItem>
 
             <IonItem className='workout-range'>
                 <IonRange label-placement="fixed" label="Desire to Train" 
-                ticks={true} snaps={true} pin={true} min={0} max={10}  value={desireToTrain} onIonChange={e => setDesireToTrain(e.detail.value as number)}></IonRange>
+                ticks={true} snaps={true} pin={true} min={0} max={5}  value={desireToTrain} onIonChange={e => setDesireToTrain(e.detail.value as number)}></IonRange>
             </IonItem>
 
             <IonButton expand="block" className='workout-begin-button' onClick={handleSubmit}>

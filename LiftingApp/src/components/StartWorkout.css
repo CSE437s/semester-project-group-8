@@ -20,16 +20,25 @@ ion-content {
 ion-range {
     --bar-background: #ff4b4b;
     --bar-background-active: #fc8787;
-    --bar-height: 8px;
+    --bar-height: 2vw;
     --bar-border-radius: 8px;
     --knob-background: black;
-    --knob-size: 40px;
-    --pin-background: black;
+    --knob-size: 6vw;
+    --knob-size-max: 40px;
     --pin-color: #ffffff;
 
   }
 
+  @media (min-width: 600px) {
+    ion-range {
+      --bar-height: 8px;
+      --knob-size: 40px;
+
+    }
+  }
+
 .workout-form .workout-begin-button {
+    margin-top: 2em;
     --background: #ff4b4b;
     color: white;
 }
