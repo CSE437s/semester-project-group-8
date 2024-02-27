@@ -14,7 +14,7 @@ ion-content {
 }
 
 .workout-range {
-    width: 80%;
+    width: 95%;
 }
 
 ion-range {
@@ -24,7 +24,6 @@ ion-range {
     --bar-border-radius: 8px;
     --knob-background: black;
     --knob-size: 6vw;
-    --knob-size-max: 40px;
     --pin-color: #ffffff;
 
   }
