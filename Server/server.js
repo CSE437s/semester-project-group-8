@@ -4,6 +4,7 @@ const session = require("express-session");
 const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
+const store = new session.MemoryStore();
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
@@ -11,8 +12,9 @@ app.use(cors())
 
 app.use(session({
   secret: 'secret',
-  cookie: {maxAge: 30000},
-  saveUninitialized: true
+  cookie: {secure: true},
+  saveUninitialized: true, 
+  store: store
 }))
 
 
@@ -40,15 +42,28 @@ app.post('/login', (req, res) =>{
   console.log(credentials);
   const username = credentials.username;
   const password = credentials.password;
-  const sql = `SELECT password FROM users WHERE username = ?`;
+  const sql = `SELECT id, password FROM users WHERE username = ?`;
   db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      const match = await bcrypt.compare(password, data[0].password);
-      if(match){
+      if (data.length == 0) {
+        // Username not found
+        return res.status(404).json({ success: "false", message: 'Invalid username or password' });
+      }
+      if(req.session.authenticated) {
+        console.log(req.session);
+      }
+      else{
+        const match = await bcrypt.compare(password, data[0].password);
+        if(match){
+          req.session.authenticated = true;
+          req.session.user_id = data[0].id;
+          console.log(req.session);
           return res.json({ success: "true" , message: 'Login successful' });
-      } else {
-          return res.status(401).json({ success: "false", message: 'Invalid username or password' });
+        } 
+        else {
+            return res.status(401).json({ success: "false", message: 'Invalid username or password' });
+        }
       }
   })
 })
@@ -85,7 +100,7 @@ app.post('/signup', (req, res) =>{
         });
       }
   })
-})
+});
 
 app.post('/signup2', (req, res) =>{
   console.log("signpup2 request");
@@ -113,7 +128,7 @@ app.post('/signup2', (req, res) =>{
       return res.json({ error: 'User not found'});
     }
   })
-})
+});
 
 //fix to use correct db column names, also need to retrieve userId
 app.post('/addset', (req, res) =>{
@@ -121,6 +136,18 @@ app.post('/addset', (req, res) =>{
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
+  const sleepQuality = null;
+  const stressLevel = null;
+  const desireToTrain = null;
+  if(req.session.sleepQuality != null){
+    sleepQuality = req.session.sleepQuality;
+  }
+  if(req.session.stressLevel != null){
+    stressLevel = req.session.stressLevel;
+  }
+  if(req.session.desireToTrain != null){
+    desireToTrain = req.session.desireToTrain;
+  }
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -130,13 +157,13 @@ app.post('/addset', (req, res) =>{
   // const stressLevel
   // const desireToTrain
   const date = credentials.date;
-  const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, date) VALUES (?,?,?,?,?,?)`;
-  db.query(sql, [user_id, lift_id, set_num, rep_num, weight, date], (err, data) => {
+  const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?)`;
+  db.query(sql, [user_id, lift_id, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
       return res.json({message: 'set input into database' });
   })
-})
+});
 
 app.post('/simpleMaxCalculate', (req, res) =>{
   console.log("rpe request");
@@ -156,7 +183,7 @@ app.post('/simpleMaxCalculate', (req, res) =>{
       res.json({ error: 'No data found for the given reps' });
     }
   })  
-})
+});
 
 app.get('/getlifts', (req, res) => {
   console.log("Request for lifts from lift table");
@@ -178,7 +205,7 @@ db.on('error', function(err) {
 
 app.listen(3000, () => {
   console.log("app listening on port 3000")
-})
+});
 
 //startworkout form data
 app.post('/workout', (req, res) => {
@@ -187,14 +214,10 @@ app.post('/workout', (req, res) => {
   const { sleepQuality, stressLevel, desireToTrain } = req.body;
 
   //add variables to session
-  if(req.session.authenticated) {
-    res.json(req.session);
-  }
-  else if(sleepQuality == null || stressLevel == null || desireToTrain == null){
+  if(sleepQuality == null || stressLevel == null || desireToTrain == null){
     res.json({ error: 'sleepQuality, stressLevel, and desireToTrain are not filled in fields' });
   }
   else{
-    req.session.authenticated = true;
     req.session.sleepQuality = sleepQuality;
     req.session.stressLevel = stressLevel;
     req.session.desireToTrain = desireToTrain;
@@ -203,4 +226,35 @@ app.post('/workout', (req, res) => {
 
   // Respond to the client
   res.json({ success: true, message: 'Data received successfully' });
+});
+
+app.post('/endworkout', (req, res) => {
+  console.log("End workout request");
+  //add variables to session
+  if(req.session.sleepQuality != null || req.session.stressLevel != null || req.session.desireToTrain != null){
+    req.session.sleepQuality = null;
+    req.session.stressLevel = null;
+    req.session.desireToTrain = null;
+    console.log(req.session);
+  }
+  else{
+    console.log("No active workout to end")
+  }
+
+  // Respond to the client
+  res.json({ success: true, message: 'Workout ended' });
+});
+
+app.post('/signout', (req, res) => {
+  console.log("Signout request");
+  //add variables to session
+  if(req.session.authenticated == true){
+    req.session.destroy();
+  }
+  else{
+    console.log("No user session to end")
+  }
+
+  // Respond to the client
+  res.json({ success: true, message: 'User signed out' });
 });
