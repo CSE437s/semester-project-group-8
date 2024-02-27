@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent,
+import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent, IonRange,
          IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router';
 import "./PostSignupForm.css"
@@ -12,7 +12,7 @@ function PostSignupForm() {
         // height: '',
         weight: '',
         goal: '',
-        workoutIntensity: '',
+        workoutIntensity: 5,
     });
     const history = useHistory();
 
@@ -113,6 +113,15 @@ function PostSignupForm() {
                     <IonInput value={formData.weight} type="number" onIonChange={e => handleInputChange('weight', e.detail.value)}></IonInput>
                 </IonItem>
 
+                {/* WORKOUT INTENSITY */}
+                <IonItem>
+                    <IonLabel position="stacked">Workout Intensity (1-10)</IonLabel>
+                    <IonRange ticks={true} snaps={true} pin={true} min={1} max={10} value={formData.workoutIntensity} 
+                    onIonChange={e => handleInputChange('workoutIntensity', e.detail.value)}>
+                    </IonRange>
+                </IonItem>
+
+
                 {/* <IonItem>
                 <IonLabel position="stacked">Height (cm)</IonLabel> 
                 <IonInput value={formData.height} type="number" onIonChange={e => handleInputChange('height', e.detail.value)}></IonInput>
@@ -155,7 +164,7 @@ function PostSignupForm() {
             {renderStep()}
             <div className='nav-buttons'>
                 {currentStep > 1 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
-                {currentStep <= TOTAL_STEPS ? <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton> : <IonButton onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
+                {currentStep <= TOTAL_STEPS ? <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton> : <IonButton className='next-back-button' onClick={() => history.push('/StartWorkout')}>Submit</IonButton>}
             </div>
             
         </div>
