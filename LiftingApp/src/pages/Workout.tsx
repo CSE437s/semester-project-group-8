@@ -2,6 +2,7 @@ import React from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 import './workout.css';
 import { useHistory } from 'react-router';
+import WorkoutForm from '../components/WorkoutForm'
 
 
 const Workout: React.FC = () => {
@@ -16,6 +17,10 @@ const Workout: React.FC = () => {
             <IonContent className="ion-padding">
                 {/* ADD COMPONENTS + CONTENT... */}
                 <h2>Welcome to your Workout!</h2>
+
+                <WorkoutForm />
+
+
             </IonContent>
         </IonPage>
     );
