@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 
 function WorkoutForm() {
     const [exercises, setExercises] = useState([]);
-    const [selectedExercise, setSelectedExercise] = useState('');
+    const [selectedExercises, setSelectedExercises] = useState([]);
     const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         fetch('http://localhost:3000/getlifts', {
@@ -23,7 +23,7 @@ function WorkoutForm() {
     }, []);
 
     const selectExercise = (liftName) => {
-        setSelectedExercise(liftName);
+        setSelectedExercises(currentExercises => [...currentExercises, liftName]);
         setShowModal(false);
     };
     return (
@@ -39,8 +39,13 @@ function WorkoutForm() {
                 </IonList>
                 <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
             </IonModal>
-            {selectedExercise && (
-                <div>{`Selected Exercise: ${selectedExercise}`}</div>
+            {selectedExercises.length > 0 && (
+                <div>
+                    <h3>Selected Exercises:</h3>
+                    {selectedExercises.map((exercise, index) => (
+                        <div key={index}>{exercise}</div>
+                    ))}
+                </div>
             )}
         </div>
 
