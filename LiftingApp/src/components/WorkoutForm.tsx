@@ -117,7 +117,7 @@ function WorkoutForm() {
                         
                     ))
                     }
-                    <IonButton onClick={submitWorkout}>Submit Workout</IonButton>
+                    <IonButton onClick={submitWorkout}>Submit Set</IonButton>
                     <IonButton onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
                     
                 </div>
