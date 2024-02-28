@@ -11,7 +11,7 @@ function LoginForm() {
     const history = useHistory();
     const [isError, setIsError] = useState(false);
     const [loginStatus, setLoginStatus] = useState('');
-    const apiUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
    
     // const apiUrl = 'http://localhost:3000';
     console.log('API URL:', apiUrl);

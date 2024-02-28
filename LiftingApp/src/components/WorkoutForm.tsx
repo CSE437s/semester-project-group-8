@@ -9,7 +9,7 @@ function WorkoutForm() {
     const [showModal, setShowModal] = useState(false);
     const [sets, setSets] = useState([]);
     const history = useHistory();
-    const apiUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
             method: 'GET',
