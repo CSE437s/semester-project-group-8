@@ -11,10 +11,10 @@ function LoginForm() {
     const history = useHistory();
     const [isError, setIsError] = useState(false);
     const [loginStatus, setLoginStatus] = useState('');
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    const apiUrl = import.meta.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+   
+    // const apiUrl = 'http://localhost:3000';
     console.log('API URL:', apiUrl);
-    
-    //const apiUrl = 'http://localhost:3000';
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(username, password);

@@ -273,6 +273,3 @@ app.post('/signout', (req, res) => {
   // Respond to the client
   res.json({ success: true, message: 'User signed out' });
 });
-
-module.exports = app;
-module.exports.handler = serverless(app);
