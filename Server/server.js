@@ -7,9 +7,15 @@ const bcrypt = require('bcrypt');
 const store = new session.MemoryStore();
 require('dotenv').config();
 
+
+app.use(cors({
+  origin: "https://semester-project-group-8.vercel.app",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+
 app.use(express.json());       // to ssupport JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
-app.use(cors()) // this should help with the CORS issue and allow the client to make requests to the server
 
 app.use(session({
   secret: 'secret',
@@ -17,7 +23,6 @@ app.use(session({
   saveUninitialized: true, 
   store: store
 }))
-
 
 // const db = mysql.createConnection({
 //     host: "localhost",
@@ -48,12 +53,6 @@ app.get('/test-db', (req, res) => {
     return res.json({ success: true, message: 'Successfully fetched usernames', usernames: results.map(user => user.username) });
   });
 });
-
-app.use(cors({
-  origin: "https://semester-project-group-8.vercel.app",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
 
 //from Geoffrey's creative project. will need to adjust
 app.post('/login', (req, res) =>{
