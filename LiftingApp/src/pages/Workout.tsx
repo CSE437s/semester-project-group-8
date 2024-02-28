@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
-import './workout.css';
+import './Workout.css';
 import { useHistory } from 'react-router';
 import WorkoutForm from '../components/WorkoutForm'
 
