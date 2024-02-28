@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const session = require("express-session");
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
 const store = new session.MemoryStore();
+require('dotenv').config();
 
-app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.json());       // to ssupport JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
@@ -18,12 +19,13 @@ app.use(session({
 }))
 
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "LiftingApp"
-})
+// const db = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "password",
+//     database: "LiftingApp"
+// })
+const db = mysql.createConnection(process.env.DATABASE_URL)
 
 // Test if the database is connected.
 db.connect((err) => {
@@ -33,6 +35,19 @@ db.connect((err) => {
     console.log("Connected to MySQL")
   }
 })
+
+app.get('/test-db', (req, res) => {
+  const query = 'SELECT username FROM users;';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Failed to query the database:", err);
+      return res.status(500).json({ success: false, message: 'Failed to query the database', error: err.message });
+    }
+    console.log("Usernames:", results.map(user => user.username));
+    return res.json({ success: true, message: 'Successfully fetched usernames', usernames: results.map(user => user.username) });
+  });
+});
 
 
 //from Geoffrey's creative project. will need to adjust
