@@ -6,7 +6,7 @@ const cors = require("cors")
 const bcrypt = require('bcrypt');
 const store = new session.MemoryStore();
 require('dotenv').config();
-
+const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
 
 app.use(cors({
   origin: "https://semester-project-group-8.vercel.app",
@@ -277,3 +277,6 @@ app.post('/signout', (req, res) => {
   // Respond to the client
   res.json({ success: true, message: 'User signed out' });
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);
