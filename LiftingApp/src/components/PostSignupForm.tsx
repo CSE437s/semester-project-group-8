@@ -99,7 +99,7 @@ function PostSignupForm() {
 
                 {/* GENDER INPUT */}
                 <IonItem>
-                    <IonLabel position="stacked">Gender</IonLabel>
+                    <IonLabel position="stacked">Sex</IonLabel>
                     <IonSelect 
                         value={formData.gender}
                         onIonChange={e => handleInputChange('gender', e.detail.value)}>
