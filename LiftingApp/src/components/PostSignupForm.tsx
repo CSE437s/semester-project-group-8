@@ -6,7 +6,8 @@ import "./PostSignupForm.css"
 
 function PostSignupForm() {
     const [currentStep, setCurrentStep] = useState(1);
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //const apiUrl = 'http://localhost:3000';
     const [formData, setFormData] = useState( {
         gender: '',
         birthday: '',

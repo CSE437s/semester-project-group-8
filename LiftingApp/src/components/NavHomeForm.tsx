@@ -7,7 +7,8 @@ import { useHistory } from 'react-router-dom';
 
 function NavHomeForm() {
     const history = useHistory();
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //const apiUrl = 'http://localhost:3000';
     return (
         <IonPage>
             <div>

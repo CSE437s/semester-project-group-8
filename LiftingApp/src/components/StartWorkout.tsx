@@ -11,7 +11,8 @@ function StartWorkout() {
     const [desireToTrain, setDesireToTrain] = useState(1);
     const [isError, setIsError] = useState(false);
     const history = useHistory();
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //const apiUrl = 'http://localhost:3000';
 
     const navigateToWorkout = () => {
         history.push('/Workout'); 

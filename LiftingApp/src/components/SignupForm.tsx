@@ -11,7 +11,8 @@ function SignupForm() {
     const [isError, setIsError] = useState(false); // This is a boolean that will be used to determine if the message is an error or a success message
     const history = useHistory();
     const [timeoutId, setTimeoutId] = useState(null);
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+    //const apiUrl = 'http://localhost:3000';
     
     useEffect(() => {
         return () => {
