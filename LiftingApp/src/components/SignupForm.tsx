@@ -25,7 +25,7 @@ function SignupForm() {
         
 
         // Send a POST request to the server to sign up the user
-        fetch('${apiUrl}/signup', {
+        fetch(`${apiUrl}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

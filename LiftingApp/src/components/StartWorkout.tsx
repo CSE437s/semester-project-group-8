@@ -21,7 +21,7 @@ function StartWorkout() {
         event.preventDefault(); 
 
         try {
-            const response = await fetch('${apiUrl}/workout', {
+            const response = await fetch(`${apiUrl}/workout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'},

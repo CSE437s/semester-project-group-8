@@ -11,7 +11,7 @@ function WorkoutForm() {
     const history = useHistory();
     const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
     useEffect(() => {
-        fetch('${apiUrl}/getlifts', {
+        fetch(`${apiUrl}/getlifts`, {
             method: 'GET',
             headers: {  
                 'Content-Type': 'application/json',
