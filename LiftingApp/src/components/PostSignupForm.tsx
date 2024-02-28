@@ -6,6 +6,7 @@ import "./PostSignupForm.css"
 
 function PostSignupForm() {
     const [currentStep, setCurrentStep] = useState(1);
+    const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
     const [formData, setFormData] = useState( {
         gender: '',
         birthday: '',

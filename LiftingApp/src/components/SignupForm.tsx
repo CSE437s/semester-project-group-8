@@ -11,6 +11,7 @@ function SignupForm() {
     const [isError, setIsError] = useState(false); // This is a boolean that will be used to determine if the message is an error or a success message
     const history = useHistory();
     const [timeoutId, setTimeoutId] = useState(null);
+    const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
     
     useEffect(() => {
         return () => {
@@ -24,7 +25,7 @@ function SignupForm() {
         
 
         // Send a POST request to the server to sign up the user
-        fetch('http://localhost:3000/signup', {
+        fetch('${apiUrl}/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

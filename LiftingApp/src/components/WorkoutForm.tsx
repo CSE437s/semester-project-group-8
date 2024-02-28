@@ -9,8 +9,9 @@ function WorkoutForm() {
     const [showModal, setShowModal] = useState(false);
     const [sets, setSets] = useState([]);
     const history = useHistory();
+    const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
     useEffect(() => {
-        fetch('http://localhost:3000/getlifts', {
+        fetch('${apiUrl}/getlifts', {
             method: 'GET',
             headers: {  
                 'Content-Type': 'application/json',

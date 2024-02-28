@@ -11,6 +11,7 @@ function StartWorkout() {
     const [desireToTrain, setDesireToTrain] = useState(1);
     const [isError, setIsError] = useState(false);
     const history = useHistory();
+    const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
 
     const navigateToWorkout = () => {
         history.push('/Workout'); 
@@ -20,7 +21,7 @@ function StartWorkout() {
         event.preventDefault(); 
 
         try {
-            const response = await fetch('http://localhost:3000/workout', {
+            const response = await fetch('${apiUrl}/workout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'},

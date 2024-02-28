@@ -11,11 +11,11 @@ function LoginForm() {
     const history = useHistory();
     const [isError, setIsError] = useState(false);
     const [loginStatus, setLoginStatus] = useState('');
-
+    const apiUrl = process.env.DATABASE_URL || 'http://localhost:3000';
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(username, password);
-        fetch('http://localhost:3000/login', {
+        fetch('${apiUrl}/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
