@@ -9,7 +9,7 @@ require('dotenv').config();
 
 app.use(express.json());       // to ssupport JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors()) // this should help with the CORS issue and allow the client to make requests to the server
 
 app.use(session({
   secret: 'secret',
@@ -49,6 +49,11 @@ app.get('/test-db', (req, res) => {
   });
 });
 
+app.use(cors({
+  origin: "https://semester-project-group-8.vercel.app",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 //from Geoffrey's creative project. will need to adjust
 app.post('/login', (req, res) =>{
