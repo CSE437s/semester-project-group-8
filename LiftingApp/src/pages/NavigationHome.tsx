@@ -7,13 +7,7 @@ const NavigationHomepage: React.FC = () => {
   const history = useHistory();
 
   return (
-    <IonPage>
-      <IonContent>
-
-        <NavHomeForm />
-
-    </IonContent>
-    </IonPage>
+      <NavHomeForm />
   );
 };
 
