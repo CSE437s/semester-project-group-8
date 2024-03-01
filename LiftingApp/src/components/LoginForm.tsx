@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { IonInput, IonButton, IonItem, IonLabel } from '@ionic/react';
 import { useNavigation } from '../hooks/useNavigation'; 
 import './LoginForm.css';
 import { useHistory } from 'react-router-dom';
 
 function LoginForm() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const formRef = useRef<HTMLFormElement>(null);
     const navigateTo = useNavigation(); 
     const history = useHistory();
     const [isError, setIsError] = useState(false);
     const [loginStatus, setLoginStatus] = useState('');
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
-   
+    
     // const apiUrl = 'http://localhost:3000';
     console.log('API URL:', apiUrl);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(username, password);
+        const formData = new FormData(formRef.current);
+        const username = formData.get('username');
+        const password = formData.get('password');
+        console.log('Submitting:', { username, password });
         fetch(`${apiUrl}/login`, {
             method: 'POST',
             headers: {
@@ -39,14 +41,12 @@ function LoginForm() {
     };
 
     return(
-        <form onSubmit={handleSubmit} className='login-form'>
+        <form ref={formRef} onSubmit={handleSubmit} className='login-form'>
             <IonItem className="login-input">
-                <IonLabel position="floating">Username</IonLabel>
-                <IonInput value={username} onIonChange={e => setUsername(e.detail.value!)} required></IonInput>
+                <IonInput name="username" required label="Username"></IonInput>
             </IonItem>
             <IonItem className="login-input">
-                <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} required></IonInput>
+                <IonInput name="password" type="password" required label="Password"></IonInput>
             </IonItem>
             <IonButton className="login-button" type="submit" expand="block">Login</IonButton>
             <IonButton className="login-sign-up-button" fill="clear" onClick={() => navigateTo('/signup')}>

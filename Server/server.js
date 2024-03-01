@@ -26,6 +26,7 @@ app.use(session({
 //     password: "password",
 //     database: "LiftingApp"
 // })
+
 const db = mysql.createConnection(process.env.DATABASE_URL)
 
 // Test if the database is connected.

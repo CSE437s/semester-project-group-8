@@ -57,16 +57,13 @@ function SignupForm() {
     return(
         <form onSubmit={handleSignup} className='signup-form'>
             <IonItem className="signup-input">
-                <IonLabel position="floating">Username</IonLabel>
-                <IonInput value={username} onIonChange={e=>setUsername(e.detail.value!)} required></IonInput>
+                <IonInput value={username} onIonChange={e=>setUsername(e.detail.value!)} required label="Username"></IonInput>
             </IonItem>
             <IonItem className="signup-input">
-                <IonLabel position="floating">Password</IonLabel>
-                <IonInput value={password} type="password" onIonChange={e=>setPassword(e.detail.value!)} required></IonInput>
+                <IonInput value={password} type="password" onIonChange={e=>setPassword(e.detail.value!)} required label="Password"></IonInput>
             </IonItem>
             <IonItem className="signup-input">
-                <IonLabel position="floating">Email</IonLabel>
-                <IonInput value={email} onIonChange={e=>setEmail(e.detail.value!)}></IonInput>
+                <IonInput value={email} onIonChange={e=>setEmail(e.detail.value!)} label="Email"></IonInput>
             </IonItem>
             <IonButton type="submit" expand="block">Sign Up</IonButton>
             {signupStatus && (
