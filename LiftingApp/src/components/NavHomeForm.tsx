@@ -6,6 +6,7 @@ import './NavHomeForm.css';
 import { useHistory } from 'react-router-dom';
 
 function NavHomeForm() {
+    console.log("NavHomeForm called");
     const history = useHistory();
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     return (

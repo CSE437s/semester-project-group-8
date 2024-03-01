@@ -13,7 +13,7 @@ function LoginForm() {
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     
     // const apiUrl = 'http://localhost:3000';
-    console.log('API URL:', apiUrl);
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(formRef.current);
@@ -31,7 +31,9 @@ function LoginForm() {
         .then(data => {
             console.log(data);
             if(data.success == "true") {
+                console.log("push is yet to be called");
                 history.push('/Homepage');
+                console.log("push is called");
             } else {
                 setIsError(true);
                 setLoginStatus(data.message);
@@ -40,7 +42,7 @@ function LoginForm() {
         .catch(error => console.log(error));
     };
 
-    return(
+    return( 
         <form ref={formRef} onSubmit={handleSubmit} className='login-form'>
             <IonItem className="login-input">
                 <IonInput name="username" required label="Username"></IonInput>
@@ -49,7 +51,7 @@ function LoginForm() {
                 <IonInput name="password" type="password" required label="Password"></IonInput>
             </IonItem>
             <IonButton className="login-button" type="submit" expand="block">Login</IonButton>
-            <IonButton className="login-sign-up-button" fill="clear" onClick={() => navigateTo('/signup')}>
+            <IonButton className="login-sign-up-button" fill="clear" onClick={() => history.push('/Signup')}>
                 Don't have an account? Sign Up
             </IonButton>
             {loginStatus && (
