@@ -4,6 +4,7 @@ const session = require("express-session");
 const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 const store = new session.MemoryStore();
 // require('.env').config();
 // const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
@@ -168,11 +169,9 @@ app.post('/addset', (req, res) =>{
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
   const weight = credentials.weight;
-  //not yet implemented
-  // const sleepQuality
-  // const stressLevel
-  // const desireToTrain
+  const rpe = credentials.rpe;
   const date = credentials.date;
+  //need to add check to see if set is already submitted
   const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?)`;
   db.query(sql, [user_id, lift_id, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
       console.log(err, data);
@@ -181,18 +180,17 @@ app.post('/addset', (req, res) =>{
   })
 });
 
-app.post('/simpleMaxCalculate', (req, res) =>{
+app.post('/simplemaxcalculate', (req, res) =>{
   console.log("rpe request");
-  const liftInfo = req.body;
-  const weight = liftInfo.weight;
-  const reps = liftInfo.reps;
-  const rpe = liftInfo.rpe;
+  const weight = req.query.weight;
+  const rep_num = req.query.rep_num;
+  const rpe = req.query.rpe;
   const sql = `SELECT ? FROM RPE WHERE reps = ?`
-  db.query(sql, [rpe, reps], (err, data) => {
+  db.query(sql, [rpe, rep_num], (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
     if (data.length > 0) {
-      const percentage = data[0].rpe; // Assuming the query returns only one row
+      const percentage = data[0].rpe;
       const theoreticMaxLift = weight/percentage;
       res.json({ theoreticMaxLift: theoreticMaxLift });
     } else {
@@ -212,9 +210,52 @@ app.get('/getlifts', (req, res) => {
   });
 });
 
+app.get('/recentLift', (req, res) => {
+  const exercise_id = req.query.exercise_id;
+  const user_id = session.user_id;
+  const date = new Date().toJSON().slice(0, 10);
+  console.log("Request most recent exercise for user ");
+  //need to retrieve variables
+  const sql = "SELECT rep_num, weight, rpe FROM Exercises WHERE user_id = ? AND exercise_id = ? AND set_num = (SELECT MAX(set_num) FROM Exercises WHERE user_id = ? AND exercise_id = ? AND date = ?)";
+  db.query(sql, [user_id, exercise_id, user_id, exercise_id, date],(err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    console.log(data);
+    return res.json(data);
+  })
+});
 
-
-//from Geoffrey's creative project. will need to adjust
+app.post('/recommendlift', (req, res) => {
+  const prevliftdata = req.body;
+  const exercise_id = prevliftdata.exercise_id;
+  axios.get('/recentlift', {
+    params: {
+      exercise_id: exercise_id
+    }
+  })
+  .then(response => {
+    const recent_lift = response.data;
+    const weight = recent_lift.weight;
+    const rep_num = recent_lift.rep_num;
+    const rpe = recent_lift.rpe;
+    axios.get('/simplemaxcalculate', {
+      params: {
+        weight: weight,
+        rep_num: rep_num,
+        rpe: rpe
+      }
+    })
+    .then(response =>{
+      const theoreticMaxLift = response.data;
+      //TODO
+      //use theoreticMaxLift to calculate future weight;
+    })
+  })
+  .catch(error => {
+    res.status(500).json({ error: 'An error occurred' });
+  });
+  //need to finish;
+});
 
 db.on('error', function(err) {
     console.log("[mysql error]",err);
