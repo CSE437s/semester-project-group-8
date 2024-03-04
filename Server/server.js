@@ -17,9 +17,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
   secret: 'secret',
   cookie: {secure: true},
-  saveUninitialized: true, 
+  saveUninitialized: true,
+  resave: false, 
   store: store
-}))
+}));
+
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -150,12 +152,13 @@ app.post('/signup2', (req, res) =>{
 //fix to use correct db column names, also need to retrieve userId
 app.post('/addset', (req, res) =>{
   console.log("add set");
+  console.log("Session Data:", req.session);
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
-  const sleepQuality = null;
-  const stressLevel = null;
-  const desireToTrain = null;
+  let sleepQuality = null
+  let stressLevel = null;
+  let desireToTrain = null;
   if(req.session.sleepQuality != null){
     sleepQuality = req.session.sleepQuality;
   }
@@ -169,7 +172,8 @@ app.post('/addset', (req, res) =>{
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
   const weight = credentials.weight;
-  const rpe = credentials.rpe;
+  const rpe = credentials.rpe; //TODO
+  //eventually add to sql call 
   const date = credentials.date;
   //need to add check to see if set is already submitted
   const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?)`;
