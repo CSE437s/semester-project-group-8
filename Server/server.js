@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const session = require("express-session");
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
 const store = new session.MemoryStore();
-require('dotenv').config();
-const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
+// require('.env').config();
+// const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
 
 app.use(cors());
 
@@ -20,14 +20,14 @@ app.use(session({
   store: store
 }))
 
-// const db = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "password",
-//     database: "LiftingApp"
-// })
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "LiftingApp"
+})
 
-const db = mysql.createConnection(process.env.DATABASE_URL)
+//const db = mysql.createConnection(process.env.DATABASE_URL)
 
 // Test if the database is connected.
 db.connect((err) => {
@@ -211,6 +211,7 @@ app.get('/getlifts', (req, res) => {
       return res.json(data);
   });
 });
+
 
 
 //from Geoffrey's creative project. will need to adjust
