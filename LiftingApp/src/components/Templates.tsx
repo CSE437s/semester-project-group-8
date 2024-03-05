@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
-import { IonFooter, IonTitle, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonPage, IonText } from '@ionic/react';
+import React from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import { homeOutline, createOutline, barbell, personOutline } from 'ionicons/icons';
-import { useNavigation } from '../hooks/useNavigation'; 
-import './NavHomeForm.css';
 import { useHistory } from 'react-router-dom';
 
-function NavHomeForm() {
-    console.log("NavHomeForm called");
+const Templates: React.FC = () => {
+    console.log("Template page called");
     const history = useHistory();
-    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+
     return (
         <IonPage>
             <div>
                 <IonText className='start-workout-text'>
-                    <h1>Start Workout</h1>
+                    <h1>Template Page</h1>
                 </IonText>
 
                 <IonText className="quick-start-label">
@@ -25,27 +23,10 @@ function NavHomeForm() {
                 </IonButton>
             </div>
 
-            <div className="template-history-container">
-              <div className="template-builder">
-                <IonText>
-                  <h2>Template Builder</h2>
-                  {/* Content for template builder */}
-                </IonText>
-              </div>
-
-              <div className="history">
-                <IonText>
-                  <h2>History</h2>
-                  {/* Content for history */}
-                </IonText>
-              </div>
-
-            </div>
-
-                <IonFooter>
+            <IonFooter>
                     <IonTabBar>
                         <IonTabButton tab="Home">
-                            <IonIcon icon={homeOutline} />
+                            <IonIcon icon={homeOutline} onClick={() => history.push('/homepage')}/>
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Exercises">
@@ -62,10 +43,9 @@ function NavHomeForm() {
                         </IonTabButton>
                     </IonTabBar>
                 </IonFooter>
+
         </IonPage>
-
-        
     );
-}
+};
 
-export default NavHomeForm;
+export default Templates;

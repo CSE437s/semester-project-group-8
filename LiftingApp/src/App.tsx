@@ -12,15 +12,15 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { images, square, triangle } from 'ionicons/icons';
 import Homepage from './pages/homepage';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
 import StartingWorkoutPage from './pages/Startworkout';
 import PostSignup from './pages/PostSignup';
 import Workout from './pages/Workout';
 import NavigationHomepage from './pages/NavigationHome'
+import Exercises from './components/Exercises';
+import Templates from './components/Templates';
+import Profile from './components/Profile';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,6 +54,10 @@ const App: React.FC = () => (
         <Route exact path="/PostSignup" component={PostSignup} />
         <Route exact path="/Workout" component={Workout} />
         <Route exact path="/Homepage" component={NavigationHomepage} />
+        <Route exact path="/Exercises" component={Exercises} />
+        <Route exact path="/Templates" component={Templates} />
+        <Route exact path="/Profile" component={Profile} />
+
       </IonRouterOutlet>
 
     </IonReactRouter>
