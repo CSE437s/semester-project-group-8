@@ -4,7 +4,9 @@ const session = require("express-session");
 const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const axios = require('axios');
+var nodemailer = require("nodemailer");
 const store = new session.MemoryStore();
 // require('.env').config();
 // const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
@@ -61,13 +63,16 @@ app.post('/login', (req, res) =>{
   console.log(credentials);
   const username = credentials.username;
   const password = credentials.password;
-  const sql = `SELECT id, password FROM users WHERE username = ?`;
+  const sql = `SELECT id, password, verified FROM users WHERE username = ?`;
   db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
       if (data.length == 0) {
         // Username not found
         return res.status(404).json({ success: "false", message: 'Invalid username or password' });
+      }
+      if(data[0].verified == false){
+        return res.json({ success: "false" , message: 'Please verify your email to log in' });
       }
       if(req.session.authenticated) {
         console.log(req.session);
@@ -97,6 +102,7 @@ app.post('/signup', (req, res) =>{
   const birthday = credentials.birthday;
   const gender = credentials.gender;
   const intensity = credentials.intensity;
+  const verified = false;
 
   const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
@@ -110,16 +116,91 @@ app.post('/signup', (req, res) =>{
           bcrypt.hash(password, 10, function(err, hash) {
             if (err) return res.json(err);
             //take out goal, birthday, gender, intensity
-            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity)  VALUES (?,?,?,?,?,?,?)`;
-            db.query(sql, [username, hash, email, goal, birthday, gender, intensity], (err, data) => {
+            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity, verified)  VALUES (?,?,?,?,?,?,?,?)`;
+            db.query(sql, [username, hash, email, goal, birthday, gender, intensity, verified], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
+
+              //this is broken
+              var date = new Date();
+              var mail = {
+                "username": username,
+                "created": date.toString()
+              }
+              const jwtSecretMail = 'secret';
+              const baseUrl = 'http://localhost';
+              const token_mail_verification = jwt.sign(mail, jwtSecretMail, { expiresIn: '1d' });
+              var url = baseUrl + "verify?username=" + token_mail_verification;
+              let transporter = nodemailer.createTransport({
+                  //name: "https://semester-project-group-8.vercel.app/",
+                  name: "http://localhost",
+                  //host: "https://semester-project-group-8-1.onrender.com",
+                  host: "http://localhost",
+                  port: 3000,
+                  secure: false, // use SSL
+                  auth: {
+                      user: email, // username for your mail server
+                      pass: password, // password
+                  },
+
+              });
+
+              // send mail with defined transport object
+              let info = transporter.sendMail({
+                  from: 'admin@LiftingApp.com', 
+                  to: email, 
+                  subject: "Account Verification",
+                  text: "Click on the link below to veriy your account " + url,
+              }, (error, info) => {
+
+                  if (error) {
+                      console.log(error)
+                      return;
+                  }
+                  console.log('Message sent successfully!');
+                  console.log(info);
+                  transporter.close();
+              });
+              //above is broken
+
               return res.json({ message: 'Signup successful' });
           })
         });
       }
   })
 });
+
+app.get('/verify', function(req, res) {
+  token = req.query.username;
+  if (token) {
+      try {
+          jwt.verify(token, config.jwt_secret_mail, (e, decoded) => {
+              if (e) {
+                  console.log(e)
+                  return res.sendStatus(403)
+              } else {
+                  username = decoded.username;
+                  //fix sql for specific user
+                  const sql = `UPDATE users WHERE username = ? SET verified = true`;
+                  db.query(sqlCheckDup, [username], (err, data) => {
+                    console.log(err, data);
+                    if(err) return res.json(err);
+                    return res.json({ message: 'Successfully verified email' });
+                  })
+              }
+
+          });
+      } catch (err) {
+
+          console.log(err)
+          return res.sendStatus(403)
+      }
+  } else {
+      return res.sendStatus(403)
+
+  }
+
+})
 
 app.post('/signup2', (req, res) =>{
   console.log("signpup2 request");
@@ -157,7 +238,7 @@ app.post('/addset', (req, res) =>{
   console.log("Session Data:", req.session);
   const credentials = req.body;
   console.log(credentials);
-  const user_id = credentials.user_id;
+  const user_id = req.session.user_id;
   let sleepQuality = null
   let stressLevel = null;
   let desireToTrain = null;
