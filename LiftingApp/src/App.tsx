@@ -19,7 +19,7 @@ import PostSignup from './pages/PostSignup';
 import Workout from './pages/Workout';
 import NavigationHomepage from './pages/NavigationHome'
 import Exercises from './components/Exercises';
-import Templates from './components/Templates';
+import History from './components/HistoryPage';
 import Profile from './components/Profile';
 
 /* Core CSS required for Ionic components to work properly */
@@ -55,7 +55,7 @@ const App: React.FC = () => (
         <Route exact path="/Workout" component={Workout} />
         <Route exact path="/Homepage" component={NavigationHomepage} />
         <Route exact path="/Exercises" component={Exercises} />
-        <Route exact path="/Templates" component={Templates} />
+        <Route exact path="/History" component={History} />
         <Route exact path="/Profile" component={Profile} />
 
       </IonRouterOutlet>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
+import { IonPage, IonText, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 import './Workout.css';
 import { useHistory } from 'react-router';
 import WorkoutForm from '../components/WorkoutForm'
@@ -8,11 +8,11 @@ import WorkoutForm from '../components/WorkoutForm'
 const Workout: React.FC = () => {
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Workout</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+            <div>
+                <IonText className='start-workout-text'>
+                    <h1>Exercises Page</h1>
+                </IonText>
+            </div>
 
             <IonContent className="ion-padding">
                 {/* ADD COMPONENTS + CONTENT... */}

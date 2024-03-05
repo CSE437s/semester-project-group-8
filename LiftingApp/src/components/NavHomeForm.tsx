@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IonFooter, IonTitle, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonPage, IonText } from '@ionic/react';
-import { homeOutline, createOutline, barbell, personOutline } from 'ionicons/icons';
+import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useNavigation } from '../hooks/useNavigation'; 
 import './NavHomeForm.css';
 import { useHistory } from 'react-router-dom';
@@ -53,8 +53,8 @@ function NavHomeForm() {
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={createOutline} onClick={() => history.push('/templates')}/>
-                            <IonLabel>Templates</IonLabel>
+                            <IonIcon icon={timeOutline} onClick={() => history.push('/history')}/>
+                            <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
                             <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>

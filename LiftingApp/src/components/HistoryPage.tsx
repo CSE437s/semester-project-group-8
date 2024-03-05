@@ -1,9 +1,9 @@
 import React from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
-import { homeOutline, createOutline, barbell, personOutline } from 'ionicons/icons';
+import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 
-const Templates: React.FC = () => {
+const History: React.FC = () => {
     console.log("Template page called");
     const history = useHistory();
 
@@ -34,11 +34,11 @@ const Templates: React.FC = () => {
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={createOutline} onClick={() => history.push('/templates')}/>
-                            <IonLabel>Templates</IonLabel>
+                            <IonIcon icon={createOutline} onClick={() => history.push('/history')}/>
+                            <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
-                            <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
+                            <IonIcon icon={timeOutline} onClick={() => history.push('/profile')}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
                     </IonTabBar>
@@ -48,4 +48,4 @@ const Templates: React.FC = () => {
     );
 };
 
-export default Templates;
+export default History;

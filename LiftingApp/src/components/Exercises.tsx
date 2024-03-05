@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
-import { homeOutline, createOutline, barbell, personOutline } from 'ionicons/icons';
+import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 
 const Exercises: React.FC = () => {
@@ -34,8 +34,8 @@ const Exercises: React.FC = () => {
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={createOutline} onClick={() => history.push('/templates')}/>
-                            <IonLabel>Templates</IonLabel>
+                            <IonIcon icon={timeOutline} onClick={() => history.push('/History')}/>
+                            <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
                             <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
