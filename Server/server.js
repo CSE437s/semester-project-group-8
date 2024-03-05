@@ -124,22 +124,24 @@ app.post('/signup', (req, res) =>{
 app.post('/signup2', (req, res) =>{
   console.log("signpup2 request");
   const profileInfo = req.body;
-  const username = profileInfo.email;
+  const username = profileInfo.username;
   const goal = profileInfo.goal;
   const birthday = profileInfo.birthday;
   const gender = profileInfo.gender;
-  const intensity = profileInfo.intensity;
+  const intensity = profileInfo.workoutIntensity;
+
+  console.log("Received data:", req.body);
 
   const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
     if(data.length > 0 && username == data[0].username){
-      const sql = `INSERT INTO users (goal, birthday, gender, intensity) VALUES (?,?,?,?) WHERE username = ?`;
+      const sql = `UPDATE users SET goal = ?, birthday = ?, gender = ?, intensity = ? WHERE username = ?`;
       db.query(sql, [goal, birthday, gender, intensity, username], (err, data) => {
         console.log(err, data);
         if(err) return res.json(err);
-        return res.json({ message: 'Signup successful' });
+        return res.json({ message: 'Successfully inserted post signup form data' });
       })
     }
     else{
