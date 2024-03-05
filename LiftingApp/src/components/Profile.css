@@ -1,0 +1,50 @@
+.profile-header {
+    flex-direction: row;
+    padding: 20px;
+
+  }
+  
+  .profile-header ion-avatar {
+    flex-grow: 0;
+    margin-right: 16px; /* Adjust space between avatar and name */
+  }
+  
+  .profile-info {
+    flex-grow: 1;
+    align-self: stretch; /* If you want the name and age/year to center vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* This centers the text if align-self is set to stretch */
+  }
+  
+  .profile-info h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem; /* Adjust to your preference */
+  }
+  
+  .profile-info p {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem; /* Adjust to your preference */
+  }
+  
+  .profile-settings {
+    flex-grow: 0;
+    font-size: 2rem; /* Adjust icon size */
+    /* Add other styling or interactive states as needed */
+  }
+  
+  .scoreboard-card {
+    --background: #f0f0f0; /* Light grey background for the card */
+  }
+  
+  .statistics-container {
+    margin: 20px;
+    background: #dcdcdc; /* Placeholder background */
+    height: 200px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    

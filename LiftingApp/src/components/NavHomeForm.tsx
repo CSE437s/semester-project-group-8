@@ -32,14 +32,6 @@ function NavHomeForm() {
                   {/* Content for template builder */}
                 </IonText>
               </div>
-
-              <div className="history">
-                <IonText>
-                  <h2>History</h2>
-                  {/* Content for history */}
-                </IonText>
-              </div>
-
             </div>
 
                 <IonFooter>

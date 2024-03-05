@@ -173,9 +173,9 @@ function PostSignupForm() {
                             <h2>Start A Workout!</h2>
                         </IonButton>
                         
-                        {/* <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
+                        <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
                             Go To Home
-                        </IonButton> */}
+                        </IonButton>
                 </div>
 
             </div>

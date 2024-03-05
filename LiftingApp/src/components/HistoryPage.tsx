@@ -11,16 +11,24 @@ const History: React.FC = () => {
         <IonPage>
             <div>
                 <IonText className='start-workout-text'>
-                    <h1>Template Page</h1>
+                    <h1>History</h1>
                 </IonText>
 
-                <IonText className="quick-start-label">
-                    <h2>Quick Start</h2>
-                </IonText>
+                <div className="template-history-container">
+                    <div className="template-builder">
+                        <IonText>
+                        <h2>Workout Name</h2>
+                        <h3>Date</h3>
+                        <h3>Workout Length (time), Pounds Pushed, PRs</h3>
+                        <h4>Sets x Exercise</h4>
+                        <h4>4 x Lateral Raise (Dumbbells)</h4>
+                        <h4>3 x Shoulder Press (Machine)</h4>
+                        {/* Content for template builder */}
+                        </IonText>
+                    </div>
+                </div>
 
-                <IonButton className="start-empty-workout-button" onClick={() => history.push('/StartWorkout')}>
-                    Start an Empty Workout
-                </IonButton>
+                
             </div>
 
             <IonFooter>

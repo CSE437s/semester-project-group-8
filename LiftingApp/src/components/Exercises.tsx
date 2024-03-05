@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
+import { IonPage, IonSearchbar, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 
@@ -14,13 +14,8 @@ const Exercises: React.FC = () => {
                     <h1>Exercises Page</h1>
                 </IonText>
 
-                <IonText className="quick-start-label">
-                    <h2>Quick Start</h2>
-                </IonText>
+                <IonSearchbar></IonSearchbar>
 
-                <IonButton className="start-empty-workout-button" onClick={() => history.push('/StartWorkout')}>
-                    Start an Empty Workout
-                </IonButton>
             </div>
 
             <IonFooter>
