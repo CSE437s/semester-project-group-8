@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState } from 'react';
 import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent, IonRange,
          IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import "./PostSignupForm.css"
 
 function PostSignupForm() {
     const [currentStep, setCurrentStep] = useState(1);
+    const location = useLocation();
+    const { username } = location.state || {};
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     const [formData, setFormData] = useState( {
+        username: username,
         gender: '',
         birthday: '',
         // height: '',
@@ -19,9 +23,10 @@ function PostSignupForm() {
 
     // A handler function that updates user's input.
     const handleInputChange = (field, value) => {
+        const updatedValue = field === 'workoutIntensity' ? parseInt(value, 10) : value;
         setFormData(prev => ({
             ...prev,
-            [field]: value,
+            [field]: updatedValue,
         }));
     }
 
@@ -39,7 +44,7 @@ function PostSignupForm() {
         return (
             <IonItem>
                 <IonText className="welcome-text">
-                    <h1>Let's Get Started <br></br>"Username"</h1>
+                    <h1>Let's Get Started <br></br>{username}</h1>
                     <h3>The following information helps us refine our lifting recommendations.</h3>
                 </IonText>
 
@@ -51,7 +56,7 @@ function PostSignupForm() {
         return (
             <div>
                 <IonText>
-                    <h1>"Username",</h1>
+                    <h1>{username},</h1>
                 </IonText>
                 <IonItem>
                     <IonLabel position="stacked">What is your fitness goal?</IonLabel>
@@ -72,12 +77,28 @@ function PostSignupForm() {
             
         );
     }
-   
+
+    const submitFormData = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/signup2`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error submitting form data: ', error);
+        }
+    }
+
     const renderInfoStep = () => {
         return (
             <div>
                 <IonText>
-                    <h1>"Username",</h1>
+                    <h1>{username},</h1>
                 </IonText>
 
                 {/* NAME INPUT */}
@@ -139,19 +160,22 @@ function PostSignupForm() {
             <div>
                 <IonItem className='end-step-container'>
                     <IonText className="welcome-text">
-                        <h1>Welcome to "App Name",<br></br>"Username"</h1>
+                        <h1>Welcome to "App Name",<br></br>{username}</h1>
                     </IonText>
 
                 </IonItem>
 
                 <div className='button-container'>
-                        <IonButton className="start-workout-button" onClick={() => history.push('/StartWorkout')}>
+                        <IonButton className="start-workout-button" onClick={async () => {
+                            await submitFormData();
+                            history.push('/StartWorkout');
+                            }}>
                             <h2>Start A Workout!</h2>
                         </IonButton>
                         
-                        <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
+                        {/* <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
                             Go To Home
-                        </IonButton>
+                        </IonButton> */}
                 </div>
 
             </div>

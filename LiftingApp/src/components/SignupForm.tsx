@@ -39,7 +39,7 @@ function SignupForm() {
                 setIsError(false);
                 // redirect to login page after 3 seconds if signup is successful.
                 const id = setTimeout(() => {
-                    history.push('/PostSignup');
+                    history.push('/PostSignup', { username: username });
                 }, 1500);
                 setTimeoutId(id);
             } else {
@@ -63,7 +63,7 @@ function SignupForm() {
                 <IonInput value={password} type="password" onIonChange={e=>setPassword(e.detail.value!)} required label="Password"></IonInput>
             </IonItem>
             <IonItem className="signup-input">
-                <IonInput value={email} onIonChange={e=>setEmail(e.detail.value!)} label="Email"></IonInput>
+                <IonInput value={email} onIonChange={e=>setEmail(e.detail.value!)} type = "email" required label="Email"></IonInput>
             </IonItem>
             <IonButton type="submit" expand="block">Sign Up</IonButton>
             {signupStatus && (
