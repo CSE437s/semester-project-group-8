@@ -9,20 +9,26 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="workout-form">
-        <IonText className="welcome-text">
-          <h1>Welcome To "AppName"</h1>
-        </IonText>
+        <div className='video-background'>
+          <video autoPlay loop muted playsInline>
+                <source src="assets/loginVideo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+          </video>
 
-        <div className='button-container'>
-            <IonButton expand="block" onClick={() => history.push('/Signup')} className="home-signup-button">
-            Sign Up
-            </IonButton>
+            <IonText className="welcome-text">
+              <h1>"AppName"</h1>
+            </IonText>
 
-            <IonButton fill="clear" onClick={() => history.push('/Login')} className='home-login-button'>
-            Log In
-            </IonButton>
-        </div>
-        
+            <div className='button-container'>
+                <IonButton expand="block" onClick={() => history.push('/Signup')} className="home-signup-button">
+                Sign Up
+                </IonButton>
+
+                <IonButton fill="clear" onClick={() => history.push('/Login')} className='home-login-button'>
+                Log In
+                </IonButton>
+            </div>
+          </div>
       </IonContent>
     </IonPage>
   );
