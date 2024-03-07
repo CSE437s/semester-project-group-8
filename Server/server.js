@@ -74,15 +74,9 @@ app.post('/login', (req, res) =>{
       if(data[0].verified == false){
         return res.json({ success: "false" , message: 'Please verify your email to log in' });
       }
-      if(req.session.authenticated) {
-        console.log(req.session);
-      }
       else{
         const match = await bcrypt.compare(password, data[0].password);
         if(match){
-          req.session.authenticated = true;
-          req.session.user_id = data[0].id;
-          console.log(req.session);
           return res.json({ success: "true" , message: 'Login successful' });
         } 
         else {
@@ -135,12 +129,12 @@ app.post('/signup', (req, res) =>{
                   //name: "https://semester-project-group-8.vercel.app/",
                   name: "http://localhost",
                   //host: "https://semester-project-group-8-1.onrender.com",
-                  host: "http://localhost",
-                  port: 3000,
+                  host: "http://localhost", //needs to be SMTP server TODO: setup SMTP
+                  port: 3000, //needs to be SMTP
                   secure: false, // use SSL
                   auth: {
-                      user: email, // username for your mail server
-                      pass: password, // password
+                      user: email, // username for your mail server from SMTP
+                      pass: password, // password from SMTP
                   },
 
               });
@@ -162,7 +156,6 @@ app.post('/signup', (req, res) =>{
                   transporter.close();
               });
               //above is broken
-
               return res.json({ message: 'Signup successful' });
           })
         });
@@ -191,15 +184,12 @@ app.get('/verify', function(req, res) {
 
           });
       } catch (err) {
-
           console.log(err)
           return res.sendStatus(403)
       }
   } else {
       return res.sendStatus(403)
-
   }
-
 })
 
 app.post('/signup2', (req, res) =>{
@@ -235,22 +225,12 @@ app.post('/signup2', (req, res) =>{
 //fix to use correct db column names, also need to retrieve userId
 app.post('/addset', (req, res) =>{
   console.log("add set");
-  console.log("Session Data:", req.session);
   const credentials = req.body;
   console.log(credentials);
-  const user_id = req.session.user_id;
+  const user_id = credentials.user_id;
   let sleepQuality = null
   let stressLevel = null;
   let desireToTrain = null;
-  if(req.session.sleepQuality != null){
-    sleepQuality = req.session.sleepQuality;
-  }
-  if(req.session.stressLevel != null){
-    stressLevel = req.session.stressLevel;
-  }
-  if(req.session.desireToTrain != null){
-    desireToTrain = req.session.desireToTrain;
-  }
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -299,7 +279,7 @@ app.get('/getlifts', (req, res) => {
 
 app.get('/recentLift', (req, res) => {
   const exercise_id = req.query.exercise_id;
-  const user_id = session.user_id;
+  const user_id = req.query.user_id;
   const date = new Date().toJSON().slice(0, 10);
   console.log("Request most recent exercise for user ");
   //need to retrieve variables
@@ -350,56 +330,4 @@ db.on('error', function(err) {
 
 app.listen(3000, () => {
   console.log("app listening on port 3000")
-});
-
-//startworkout form data
-app.post('/workout', (req, res) => {
-  console.log("Start workout request");
-  // Extract data from the request body
-  const { sleepQuality, stressLevel, desireToTrain } = req.body;
-
-  //add variables to session
-  if(sleepQuality == null || stressLevel == null || desireToTrain == null){
-    res.json({ error: 'sleepQuality, stressLevel, and desireToTrain are not filled in fields' });
-  }
-  else{
-    req.session.sleepQuality = sleepQuality;
-    req.session.stressLevel = stressLevel;
-    req.session.desireToTrain = desireToTrain;
-    console.log(req.session);
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'Data received successfully' });
-});
-
-app.post('/endworkout', (req, res) => {
-  console.log("End workout request");
-  //add variables to session
-  if(req.session.sleepQuality != null || req.session.stressLevel != null || req.session.desireToTrain != null){
-    req.session.sleepQuality = null;
-    req.session.stressLevel = null;
-    req.session.desireToTrain = null;
-    console.log(req.session);
-  }
-  else{
-    console.log("No active workout to end")
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'Workout ended' });
-});
-
-app.post('/signout', (req, res) => {
-  console.log("Signout request");
-  //add variables to session
-  if(req.session.authenticated == true){
-    req.session.destroy();
-  }
-  else{
-    console.log("No user session to end")
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'User signed out' });
 });
