@@ -53,7 +53,7 @@ function WorkoutForm() {
     const cancelWorkout = () => {
         setSelectedExercises([]);
         setSets([]);
-        history.push('/StartWorkout'); //FIX: REROUTE TO HOME PAGE
+        history.push('/Homepage'); 
     }
     
     const submitWorkout = async () => {
