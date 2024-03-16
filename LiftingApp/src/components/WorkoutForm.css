@@ -2,4 +2,56 @@
     --background: #ff4b4b;
     color: white;
 }
+.workout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
 
+.exercise-header {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    margin: 20px 0;
+}
+
+.sets-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.set-row, .header-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    align-items: center; 
+}
+
+.header-row > div, .set-row > div {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.header-row > div {
+    font-weight: bold;
+}
+
+.ion-input {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    text-align: center;
+}
+
+.set-info, .input-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-container > ion-input {
+    width: 100%; 
+}

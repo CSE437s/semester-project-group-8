@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { IonIcon } from '@ionic/react';
 import { IonInput, IonList, IonButton, IonItem, IonModal } from '@ionic/react';
 import './WorkoutForm.css';
 import { useHistory } from 'react-router';
+import { checkmarkOutline, closeOutline } from 'ionicons/icons';
+
 
 function WorkoutForm() {
     const [exercises, setExercises] = useState([]);
@@ -49,6 +52,29 @@ function WorkoutForm() {
         setSets(currentSets =>
             currentSets.filter((_, index) => index !== exerciseIndex)
         );
+    };
+    const toggleDone = (exerciseIndex, setIndex) => {
+        const updatedSets = sets.map((exerciseSets, idx) => {
+            if (idx === exerciseIndex) {
+                return exerciseSets.map((set, sIdx) => {
+                    if (sIdx === setIndex) {
+                        return { ...set, done: !set.done };
+                    }
+                    return set;
+                });
+            }
+            return exerciseSets;
+        });
+        setSets(updatedSets);
+    };
+    const deleteSet = (exerciseIndex, setIndex) => {
+        const updatedSets = sets.map((exerciseSets, idx) => {
+            if (idx === exerciseIndex) {
+                return exerciseSets.filter((_, sIdx) => sIdx !== setIndex);
+            }
+            return exerciseSets;
+        });
+        setSets(updatedSets);
     };
     const cancelWorkout = () => {
         setSelectedExercises([]);
@@ -108,30 +134,52 @@ function WorkoutForm() {
                 <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
             </IonModal>
             {selectedExercises.map((exercise, exerciseIndex) => (
-                <div key={exerciseIndex}>
-                    <h3>{exercise}</h3>
-                    {sets[exerciseIndex].map((set, setIndex) => (
-                        <div key={setIndex}>
-                            Set# {set.setNumber}
-                            <IonInput
-                                value={set.lbs}
-                                placeholder="lbs"
-                                onIonChange={e => updateSet(exerciseIndex, setIndex, 'lbs', e.detail.value)}
-                            />
-                            <IonInput
-                                value={set.reps}
-                                placeholder="Reps"
-                                onIonChange={e => updateSet(exerciseIndex, setIndex, 'reps', e.detail.value)}
-                            />
+                <div key={exerciseIndex} className="workout-container">
+                    <div className="exercise-header">{exercise}</div>
+                    <div className="sets-container">
+                        <div className="header-row">
+                            <div>Set</div>
+                            <div>Lbs</div>
+                            <div>Reps</div>
+                            <div>Actions</div> {/* Added Actions header */}
                         </div>
-                        
-                    ))
-                    }
-                    <IonButton onClick={submitWorkout}>Submit Set</IonButton>
+                        {sets[exerciseIndex].map((set, setIndex) => (
+                            <div key={setIndex} className="set-row">
+                                <div>{set.setNumber}</div>
+                                <div>
+                                    <IonInput
+                                        value={set.lbs}
+                                        placeholder="lbs"
+                                        onIonChange={e => updateSet(exerciseIndex, setIndex, 'lbs', e.detail.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <IonInput
+                                        value={set.reps}
+                                        placeholder="Reps"
+                                        onIonChange={e => updateSet(exerciseIndex, setIndex, 'reps', e.detail.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <IonIcon 
+                                        icon={checkmarkOutline} 
+                                        style={{ marginRight: '10px', color: set.done ? 'green' : 'grey', fontSize: '24px'}} 
+                                        onClick={() => toggleDone(exerciseIndex, setIndex)}
+                                    />
+                                    <IonIcon 
+                                        icon={closeOutline} 
+                                        style={{ fontSize: '24px' }} 
+                                        onClick={() => deleteSet(exerciseIndex, setIndex)}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                     <IonButton onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
                     <IonButton onClick={() => deleteExercise(exerciseIndex)}>Delete Exercise</IonButton>
                 </div>
             ))}
+            <IonButton onClick={submitWorkout}>Submit Set</IonButton>
             <IonButton onClick={cancelWorkout}>Cancel Workout</IonButton>
         </div>
     );
