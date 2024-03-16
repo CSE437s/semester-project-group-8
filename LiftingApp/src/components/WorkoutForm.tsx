@@ -41,6 +41,15 @@ function WorkoutForm() {
         setSets(updatedSets);
         //submitSet(exerciseIndex, setIndex);
     };
+
+    const deleteExercise = (exerciseIndex) => {
+        setSelectedExercises(currentExercises =>
+            currentExercises.filter((_, index) => index !== exerciseIndex)
+        );
+        setSets(currentSets =>
+            currentSets.filter((_, index) => index !== exerciseIndex)
+        );
+    };
     const cancelWorkout = () => {
         setSelectedExercises([]);
         setSets([]);
@@ -56,7 +65,7 @@ function WorkoutForm() {
                 const set = sets[exerciseIndex][setIndex];
                 const data = {
                     user_id: 0, 
-                    lift_id: 0,
+                    lift_id: exerciseIndex,
                     set_num: set.setNumber,
                     rep_num: set.reps,
                     weight: set.lbs,
@@ -120,7 +129,7 @@ function WorkoutForm() {
                     }
                     <IonButton onClick={submitWorkout}>Submit Set</IonButton>
                     <IonButton onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
-                    
+                    <IonButton onClick={() => deleteExercise(exerciseIndex)}>Delete Exercise</IonButton>
                 </div>
             ))}
             <IonButton onClick={cancelWorkout}>Cancel Workout</IonButton>

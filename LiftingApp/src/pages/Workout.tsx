@@ -10,7 +10,7 @@ const Workout: React.FC = () => {
         <IonPage>
             <div>
                 <IonText className='start-workout-text'>
-                    <h1>Exercises Page</h1>
+                    <h1>Today's Workout</h1>
                 </IonText>
             </div>
 
