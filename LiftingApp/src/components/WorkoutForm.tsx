@@ -4,6 +4,7 @@ import { IonInput, IonList, IonButton, IonItem, IonModal } from '@ionic/react';
 import './WorkoutForm.css';
 import { useHistory } from 'react-router';
 import { checkmarkOutline, closeOutline } from 'ionicons/icons';
+import WorkoutRec from './WorkoutRec';
 
 
 function WorkoutForm() {
@@ -12,6 +13,8 @@ function WorkoutForm() {
     const [showModal, setShowModal] = useState(false);
     const [sets, setSets] = useState([]);
     const history = useHistory();
+    const [showRecommendation, setShowRecommendation] = useState(true); // for workout recommendation
+
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
@@ -133,6 +136,16 @@ function WorkoutForm() {
                 </IonList>
                 <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
             </IonModal>
+            {showRecommendation && (
+            <WorkoutRec
+                onAccept={() => {
+                    setShowRecommendation(false);
+                }}
+                onCancel={() => {
+                    setShowRecommendation(false);
+                }}
+            />
+            )}
             {selectedExercises.map((exercise, exerciseIndex) => (
                 <div key={exerciseIndex} className="workout-container">
                     <div className="exercise-header">{exercise}</div>

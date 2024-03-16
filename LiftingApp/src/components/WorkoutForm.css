@@ -55,3 +55,38 @@
 .input-container > ion-input {
     width: 100%; 
 }
+
+.recommendation-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #3a3a3a;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.recommendation-details h3, .recommendation-details p {
+    margin: 0;
+}
+
+.recommendation-actions IonButton {
+    --background: transparent;
+    --background-activated: transparent;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.custom-button {
+    width: auto; 
+    --border-radius: 8px;
+    font-weight: bold;
+}
