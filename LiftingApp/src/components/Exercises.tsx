@@ -11,7 +11,7 @@ const Exercises: React.FC = () => {
         <IonPage>
             <div>
                 <IonText className='start-workout-text'>
-                    <h1>Exercises Page</h1>
+                    <h1 className='ion-padding'>Exercises Page</h1>
                 </IonText>
 
                 <IonSearchbar></IonSearchbar>
