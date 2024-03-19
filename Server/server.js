@@ -8,8 +8,6 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 var nodemailer = require("nodemailer");
 const store = new session.MemoryStore();
-// require('.env').config();
-// const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
 
 app.use(cors());
 
@@ -31,8 +29,6 @@ const db = mysql.createConnection({
     password: "password",
     database: "LiftingApp"
 })
-
-//const db = mysql.createConnection(process.env.DATABASE_URL)
 
 // Test if the database is connected.
 db.connect((err) => {
@@ -77,7 +73,7 @@ app.post('/login', (req, res) =>{
       else{
         const match = await bcrypt.compare(password, data[0].password);
         if(match){
-          return res.json({ success: "true" , message: 'Login successful' });
+          return res.json({ user_id: data[0].id, success: "true" , message: 'Login successful' });
         } 
         else {
             return res.status(401).json({ success: "false", message: 'Invalid username or password' });
@@ -115,7 +111,6 @@ app.post('/signup', (req, res) =>{
               console.log(err, data);
               if(err) return res.json(err);
 
-              //this is broken
               var date = new Date();
               var mail = {
                 "username": username,
@@ -123,11 +118,9 @@ app.post('/signup', (req, res) =>{
               }
               const jwtSecretMail = 'secret';
               const baseUrl = 'http://localhost:3000/';
-              //const baseUrl = 'https://semester-project-group-8.vercel.app/'
               const token_mail_verification = jwt.sign(mail, jwtSecretMail, { expiresIn: '1d' });
               var url = baseUrl + "verify?username=" + token_mail_verification;
               let transporter = nodemailer.createTransport({
-                  //name: "https://semester-project-group-8.vercel.app/",
                   name: "http://localhost:3000/",
                   host: "smtp-relay.brevo.com", //needs to be SMTP server TODO: setup SMTP
                   port: 587, //needs to be SMTP
@@ -228,9 +221,9 @@ app.post('/addset', (req, res) =>{
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
-  let sleepQuality = null
-  let stressLevel = null;
-  let desireToTrain = null;
+  const sleepQuality = credentials.sleepQuality;
+  const stressLevel = credentials.stressLevel;
+  const desireToTrain = credentials.desrieToTrain;
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -294,29 +287,30 @@ app.get('/recentLift', (req, res) => {
 
 app.post('/recommendlift', (req, res) => {
   const prevliftdata = req.body;
-  const lift_id = prevliftdata.lift_id;
-  axios.get('/recentlift', {
+  const weight = prevliftdata.weight;
+  const rep_num = prevliftdata.rep_num;
+  const rpe = prevliftdata.rpe;
+  axios.get('/simplemaxcalculate', {
     params: {
-      lift_id: lift_id
+      weight: weight,
+      rep_num: rep_num,
+      rpe: rpe
     }
   })
-  .then(response => {
-    const recent_lift = response.data;
-    const weight = recent_lift.weight;
-    const rep_num = recent_lift.rep_num;
-    const rpe = recent_lift.rpe;
+  .then(response =>{
+    const theoreticMaxLift = response.data;
+    //TODO
+    const new_rpe = 8; //this should be changed in future so that user can input
+    const new_reps = 10; //this should be changed in future so that user can input
     axios.get('/simplemaxcalculate', {
       params: {
-        weight: weight,
-        rep_num: rep_num,
-        rpe: rpe
+        weight: theoreticMaxLift,
+        rep_num: new_reps,
+        rpe: new_rpe
       }
     })
-    .then(response =>{
-      const theoreticMaxLift = response.data;
-      //TODO
-      //use theoreticMaxLift to calculate future weight;
-    })
+    res.end(JSON.stringify({ a: 1 //object TODO
+  }));
   })
   .catch(error => {
     res.status(500).json({ error: 'An error occurred' });
