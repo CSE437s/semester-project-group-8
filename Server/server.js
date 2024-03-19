@@ -4,7 +4,9 @@ const session = require("express-session");
 const mysql = require('mysql');
 const cors = require("cors")
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const axios = require('axios');
+var nodemailer = require("nodemailer");
 const store = new session.MemoryStore();
 // require('.env').config();
 // const serverless = require("serverless-http"); // this helps host the backend code (server.js) on vercel
@@ -61,7 +63,7 @@ app.post('/login', (req, res) =>{
   console.log(credentials);
   const username = credentials.username;
   const password = credentials.password;
-  const sql = `SELECT id, password FROM users WHERE username = ?`;
+  const sql = `SELECT id, password, verified FROM users WHERE username = ?`;
   db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
@@ -69,15 +71,12 @@ app.post('/login', (req, res) =>{
         // Username not found
         return res.status(404).json({ success: "false", message: 'Invalid username or password' });
       }
-      if(req.session.authenticated) {
-        console.log(req.session);
+      if(data[0].verified == false){
+        return res.json({ success: "false" , message: 'Please verify your email to log in' });
       }
       else{
         const match = await bcrypt.compare(password, data[0].password);
         if(match){
-          req.session.authenticated = true;
-          req.session.user_id = data[0].id;
-          console.log(req.session);
           return res.json({ success: "true" , message: 'Login successful' });
         } 
         else {
@@ -97,6 +96,7 @@ app.post('/signup', (req, res) =>{
   const birthday = credentials.birthday;
   const gender = credentials.gender;
   const intensity = credentials.intensity;
+  const verified = false;
 
   const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
@@ -110,16 +110,87 @@ app.post('/signup', (req, res) =>{
           bcrypt.hash(password, 10, function(err, hash) {
             if (err) return res.json(err);
             //take out goal, birthday, gender, intensity
-            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity)  VALUES (?,?,?,?,?,?,?)`;
-            db.query(sql, [username, hash, email, goal, birthday, gender, intensity], (err, data) => {
+            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity, verified)  VALUES (?,?,?,?,?,?,?,?)`;
+            db.query(sql, [username, hash, email, goal, birthday, gender, intensity, verified], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
+
+              //this is broken
+              var date = new Date();
+              var mail = {
+                "username": username,
+                "created": date.toString()
+              }
+              const jwtSecretMail = 'secret';
+              const baseUrl = 'http://localhost:3000/';
+              //const baseUrl = 'https://semester-project-group-8.vercel.app/'
+              const token_mail_verification = jwt.sign(mail, jwtSecretMail, { expiresIn: '1d' });
+              var url = baseUrl + "verify?username=" + token_mail_verification;
+              let transporter = nodemailer.createTransport({
+                  //name: "https://semester-project-group-8.vercel.app/",
+                  name: "http://localhost:3000/",
+                  host: "smtp-relay.brevo.com", //needs to be SMTP server TODO: setup SMTP
+                  port: 587, //needs to be SMTP
+                  secure: false, // use SSL
+                  auth: {
+                      user: "gtlien1@gmail.com", // username for your mail server from SMTP
+                      pass: "ZGgL9ywa3kDS5Enb", // password from SMTP
+                  },
+
+              });
+
+              // send mail with defined transport object
+              let info = transporter.sendMail({
+                  from: 'admin@LiftingApp.com', 
+                  to: email, 
+                  subject: "Account Verification",
+                  text: "Click on the link below to veriy your account " + url,
+              }, (error, info) => {
+
+                  if (error) {
+                      console.log(error)
+                      return;
+                  }
+                  console.log('Message sent successfully!');
+                  console.log(info);
+                  transporter.close();
+              });
+              //above is broken
               return res.json({ message: 'Signup successful' });
           })
         });
       }
   })
 });
+
+app.get('/verify', function(req, res) {
+  token = req.query.username;
+  if (token) {
+      try {
+          jwt.verify(token, config.jwt_secret_mail, (e, decoded) => {
+              if (e) {
+                  console.log(e)
+                  return res.sendStatus(403)
+              } else {
+                  username = decoded.username;
+                  //fix sql for specific user
+                  const sql = `UPDATE users WHERE username = ? SET verified = true`;
+                  db.query(sqlCheckDup, [username], (err, data) => {
+                    console.log(err, data);
+                    if(err) return res.json(err);
+                    return res.json({ message: 'Successfully verified email' });
+                  })
+              }
+
+          });
+      } catch (err) {
+          console.log(err)
+          return res.sendStatus(403)
+      }
+  } else {
+      return res.sendStatus(403)
+  }
+})
 
 app.post('/signup2', (req, res) =>{
   console.log("signpup2 request");
@@ -154,22 +225,12 @@ app.post('/signup2', (req, res) =>{
 //fix to use correct db column names, also need to retrieve userId
 app.post('/addset', (req, res) =>{
   console.log("add set");
-  console.log("Session Data:", req.session);
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
   let sleepQuality = null
   let stressLevel = null;
   let desireToTrain = null;
-  if(req.session.sleepQuality != null){
-    sleepQuality = req.session.sleepQuality;
-  }
-  if(req.session.stressLevel != null){
-    stressLevel = req.session.stressLevel;
-  }
-  if(req.session.desireToTrain != null){
-    desireToTrain = req.session.desireToTrain;
-  }
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -217,8 +278,8 @@ app.get('/getlifts', (req, res) => {
 });
 
 app.get('/recentLift', (req, res) => {
-  const exercise_id = req.query.exercise_id;
-  const user_id = session.user_id;
+  const lift_id = req.query.lift_id;
+  const user_id = req.query.user_id;
   const date = new Date().toJSON().slice(0, 10);
   console.log("Request most recent exercise for user ");
   //need to retrieve variables
@@ -233,10 +294,10 @@ app.get('/recentLift', (req, res) => {
 
 app.post('/recommendlift', (req, res) => {
   const prevliftdata = req.body;
-  const exercise_id = prevliftdata.exercise_id;
+  const lift_id = prevliftdata.lift_id;
   axios.get('/recentlift', {
     params: {
-      exercise_id: exercise_id
+      lift_id: lift_id
     }
   })
   .then(response => {
@@ -269,56 +330,4 @@ db.on('error', function(err) {
 
 app.listen(3000, () => {
   console.log("app listening on port 3000")
-});
-
-//startworkout form data
-app.post('/workout', (req, res) => {
-  console.log("Start workout request");
-  // Extract data from the request body
-  const { sleepQuality, stressLevel, desireToTrain } = req.body;
-
-  //add variables to session
-  if(sleepQuality == null || stressLevel == null || desireToTrain == null){
-    res.json({ error: 'sleepQuality, stressLevel, and desireToTrain are not filled in fields' });
-  }
-  else{
-    req.session.sleepQuality = sleepQuality;
-    req.session.stressLevel = stressLevel;
-    req.session.desireToTrain = desireToTrain;
-    console.log(req.session);
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'Data received successfully' });
-});
-
-app.post('/endworkout', (req, res) => {
-  console.log("End workout request");
-  //add variables to session
-  if(req.session.sleepQuality != null || req.session.stressLevel != null || req.session.desireToTrain != null){
-    req.session.sleepQuality = null;
-    req.session.stressLevel = null;
-    req.session.desireToTrain = null;
-    console.log(req.session);
-  }
-  else{
-    console.log("No active workout to end")
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'Workout ended' });
-});
-
-app.post('/signout', (req, res) => {
-  console.log("Signout request");
-  //add variables to session
-  if(req.session.authenticated == true){
-    req.session.destroy();
-  }
-  else{
-    console.log("No user session to end")
-  }
-
-  // Respond to the client
-  res.json({ success: true, message: 'User signed out' });
 });
