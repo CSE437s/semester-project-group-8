@@ -13,3 +13,4 @@
 
 4. to run ionic, cd to LiftingApp and $ ionic server
 5. to run server, cd to Server and $ node server
+6. Please view using iphone 14 max viewport
