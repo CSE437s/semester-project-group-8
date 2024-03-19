@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonButton, IonText } from '@ionic/react';
+import { IonContent, IonPage, IonButton, IonText, IonImg } from '@ionic/react';
 import React from 'react';
 import './homepage.css';
 import { useHistory } from 'react-router-dom';
@@ -15,9 +15,9 @@ const Homepage: React.FC = () => {
                 Your browser does not support the video tag.
           </video>
 
-            <IonText className="welcome-text">
-              <h1>"AppName"</h1>
-            </IonText>
+          <div className='logo-homepage'>
+            <IonImg src='assets/logo-white.png' className='fixed-logo'></IonImg>
+          </div>
 
             <div className='button-container'>
                 <IonButton expand="block" onClick={() => history.push('/Signup')} className="home-signup-button">

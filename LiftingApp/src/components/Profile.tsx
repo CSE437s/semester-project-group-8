@@ -24,9 +24,11 @@ const Profile: React.FC = () => {
                         <h2>Sam Feng</h2>
                         <p>21, Male</p>
                     </div>
+                    {/* FIXME: NEED PAGE FOR CHANGING PROFILE SETTINGS */}
                     <IonIcon icon={settingsOutline} className="profile-settings" />
                 </div>
 
+                <h2>Your Scoreboard</h2>
                 <IonCard className="scoreboard-card">
                     <IonGrid>
                         <IonRow>
@@ -44,9 +46,10 @@ const Profile: React.FC = () => {
                     </IonGrid>
                 </IonCard>
 
+                <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     {/* Insert your statistics or graph components here */}
-                    <p>Some Type Of Statistics/Graphs Here?</p>
+
                 </div>
 
 

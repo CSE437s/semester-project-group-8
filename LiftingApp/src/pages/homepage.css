@@ -4,6 +4,8 @@
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: hidden;
+  flex-direction: column; /* Stack children vertically */
+
 }
 
 .video-background video {
@@ -43,16 +45,17 @@
 }
 
 .button-container {
+  position: absolute; /* Use absolute positioning */
+  bottom: 50px; /* Adjust this value as needed to control how far from the bottom of the screen it should sit */
+  width: 100%; /* Ensure it spans the width of its parent */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: auto;
   z-index: 1;
 }
 
 .home-signup-button {
-  margin-top: 100%;
-  margin-bottom: 1em;
+  margin-top: 80%;
   --background: #ff4b4b;
   color: white;
   width: 80%; 
@@ -66,4 +69,15 @@
   margin-right: auto;
   color: #ff4b4b;
   z-index: 1;
+}
+
+.logo-homepage {
+  position: relative; /* This makes it a positioned ancestor for absolute positioning */
+}
+
+.fixed-logo {
+  position: fixed; /* or 'absolute' */
+  top: 0; /* Adjust these values based on where you want the image */
+  left: 0; /* Adjust these values based on where you want the image */
+  z-index: 1000; /* Ensures the image stays above other content */
 }
