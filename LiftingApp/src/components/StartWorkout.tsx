@@ -14,7 +14,12 @@ function StartWorkout() {
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
     const navigateToWorkout = () => {
-        history.push('/Workout'); 
+        console.log(sleepQuality, stressLevel, desireToTrain);
+        // CODE HERE: pass the sleepQuality, stressLevel, and desireToTrain to the workout page.
+        history.push({
+            pathname: '/Workout',
+            state: { sleepQuality, stressLevel, desireToTrain }
+        });
     };
 
     const handleSubmit = async (event: React.FormEvent) => {

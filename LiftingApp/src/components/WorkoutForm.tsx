@@ -3,6 +3,7 @@ import { IonIcon } from '@ionic/react';
 import { IonInput, IonList, IonButton, IonItem, IonModal } from '@ionic/react';
 import './WorkoutForm.css';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { checkmarkOutline, closeOutline } from 'ionicons/icons';
 import WorkoutRec from './WorkoutRec';
 
@@ -13,6 +14,8 @@ function WorkoutForm() {
     const [showModal, setShowModal] = useState(false);
     const [sets, setSets] = useState([]);
     const history = useHistory();
+    const location = useLocation();
+    const {sleepQuality, stressLevel, desireToTrain} = location.state || {}; // from StartWorkout.tsx
     const [showRecommendation, setShowRecommendation] = useState(true); // for workout recommendation
 
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
@@ -69,6 +72,7 @@ function WorkoutForm() {
             return exerciseSets;
         });
         setSets(updatedSets);
+        submitSet(exerciseIndex, setIndex);
     };
     const deleteSet = (exerciseIndex, setIndex) => {
         const updatedSets = sets.map((exerciseSets, idx) => {
@@ -85,7 +89,7 @@ function WorkoutForm() {
         history.push('/Homepage'); 
     }
     
-    const submitWorkout = async () => {
+    const submitSet = async () => {
         for (let exerciseIndex = 0; exerciseIndex < selectedExercises.length; exerciseIndex++) {
             const exerciseName = selectedExercises[exerciseIndex];
             //const lift_id; //SET TO 0 FOR NOW.
@@ -94,6 +98,9 @@ function WorkoutForm() {
                 const set = sets[exerciseIndex][setIndex];
                 const data = {
                     user_id: 0, 
+                    sleepQuality: sleepQuality,
+                    stressLevel: stressLevel,
+                    desireToTrain: desireToTrain,
                     lift_id: exerciseIndex,
                     set_num: set.setNumber,
                     rep_num: set.reps,
@@ -192,7 +199,6 @@ function WorkoutForm() {
                     <IonButton onClick={() => deleteExercise(exerciseIndex)}>Delete Exercise</IonButton>
                 </div>
             ))}
-            <IonButton onClick={submitWorkout}>Submit Set</IonButton>
             <IonButton onClick={cancelWorkout}>Cancel Workout</IonButton>
         </div>
     );
