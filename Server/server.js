@@ -278,7 +278,7 @@ app.get('/getlifts', (req, res) => {
 });
 
 app.get('/recentLift', (req, res) => {
-  const exercise_id = req.query.exercise_id;
+  const lift_id = req.query.lift_id;
   const user_id = req.query.user_id;
   const date = new Date().toJSON().slice(0, 10);
   console.log("Request most recent exercise for user ");
@@ -294,10 +294,10 @@ app.get('/recentLift', (req, res) => {
 
 app.post('/recommendlift', (req, res) => {
   const prevliftdata = req.body;
-  const exercise_id = prevliftdata.exercise_id;
+  const lift_id = prevliftdata.lift_id;
   axios.get('/recentlift', {
     params: {
-      exercise_id: exercise_id
+      lift_id: lift_id
     }
   })
   .then(response => {
