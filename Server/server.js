@@ -228,9 +228,9 @@ app.post('/addset', (req, res) =>{
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
-  let sleepQuality = null
-  let stressLevel = null;
-  let desireToTrain = null;
+  let sleepQuality = credentials.sleepQuality;
+  let stressLevel = credentials.stressLevel;
+  let desireToTrain = credentials.desireToTrain;
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
