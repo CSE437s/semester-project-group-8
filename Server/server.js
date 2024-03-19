@@ -122,19 +122,19 @@ app.post('/signup', (req, res) =>{
                 "created": date.toString()
               }
               const jwtSecretMail = 'secret';
-              const baseUrl = 'http://localhost';
+              const baseUrl = 'http://localhost:3000/';
+              //const baseUrl = 'https://semester-project-group-8.vercel.app/'
               const token_mail_verification = jwt.sign(mail, jwtSecretMail, { expiresIn: '1d' });
               var url = baseUrl + "verify?username=" + token_mail_verification;
               let transporter = nodemailer.createTransport({
                   //name: "https://semester-project-group-8.vercel.app/",
-                  name: "http://localhost",
-                  //host: "https://semester-project-group-8-1.onrender.com",
-                  host: "http://localhost", //needs to be SMTP server TODO: setup SMTP
-                  port: 3000, //needs to be SMTP
+                  name: "http://localhost:3000/",
+                  host: "smtp-relay.brevo.com", //needs to be SMTP server TODO: setup SMTP
+                  port: 587, //needs to be SMTP
                   secure: false, // use SSL
                   auth: {
-                      user: email, // username for your mail server from SMTP
-                      pass: password, // password from SMTP
+                      user: "gtlien1@gmail.com", // username for your mail server from SMTP
+                      pass: "ZGgL9ywa3kDS5Enb", // password from SMTP
                   },
 
               });
