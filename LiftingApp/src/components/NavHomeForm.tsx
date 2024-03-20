@@ -15,9 +15,9 @@ function NavHomeForm() {
                 <IonText className='start-workout-text'>
                     <h1>Start Workout</h1>
                 </IonText>
-
-                <IonText className="quick-start-label">
-                    <h2>Quick Start</h2>
+                
+                <IonText className="ion-padding quick-start-label">
+                    <h2 className='ion-padding-start'>Quick Start</h2>
                 </IonText>
 
                 <IonButton className="start-empty-workout-button" onClick={() => history.push('/StartWorkout')}>
@@ -25,14 +25,16 @@ function NavHomeForm() {
                 </IonButton>
             </div>
 
+            {/* 
             <div className="template-history-container">
               <div className="template-builder">
                 <IonText>
                   <h2>Template Builder</h2>
-                  {/* Content for template builder */}
+                  Content for template builder 
                 </IonText>
               </div>
             </div>
+            */}
 
                 <IonFooter>
                     <IonTabBar>
