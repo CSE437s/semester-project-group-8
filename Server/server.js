@@ -290,6 +290,13 @@ app.post('/recommendlift', (req, res) => {
   const weight = prevliftdata.weight;
   const rep_num = prevliftdata.rep_num;
   const rpe = prevliftdata.rpe;
+  const lift_id = prevliftdata.lift_id;
+  const set_num = prevliftdata.set_num;
+  //should check if on third set, if so, change exercise
+  //Two user flows to demonstrate for beta:
+  // 1. populates squat as first exercise —> leg extension rec popup after 3 completed sets of squat 
+  // 2. populates bench press as 1st exercise —> after 3 sets done —> bicep curl is recommended
+
   axios.get('/simplemaxcalculate', {
     params: {
       weight: weight,
