@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent, IonRange,
+import { IonInput, IonButton, IonItem, IonLabel, IonText, IonImg, IonRange,
          IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -54,15 +54,16 @@ function PostSignupForm() {
 
     const renderGoalStep = () => {
         return (
-            <div>
-                <IonText>
-                    <h1>{username},</h1>
-                </IonText>
+            <div className="goal-page">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black-cropped.png'></IonImg>
+                    </div>
+
                 <IonItem>
                     <IonLabel position="stacked">What is your fitness goal?</IonLabel>
                     <IonSelect 
                         value={formData.goal}
-                        multiple={true}
+                        multiple={false}
                         onIonChange={e => handleInputChange('goal', e.detail.value)}>
                         <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
                         <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
@@ -96,10 +97,11 @@ function PostSignupForm() {
 
     const renderInfoStep = () => {
         return (
-            <div>
-                <IonText>
-                    <h1>{username},</h1>
-                </IonText>
+            <div className="goal-page">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black-cropped.png'></IonImg>
+                    </div>
+                
 
                 {/* NAME INPUT */}
                 <IonItem> 
@@ -157,28 +159,25 @@ function PostSignupForm() {
 
     const renderEndStep = () => {
         return (
-            <div>
-                <IonItem className='end-step-container'>
-                    <IonText className="welcome-text">
-                        <h1>Welcome to "App Name",<br></br>{username}</h1>
-                    </IonText>
+            <div className="page-container">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black.png'></IonImg>
+                    </div>
 
-                </IonItem>
-
-                <div className='button-container'>
+                    <div className='button-container'>
                         <IonButton className="start-workout-button" onClick={async () => {
                             await submitFormData();
                             history.push('/StartWorkout');
                             }}>
-                            <h2>Start A Workout!</h2>
+                            <h2 className='post-signup-start-button'>Start A Workout!</h2>
                         </IonButton>
                         
                         <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
                             Go To Home
                         </IonButton>
-                </div>
-
+                    </div>
             </div>
+
 
             
         )
