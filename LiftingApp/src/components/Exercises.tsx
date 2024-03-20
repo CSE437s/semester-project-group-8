@@ -9,6 +9,7 @@ const Exercises: React.FC = () => {
     const [exercises, setExercises] = useState([]);
 
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
             method: 'GET',
@@ -33,14 +34,14 @@ const Exercises: React.FC = () => {
                 <IonSearchbar></IonSearchbar>
 
                 <div className='exercises-container'>
-                <IonList>
-                    {exercises.map((exercise) => (
+                    <IonList>
+                        {exercises.map((exercise) => (
                         <IonItem key={exercise.lift_id}>
-                            {exercise.lift_name}
+                            <IonLabel>{exercise.lift_name}</IonLabel>
                         </IonItem>
                     ))}
-                </IonList>
-        </div>
+                    </IonList>
+                </div>
 
             </div>
 
