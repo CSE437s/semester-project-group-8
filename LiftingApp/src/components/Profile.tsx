@@ -16,16 +16,17 @@ const Profile: React.FC = () => {
                     <h1>My Profile</h1>
                 </IonText>
 
-                <div className="profile-header">
+                <div id="profile-header">
                     <IonAvatar className="profile-avatar">
                         {/* FIXME: CHANGE ACCORDINGLY TO USER */}
-                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile" />
+                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile pic" />
                     </IonAvatar>
                     <div className="profile-info">
                         <h2>Sam Feng</h2>
                         <p>21, Male</p>
                     </div>
                     {/* FIXME: NEED PAGE FOR CHANGING PROFILE SETTINGS */}
+
                     <IonIcon icon={settingsOutline} className="profile-settings" />
                 </div>
 
