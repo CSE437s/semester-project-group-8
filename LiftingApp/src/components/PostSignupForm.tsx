@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import { IonInput, IonButton, IonItem, IonLabel, IonText, IonImg, IonRange,
-         IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
+         IonSelect, IonSelectOption, IonDatetime, IonAlert } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import "./PostSignupForm.css"
@@ -40,8 +40,81 @@ function PostSignupForm() {
         setCurrentStep(currentStep - 1);
     };
 
+    const renderVerificationStep = () => {
+            const [code, setCode] = useState('');
+            const [showAlert, setShowAlert] = useState(false);
+            const [alertMessage, setAlertMessage] = useState('');
+    
+            const handleVerificationInputChange = (event) => {
+              const newValue = event.detail.value;
+              // Allow only up to 5 digits to be entered
+              if (/^\d{0,5}$/.test(newValue)) {
+                setCode(newValue);
+              }
+            };
+    
+            const handleVerificationSubmit = async (event) => {
+              event.preventDefault();
+    
+              // Ensure the code is exactly 5 digits before proceeding
+              if (code.length === 5) {
+                try {
+                  const response = await fetch(`${apiUrl}/verify`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code }),
+                  });
+                  const data = await response.json();
+    
+                  if (response.ok) {
+                    setAlertMessage('Verification successful!');
+                  } else {
+                    setAlertMessage(data.message || 'Verification failed. Please try again.');
+                  }
+                } catch (error) {
+                  setAlertMessage('An error occurred. Please try again later.');
+                } finally {
+                  setShowAlert(true);
+                }
+              } else {
+                setAlertMessage('The verification code must be 5 digits.');
+                setShowAlert(true);
+              }
+            };
+    
+            return (
+              <>
+                <IonItem>
+                  <IonText>
+                    <h2>Verify your Email Address</h2>
+                    <h3>Please enter the 5-digit code to verify your Email</h3>
+                  </IonText>
+                </IonItem>
+                <form onSubmit={handleVerificationSubmit}>
+                  <IonItem>
+                    <IonLabel position="floating">Verification Code</IonLabel>
+                    <IonInput value={code} onIonChange={handleVerificationInputChange} type="number" inputmode="numeric" />
+                  </IonItem>
+                  <IonButton expand="block" type="submit" disabled={code.length !== 5}>
+                    Submit
+                  </IonButton>
+                </form>
+                <IonAlert
+                  isOpen={showAlert}
+                  onDidDismiss={() => setShowAlert(false)}
+                  header={'Verification Status'}
+                  message={alertMessage}
+                  buttons={['OK']}/>
+              </>
+            );
+    };
+
     const renderWelcomeStep = () => {
         return (
+            <div>
+
             <IonItem>
                 <IonText className="welcome-text">
                     <h1>Let's Get Started <br></br>{username}</h1>
@@ -49,6 +122,8 @@ function PostSignupForm() {
                 </IonText>
 
             </IonItem>
+            </div>
+            
         );
     }
 
@@ -183,14 +258,16 @@ function PostSignupForm() {
         )
     }
 
-    const TOTAL_STEPS = 3;
+    const TOTAL_STEPS = 4;
     const renderStep = () => {
         switch(currentStep) {
             case 1:
-                return renderWelcomeStep();
+                return renderVerificationStep();
             case 2:
-                return renderGoalStep();
+                return renderWelcomeStep();
             case 3:
+                return renderGoalStep();
+            case 4:
                 return renderInfoStep();
 
             default:
@@ -202,7 +279,7 @@ function PostSignupForm() {
             {renderStep()}                
             {currentStep <= TOTAL_STEPS && (
             <div className='nav-buttons'>
-                {currentStep > 1 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
+                {currentStep > 2 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
                 {currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
             </div>
              )}
