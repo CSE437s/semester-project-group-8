@@ -22,7 +22,6 @@ app.use(session({
   store: store
 }));
 
-
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -321,15 +320,18 @@ app.post('/recommendlift', (req, res) => {
 app.get('/totalpoundslifted', (req, res) =>{
   const user_id = req.body.user_id;
   let totalweight = 0;
-  const sql = `SELECT rep_num, weight FROM exercises WHERE user_id = ?`;
+  const sql = `SELECT rep_num, weight FROM exercise WHERE user_id = ?`;
   db.query(sql, [user_id], async (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
-    for(var i = 0; i < data.length; i++){
-      totalweight = data[i].rep_num * data[i].weight;
+    if (data.length == 0){
+      return res.status(404).json({ success: "false", message: 'No exercise data' });
     }
+    for(var i = 0; i < data.length; i++){
+      totalweight += data[i].rep_num * data[i].weight;
+    }
+    return res.json({ success: "true", totalpoundslifted: totalweight });
   });
-  return totalweight;
 })
 
 db.on('error', function(err) {
