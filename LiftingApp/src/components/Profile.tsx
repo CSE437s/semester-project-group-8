@@ -2,6 +2,7 @@ import React from 'react';
 import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonItem, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
+import HeatmapCalendar from './HeatmapCal';
 
 
 const Profile: React.FC = () => {
@@ -48,7 +49,8 @@ const Profile: React.FC = () => {
 
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
-                    {/* Insert your statistics or graph components here */}
+                    
+                    <HeatmapCalendar/>
 
                 </div>
 
