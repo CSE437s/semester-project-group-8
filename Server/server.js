@@ -104,10 +104,11 @@ app.post('/signup', (req, res) =>{
       }
       else{
           bcrypt.hash(password, 10, function(err, hash) {
+            let verificationcode = Math.floor(Math.random() * (99999-10000+1))+ 10000;
             if (err) return res.json(err);
             //take out goal, birthday, gender, intensity
-            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity, verified)  VALUES (?,?,?,?,?,?,?,?)`;
-            db.query(sql, [username, hash, email, goal, birthday, gender, intensity, verified], (err, data) => {
+            const sql = `INSERT INTO users (username, password, email, goal, birthday, gender, intensity, verified, verificationcode)  VALUES (?,?,?,?,?,?,?,?,?)`;
+            db.query(sql, [username, hash, email, goal, birthday, gender, intensity, verified, verificationcode], (err, data) => {
               console.log(err, data);
               if(err) return res.json(err);
 
@@ -116,10 +117,6 @@ app.post('/signup', (req, res) =>{
                 "username": username,
                 "created": date.toString()
               }
-              const jwtSecretMail = 'secret';
-              const baseUrl = 'http://localhost:3000/';
-              const token_mail_verification = jwt.sign(mail, jwtSecretMail, { expiresIn: '1d' });
-              var url = baseUrl + "verify?username=" + token_mail_verification;
               let transporter = nodemailer.createTransport({
                   name: "http://localhost:3000/",
                   host: "smtp-relay.brevo.com", //needs to be SMTP server TODO: setup SMTP
@@ -134,20 +131,20 @@ app.post('/signup', (req, res) =>{
 
               // send mail with defined transport object
               let info = transporter.sendMail({
-                  from: 'admin@LiftingApp.com', 
-                  to: email, 
-                  subject: "Account Verification",
-                  text: "Click on the link below to veriy your account " + url,
-              }, (error, info) => {
+                from: 'admin@LiftingApp.com', 
+                to: email, 
+                subject: "Account Verification",
+                text: "Please save the following code to verify your account on the next page. \n Verification code: " + verificationcode,
+            }, (error, info) => {
 
-                  if (error) {
-                      console.log(error)
-                      return;
-                  }
-                  console.log('Message sent successfully!');
-                  console.log(info);
-                  transporter.close();
-              });
+                if (error) {
+                    console.log(error)
+                    return;
+                }
+                console.log('Message sent successfully!');
+                console.log(info);
+                transporter.close();
+            });
               //above is broken
               return res.json({ message: 'Signup successful' });
           })
@@ -156,33 +153,31 @@ app.post('/signup', (req, res) =>{
   })
 });
 
-app.get('/verify', function(req, res) {
-  token = req.query.username;
-  if (token) {
-      try {
-          jwt.verify(token, config.jwt_secret_mail, (e, decoded) => {
-              if (e) {
-                  console.log(e)
-                  return res.sendStatus(403)
-              } else {
-                  username = decoded.username;
-                  //fix sql for specific user
-                  const sql = `UPDATE users WHERE username = ? SET verified = true`;
-                  db.query(sqlCheckDup, [username], (err, data) => {
-                    console.log(err, data);
-                    if(err) return res.json(err);
-                    return res.json({ message: 'Successfully verified email' });
-                  })
-              }
-
-          });
-      } catch (err) {
-          console.log(err)
-          return res.sendStatus(403)
+app.post('/verify', function(req, res) {
+  const credentials= req.body;
+  const verificationcode = credentials.verificationcode;
+  const user_id = credentials.user_id;
+  const sql = `SELECT verificationcode FROM users WHERE id = ?`;
+  db.query(sql, [user_id], async (err, data) => {
+      console.log(err, data);
+      if(err) return res.json(err);
+      if (data.length == 0) {
+        // unable to verify user
+        return res.status(404).json({ success: "false", message: 'unable to find user' });
       }
-  } else {
-      return res.sendStatus(403)
-  }
+      if(data[0].verificationcode == verificationcode){
+        //edit sql data for verified
+        const sql = `UPDATE users SET verified = 1 WHERE id = ?`;
+        db.query(sql, [user_id], async (err, data) => {
+          console.log(err, data);
+          if(err) return res.json(err);
+        });
+        return res.json({ success: "true" , message: "User verified!" });
+      }
+      else{
+        return res.json({success:"false", message: "incorrect verification code"});
+      }
+  });
 })
 
 app.post('/signup2', (req, res) =>{
@@ -324,6 +319,10 @@ app.post('/recommendlift', (req, res) => {
   });
   //need to finish;
 });
+
+app.get('/totalpoundslifted', (req, res) =>{
+
+})
 
 db.on('error', function(err) {
     console.log("[mysql error]",err);
