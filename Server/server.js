@@ -52,7 +52,6 @@ app.get('/test-db', (req, res) => {
   });
 });
 
-//from Geoffrey's creative project. will need to adjust
 app.post('/login', (req, res) =>{
   console.log("login request");
   const credentials = req.body;
@@ -210,7 +209,6 @@ app.post('/signup2', (req, res) =>{
   })
 });
 
-//fix to use correct db column names, also need to retrieve userId
 app.post('/addset', (req, res) =>{
   console.log("add set");
   const credentials = req.body;
@@ -321,7 +319,17 @@ app.post('/recommendlift', (req, res) => {
 });
 
 app.get('/totalpoundslifted', (req, res) =>{
-
+  const user_id = req.body.user_id;
+  let totalweight = 0;
+  const sql = `SELECT rep_num, weight FROM exercises WHERE user_id = ?`;
+  db.query(sql, [user_id], async (err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    for(var i = 0; i < data.length; i++){
+      totalweight = data[i].rep_num * data[i].weight;
+    }
+  });
+  return totalweight;
 })
 
 db.on('error', function(err) {
