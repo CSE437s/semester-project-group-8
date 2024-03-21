@@ -19,6 +19,7 @@ function PostSignupForm() {
         goal: '',
         workoutIntensity: 5,
     });
+    const [isVerified, setIsVerified] = useState(false);
     const history = useHistory();
 
     // A handler function that updates user's input.
@@ -32,6 +33,10 @@ function PostSignupForm() {
 
     // A handler function that moves to next step.
     const nextStep = () => {
+        // if (currentStep == 1 && !isVerified) {
+        //     console.error("Please enter and verify the code before proceeding.");
+        //     return;
+        // }
         setCurrentStep(currentStep+ 1);
     };
 
@@ -69,12 +74,17 @@ function PostSignupForm() {
                   const data = await response.json();
     
                   if (response.ok) {
+                    setIsVerified(true); 
                     setAlertMessage('Verification successful!');
+                    nextStep();
+
                   } else {
+                    setIsVerified(false);
                     setAlertMessage(data.message || 'Verification failed. Please try again.');
                   }
                 } catch (error) {
-                  setAlertMessage('An error occurred. Please try again later.');
+                    setIsVerified(false);
+                    setAlertMessage('An error occurred. Please try again later.');
                 } finally {
                   setShowAlert(true);
                 }
@@ -97,9 +107,11 @@ function PostSignupForm() {
                     <IonLabel position="floating">Verification Code</IonLabel>
                     <IonInput value={code} onIonChange={handleVerificationInputChange} type="number" inputmode="numeric" />
                   </IonItem>
+
                   <IonButton expand="block" type="submit" disabled={code.length !== 5}>
                     Submit
                   </IonButton>
+
                 </form>
                 <IonAlert
                   isOpen={showAlert}
@@ -280,7 +292,7 @@ function PostSignupForm() {
             {currentStep <= TOTAL_STEPS && (
             <div className='nav-buttons'>
                 {currentStep > 2 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
-                {currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
+                {currentStep !== 1 && currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
             </div>
              )}
         </div>
