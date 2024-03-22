@@ -42,11 +42,11 @@ const History: React.FC = () => {
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={createOutline} onClick={() => history.push('/history')}/>
+                            <IonIcon icon={timeOutline} onClick={() => history.push('/history')}/>
                             <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
-                            <IonIcon icon={timeOutline} onClick={() => history.push('/profile')}/>
+                            <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
                     </IonTabBar>

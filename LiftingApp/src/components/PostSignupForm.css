@@ -24,6 +24,14 @@
     margin-bottom: 20px;
 }
 
+.verify-button {
+    --background: #ff4b4b;
+    color: white;
+    /* width: 200px; */
+    padding: 15px;
+    align-items: center;
+}
+
 .next-back-button {
     --background: #ff4b4b;
     color: white;

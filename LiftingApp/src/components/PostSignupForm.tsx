@@ -102,17 +102,18 @@ function PostSignupForm() {
                     <h3>Please enter the 5-digit code to verify your Email</h3>
                   </IonText>
                 </IonItem>
+
                 <form onSubmit={handleVerificationSubmit}>
-                  <IonItem>
-                    <IonLabel position="floating">Verification Code</IonLabel>
-                    <IonInput value={code} onIonChange={handleVerificationInputChange} type="number" inputmode="numeric" />
-                  </IonItem>
+                    <IonItem>
+                        <IonLabel position="floating">Verification Code</IonLabel>
+                        <IonInput value={code} onIonChange={handleVerificationInputChange} type="number" inputmode="numeric" />
+                    </IonItem>
 
-                  <IonButton expand="block" type="submit" disabled={code.length !== 5}>
-                    Submit
-                  </IonButton>
-
+                    <IonButton expand="block" type="submit" disabled={code.length !== 5} className="verify-button">
+                        Submit
+                    </IonButton>
                 </form>
+
                 <IonAlert
                   isOpen={showAlert}
                   onDidDismiss={() => setShowAlert(false)}
