@@ -22,7 +22,10 @@ function NavHomeForm() {
                     <h2 className='ion-padding-start'>Quick Start</h2>
                 </IonText>
 
-                <IonButton className="start-empty-workout-button" onClick={() => history.push('/StartWorkout')}>
+                <IonButton className="start-empty-workout-button" onClick={() => history.push({
+                    pathname: '/StartWorkout',
+                    state: { user_id: user_id }
+                })}>
                     Start an Empty Workout
                 </IonButton>
             </div>
@@ -45,15 +48,24 @@ function NavHomeForm() {
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Exercises">
-                            <IonIcon icon={barbell} onClick={() => history.push('/exercises')}/>
+                            <IonIcon icon={barbell} onClick={() => history.push({
+                            pathname: '/exercises',
+                            state: { user_id: user_id }
+                        })}/>
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={timeOutline} onClick={() => history.push('/history')}/>
+                            <IonIcon icon={timeOutline} onClick={() => history.push({
+                            pathname: '/history',
+                            state: { user_id: user_id }
+                        })}/>
                             <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
-                            <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
+                            <IonIcon icon={personOutline} onClick={() => history.push({
+                            pathname: '/profile',
+                            state: { user_id: user_id }
+                        })}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
                     </IonTabBar>
