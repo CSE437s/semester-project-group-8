@@ -69,7 +69,7 @@ function PostSignupForm() {
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ code }),
+                    body: JSON.stringify({ verificationcode:code , username: username }),
                   });
                   const data = await response.json();
     

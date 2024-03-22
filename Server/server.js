@@ -154,9 +154,9 @@ app.post('/signup', (req, res) =>{
 app.post('/verify', function(req, res) {
   const credentials= req.body;
   const verificationcode = credentials.verificationcode;
-  const user_id = credentials.user_id;
-  const sql = `SELECT verificationcode FROM users WHERE id = ?`;
-  db.query(sql, [user_id], async (err, data) => {
+  const username = credentials.username;
+  const sql = `SELECT verificationcode FROM users WHERE username = ?`;
+  db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
       if (data.length == 0) {
@@ -165,8 +165,8 @@ app.post('/verify', function(req, res) {
       }
       if(data[0].verificationcode == verificationcode){
         //edit sql data for verified
-        const sql = `UPDATE users SET verified = 1 WHERE id = ?`;
-        db.query(sql, [user_id], async (err, data) => {
+        const sql = `UPDATE users SET verified = 1 WHERE username = ?`;
+        db.query(sql, [username], async (err, data) => {
           console.log(err, data);
           if(err) return res.json(err);
         });
@@ -234,15 +234,18 @@ app.post('/addset', (req, res) =>{
 
 app.post('/simplemaxcalculate', (req, res) =>{
   console.log("rpe request");
-  const weight = req.query.weight;
-  const rep_num = req.query.rep_num;
-  const rpe = req.query.rpe;
-  const sql = `SELECT ? FROM RPE WHERE reps = ?`
-  db.query(sql, [rpe, rep_num], (err, data) => {
+  const weight = req.body.weight;
+  const rep_num = Number(req.body.rep_num);
+  console.log(rep_num);
+  const rpereq = Number(req.body.rpe);
+  console.log(rpereq);
+  const sql = `SELECT * FROM RPE WHERE reps = ?`
+  db.query(sql, [rpereq, rep_num], (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
     if (data.length > 0) {
-      const percentage = data[0].rpe;
+      const percentage = data[0].rpereq;
+      console.log(percentage);
       const theoreticMaxLift = weight/percentage;
       res.json({ theoreticMaxLift: theoreticMaxLift });
     } else {
@@ -331,6 +334,20 @@ app.get('/totalpoundslifted', (req, res) =>{
       totalweight += data[i].rep_num * data[i].weight;
     }
     return res.json({ success: "true", totalpoundslifted: totalweight });
+  });
+})
+
+app.get('/exercisehistory',(req,res) =>{ 
+  const user_id = req.body.user_id;
+  const sql = `SELECT * FROM exercise WHERE user_id = ?`;
+  db.query(sql, [user_id], async (err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    if (data.length == 0){
+      return res.status(404).json({ success: "false", message: 'No exercise data' });
+    }
+    //data is not formatted by session, but maybe you can group by date to categorize lifts
+    return res.json(data);
   });
 })
 
