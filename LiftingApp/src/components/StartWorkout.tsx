@@ -53,19 +53,19 @@ function StartWorkout() {
         
         <form className='workout-form'>
             <IonItem className='workout-range'>
-            <IonLabel position="stacked">Sleep Quality</IonLabel>
+            <IonLabel position="stacked">Sleep Quality (0 = terrible sleep, 5 = best sleep ever)</IonLabel>
                 <IonRange label-placement="fixed" 
                 ticks={true} snaps={true} pin={true} min={0} max={5} value={sleepQuality} onIonChange={e => setSleepQuality(e.detail.value as number)}></IonRange>
             </IonItem>
 
             <IonItem className='workout-range'>
-                <IonLabel position="stacked">Stress Level</IonLabel>
+                <IonLabel position="stacked">Stress Level (0 = extremely stressed, 5 = stress-free)</IonLabel>
                 <IonRange label-placement="fixed"
                 ticks={true} snaps={true} pin={true} min={0} max={5}  value={stressLevel} onIonChange={e => setStressLevel(e.detail.value as number)}></IonRange>
             </IonItem>
 
             <IonItem className='workout-range'>
-                <IonLabel position="stacked">Desire to Train</IonLabel>
+                <IonLabel position="stacked">Desire to Train (0 = no motivation, 5 = super pumped)</IonLabel>
                 <IonRange label-placement="fixed"
                 ticks={true} snaps={true} pin={true} min={0} max={5}  value={desireToTrain} onIonChange={e => setDesireToTrain(e.detail.value as number)}></IonRange>
             </IonItem>

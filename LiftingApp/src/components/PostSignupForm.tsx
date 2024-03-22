@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
-import { IonInput, IonButton, IonItem, IonLabel, IonText, IonContent, IonRange,
-         IonSelect, IonSelectOption, IonDatetime, IonPage } from '@ionic/react';
+import { IonInput, IonButton, IonItem, IonLabel, IonText, IonImg, IonRange,
+         IonSelect, IonSelectOption, IonDatetime, IonAlert } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import "./PostSignupForm.css"
@@ -19,6 +19,7 @@ function PostSignupForm() {
         goal: '',
         workoutIntensity: 5,
     });
+    const [isVerified, setIsVerified] = useState(false);
     const history = useHistory();
 
     // A handler function that updates user's input.
@@ -32,6 +33,10 @@ function PostSignupForm() {
 
     // A handler function that moves to next step.
     const nextStep = () => {
+        // if (currentStep == 1 && !isVerified) {
+        //     console.error("Please enter and verify the code before proceeding.");
+        //     return;
+        // }
         setCurrentStep(currentStep+ 1);
     };
 
@@ -40,8 +45,88 @@ function PostSignupForm() {
         setCurrentStep(currentStep - 1);
     };
 
+    const renderVerificationStep = () => {
+            const [code, setCode] = useState('');
+            const [showAlert, setShowAlert] = useState(false);
+            const [alertMessage, setAlertMessage] = useState('');
+    
+            const handleVerificationInputChange = (event) => {
+              const newValue = event.detail.value;
+              // Allow only up to 5 digits to be entered
+              if (/^\d{0,5}$/.test(newValue)) {
+                setCode(newValue);
+              }
+            };
+    
+            const handleVerificationSubmit = async (event) => {
+              event.preventDefault();
+    
+              // Ensure the code is exactly 5 digits before proceeding
+              if (code.length === 5) {
+                try {
+                  const response = await fetch(`${apiUrl}/verify`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code }),
+                  });
+                  const data = await response.json();
+    
+                  if (response.ok) {
+                    setIsVerified(true); 
+                    setAlertMessage('Verification successful!');
+                    nextStep();
+
+                  } else {
+                    setIsVerified(false);
+                    setAlertMessage(data.message || 'Verification failed. Please try again.');
+                  }
+                } catch (error) {
+                    setIsVerified(false);
+                    setAlertMessage('An error occurred. Please try again later.');
+                } finally {
+                  setShowAlert(true);
+                }
+              } else {
+                setAlertMessage('The verification code must be 5 digits.');
+                setShowAlert(true);
+              }
+            };
+    
+            return (
+              <>
+                <IonItem>
+                  <IonText>
+                    <h2>Verify your Email Address</h2>
+                    <h3>Please enter the 5-digit code to verify your Email</h3>
+                  </IonText>
+                </IonItem>
+                <form onSubmit={handleVerificationSubmit}>
+                  <IonItem>
+                    <IonLabel position="floating">Verification Code</IonLabel>
+                    <IonInput value={code} onIonChange={handleVerificationInputChange} type="number" inputmode="numeric" />
+                  </IonItem>
+
+                  <IonButton expand="block" type="submit" disabled={code.length !== 5}>
+                    Submit
+                  </IonButton>
+
+                </form>
+                <IonAlert
+                  isOpen={showAlert}
+                  onDidDismiss={() => setShowAlert(false)}
+                  header={'Verification Status'}
+                  message={alertMessage}
+                  buttons={['OK']}/>
+              </>
+            );
+    };
+
     const renderWelcomeStep = () => {
         return (
+            <div>
+
             <IonItem>
                 <IonText className="welcome-text">
                     <h1>Let's Get Started <br></br>{username}</h1>
@@ -49,20 +134,23 @@ function PostSignupForm() {
                 </IonText>
 
             </IonItem>
+            </div>
+            
         );
     }
 
     const renderGoalStep = () => {
         return (
-            <div>
-                <IonText>
-                    <h1>{username},</h1>
-                </IonText>
+            <div className="goal-page">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black-cropped.png'></IonImg>
+                    </div>
+
                 <IonItem>
                     <IonLabel position="stacked">What is your fitness goal?</IonLabel>
                     <IonSelect 
                         value={formData.goal}
-                        multiple={true}
+                        multiple={false}
                         onIonChange={e => handleInputChange('goal', e.detail.value)}>
                         <IonSelectOption value="Muscle Building">Muscle Building</IonSelectOption>
                         <IonSelectOption value="Strength Building">Strength Building</IonSelectOption>
@@ -96,10 +184,11 @@ function PostSignupForm() {
 
     const renderInfoStep = () => {
         return (
-            <div>
-                <IonText>
-                    <h1>{username},</h1>
-                </IonText>
+            <div className="goal-page">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black-cropped.png'></IonImg>
+                    </div>
+                
 
                 {/* NAME INPUT */}
                 <IonItem> 
@@ -157,41 +246,40 @@ function PostSignupForm() {
 
     const renderEndStep = () => {
         return (
-            <div>
-                <IonItem className='end-step-container'>
-                    <IonText className="welcome-text">
-                        <h1>Welcome to "App Name",<br></br>{username}</h1>
-                    </IonText>
+            <div className="page-container">
+                    <div className='logo-post-signup'>
+                        <IonImg src='assets/logo-black.png'></IonImg>
+                    </div>
 
-                </IonItem>
-
-                <div className='button-container'>
+                    <div className='button-container'>
                         <IonButton className="start-workout-button" onClick={async () => {
                             await submitFormData();
                             history.push('/StartWorkout');
                             }}>
-                            <h2>Start A Workout!</h2>
+                            <h2 className='post-signup-start-button'>Start A Workout!</h2>
                         </IonButton>
                         
                         <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
                             Go To Home
                         </IonButton>
-                </div>
-
+                    </div>
             </div>
+
 
             
         )
     }
 
-    const TOTAL_STEPS = 3;
+    const TOTAL_STEPS = 4;
     const renderStep = () => {
         switch(currentStep) {
             case 1:
-                return renderWelcomeStep();
+                return renderVerificationStep();
             case 2:
-                return renderGoalStep();
+                return renderWelcomeStep();
             case 3:
+                return renderGoalStep();
+            case 4:
                 return renderInfoStep();
 
             default:
@@ -203,8 +291,8 @@ function PostSignupForm() {
             {renderStep()}                
             {currentStep <= TOTAL_STEPS && (
             <div className='nav-buttons'>
-                {currentStep > 1 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
-                {currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
+                {currentStep > 2 && <IonButton className="next-back-button" onClick={prevStep}>Back</IonButton>}
+                {currentStep !== 1 && currentStep <= TOTAL_STEPS && <IonButton className="next-back-button" onClick={nextStep}>Next</IonButton>}
             </div>
              )}
         </div>

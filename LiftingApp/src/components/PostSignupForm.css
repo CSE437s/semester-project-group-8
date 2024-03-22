@@ -4,6 +4,24 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+
+}
+
+.goal-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container h2{
+    padding: 0 !important;
+}
+
+.logo-post-signup {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .next-back-button {
@@ -35,6 +53,7 @@
     height: 50vh;
 }
 
+
 .start-workout-button {
     margin-top: 2em;
     --background: #ff4b4b;
@@ -46,3 +65,4 @@
     margin-top: auto;
     width: auto;
   }
+

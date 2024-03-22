@@ -1,4 +1,3 @@
-
 ion-content {
     display: flex;
     justify-content: center;
@@ -14,7 +13,9 @@ ion-content {
 }
 
 .workout-range {
-    width: 95%;
+    /* width: 90%; */
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 ion-range {
@@ -24,17 +25,23 @@ ion-range {
     --bar-border-radius: 8px;
     --knob-background: black;
     --knob-size: 6vw;
-    --pin-color: #ffffff
-
+    /* --pin-color: #ffffff */
   }
 
-  @media (min-width: 600px) {
+  ion-range::part(pin) {
+    z-index: 99;
+  }
+
+
+
+
+  /* @media (min-width: 600px) {
     ion-range {
       --bar-height: 8px;
       --knob-size: 40px;
 
     }
-  }
+  } */
 
 .workout-form .workout-begin-button {
     margin-top: 4em;

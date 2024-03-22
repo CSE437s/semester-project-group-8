@@ -2,6 +2,7 @@ import React from 'react';
 import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonItem, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
+import HeatmapCalendar from './HeatmapCal';
 
 
 const Profile: React.FC = () => {
@@ -15,16 +16,17 @@ const Profile: React.FC = () => {
                     <h1>My Profile</h1>
                 </IonText>
 
-                <div className="profile-header">
+                <div id="profile-header">
                     <IonAvatar className="profile-avatar">
                         {/* FIXME: CHANGE ACCORDINGLY TO USER */}
-                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile" />
+                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile pic" />
                     </IonAvatar>
                     <div className="profile-info">
                         <h2>Sam Feng</h2>
                         <p>21, Male</p>
                     </div>
                     {/* FIXME: NEED PAGE FOR CHANGING PROFILE SETTINGS */}
+
                     <IonIcon icon={settingsOutline} className="profile-settings" />
                 </div>
 
@@ -48,7 +50,8 @@ const Profile: React.FC = () => {
 
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
-                    {/* Insert your statistics or graph components here */}
+                    
+                    <HeatmapCalendar/>
 
                 </div>
 
