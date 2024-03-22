@@ -30,9 +30,13 @@ function LoginForm() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            console.log(data.user_id);
             if(data.success == "true") {
                 console.log("push is yet to be called");
-                history.push('/Homepage');
+                history.push({
+                    pathname: '/Homepage',
+                    state: { user_id: data.user_id}
+                });
                 console.log("push is called");
             } else {
                 setIsError(true);

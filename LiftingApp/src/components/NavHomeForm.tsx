@@ -8,7 +8,9 @@ import { useHistory } from 'react-router-dom';
 function NavHomeForm() {
     console.log("NavHomeForm called");
     const history = useHistory();
+    const user_id = history.location.state || {};
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+    console.log("user_id: ", user_id);
     return (
         <IonPage>
             <div>
