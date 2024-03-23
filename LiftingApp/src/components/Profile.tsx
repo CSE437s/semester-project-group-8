@@ -1,13 +1,19 @@
 import React from 'react';
-import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonItem, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
+import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonContent, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import HeatmapCalendar from './HeatmapCal';
+import "./Profile.css"
 
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
     const history = useHistory();
+
+    const name = "Sam Feng"
+    const age = "21"
+    const sex = "Male"
+    const pfp = "https://ionicframework.com/docs/img/demos/avatar.svg"
 
     return (
         <IonPage>
@@ -16,18 +22,24 @@ const Profile: React.FC = () => {
                     <h1>My Profile</h1>
                 </IonText>
 
-                <div id="profile-header">
-                    <IonAvatar className="profile-avatar">
-                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile pic" />
-                    </IonAvatar>
-                    <div className="profile-info-settings">
-                        <div className="profile-info">
-                            <h2>Sam Feng</h2>
-                            <p>21, Male</p>
-                        </div>
-                        <IonIcon icon={settingsOutline} className="profile-settings" />
-                    </div>
-                </div>
+                <IonGrid>
+                    <IonRow>
+                        <IonCol size="12" className="ion-text-center">
+                            <IonAvatar style={{ margin: '0 auto' }}>
+                                <img src={pfp} alt="User Avatar" />
+                            </IonAvatar>
+                        </IonCol>
+                    </IonRow>
+
+                    <IonRow>
+                        <IonCol size="12">
+                            <div className='profile-text' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <h2>{name}, {age}</h2>
+                                <IonIcon icon={settingsOutline} style={{ marginLeft: 'auto', fontSize: '24px' }} />
+                            </div>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
 
 
                 <h2>Your Scoreboard</h2>
