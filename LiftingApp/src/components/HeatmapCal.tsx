@@ -5,18 +5,21 @@ import './HeatmapCal.css'
 import { subYears, isBefore, isAfter, addDays } from 'date-fns';
 
 const data = [
-    { date: '2024-01-05', count: 1 },
+    { date: '2024-01-04', count: 1 },
     { date: '2024-01-09', count: 1 },
     { date: '2024-02-12', count: 1 },
     { date: '2024-02-13', count: 1 },
     { date: '2024-02-20', count: 1 },
     { date: '2024-03-22', count: 1 },
+    { date: '2024-03-23', count: 1 },
+    { date: '2024-03-24', count: 1 },
+
     // Add more dates as needed
   ];
 
 const HeatmapCalendar = ({ }) => {
     const today = new Date();
-    const startOfYear = new Date(today.getFullYear(), 0, 1); 
+    const startOfYear = new Date(today.getFullYear(), 0, 0); 
     const endOfYear = new Date(today.getFullYear(), 11, 31);
 
   return (
@@ -35,6 +38,7 @@ const HeatmapCalendar = ({ }) => {
         return 'heatmap-color-1';
         // return `color-scale-${value.count}`;
       }}
+      showMonthLabels={true}
       showWeekdayLabels={true}
 
       tooltipDataAttrs={(value) => {

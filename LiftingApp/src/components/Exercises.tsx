@@ -18,6 +18,7 @@ const Exercises: React.FC = () => {
     const history = useHistory();
     const user_id = history.location.state || {};
     const [exercises, setExercises] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
@@ -31,9 +32,22 @@ const Exercises: React.FC = () => {
         .then(response => response.json())
         .then(data => {
             setExercises(data); 
+            setSearchResults(data); 
         })
         .catch(error => console.error('Fetch error:', error));
     }, []);
+
+    const handleSearch = (event: CustomEvent) => {
+        const query = event.detail.value?.toLowerCase() || '';
+        if (query === '') {
+            setSearchResults(exercises); // Show all exercises if query is empty
+        } else {
+            const filteredExercises = exercises.filter(exercise =>
+                exercise.lift_name.toLowerCase().includes(query)
+            );
+            setSearchResults(filteredExercises);
+        }
+    };
 
     return (
         <IonPage>
@@ -42,23 +56,22 @@ const Exercises: React.FC = () => {
                     <h1 className='ion-padding'>Exercises Page</h1>
                 </IonText>
 
-                <IonSearchbar></IonSearchbar>
+                <IonSearchbar placeholder="Search" showClearButton="focus" debounce={250} onIonChange={handleSearch}></IonSearchbar>
 
                 <div className='exercises-container'>
                     <IonList>
-                        {exercises.map((exercise) => (
+                        {searchResults.map((exercise) => (
                             <IonItem key={exercise.lift_id}>
-                                {/* <IonIcon icon={liftIconMap[exercise.lift_name] || barbell} 
-                                slot="start" /> */}
                                 <img 
                                     src={liftIconMap[exercise.lift_name] || barbell} 
                                     alt="Exercise Icon"
-                                    style={{ width: '25px', marginRight: '10px' }} // Adjust size as needed
+                                    style={{ width: '25px', marginRight: '10px' }}
                                 />
                                 <IonLabel>{exercise.lift_name}</IonLabel>
                             </IonItem>
-                    ))}
+                        ))}
                     </IonList>
+                    
                 </div>
 
             </div>

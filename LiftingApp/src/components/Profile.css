@@ -10,9 +10,6 @@
 
 .statistics-container {
   margin: 20px;
-  /* background: #dcdcdc;  */
-  /* height: 200px;  */
-  display: flex;
   align-items: center;
   justify-content: center;
 }
