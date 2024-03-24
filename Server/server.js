@@ -215,7 +215,7 @@ app.post('/addset', (req, res) =>{
   const user_id = credentials.user_id;
   const sleepQuality = credentials.sleepQuality;
   const stressLevel = credentials.stressLevel;
-  const desireToTrain = credentials.desrieToTrain;
+  const desireToTrain = credentials.desireToTrain;
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -224,6 +224,7 @@ app.post('/addset', (req, res) =>{
   //eventually add to sql call 
   const date = credentials.date;
   //need to add check to see if set is already submitted
+  console.log({ user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date });
   const sql = `INSERT INTO Exercise (user_id, lift_id, rpe, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?,?)`;
   db.query(sql, [user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
       console.log(err, data);
@@ -239,21 +240,26 @@ function simplemaxcalculate(weight, rep_num, rpereq){
   console.log("repnum: " + rep_num);
   console.log("weight: " + weight);
   console.log("rpe: " + rpereq);
-  const sql = `SELECT * FROM RPE WHERE reps = ?`
-  db.query(sql, [rpereq, rep_num], (err, data) => {
+
+  const rpeColumn = `\`${rpereq}\``; 
+  const sql = `SELECT ${rpeColumn} FROM RPE WHERE reps = ?`;
+
+  db.query(sql, [rep_num], (err, data) => { 
     console.log(err, data);
-    if(err) return res.json(err);
+    if(err) return console.error(err); 
     if (data.length > 0) {
-      const percentage = data[0].rpereq;
+      const percentage = data[0][rpereq]; 
       console.log(percentage);
-      const theoreticMaxLift = weight/percentage;
+      const theoreticMaxLift = weight / percentage;
+      console.log(theoreticMaxLift);
       return theoreticMaxLift;
     } else {
-      console.log("sql error for simople max calculate call");
-      return JSON.stringify({ error: 'No data found for the given reps' });
+      console.log("SQL error for simple max calculate call");
+      return { error: 'No data found for the given reps' };
     }
-  })  
+  });
 }
+
 
 function recommendlift(weight, rep_num, rpe, lift_id, set_num,){
   if(set_num >= 3){
