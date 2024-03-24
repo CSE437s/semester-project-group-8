@@ -21,6 +21,9 @@ function PostSignupForm() {
     });
     const [isVerified, setIsVerified] = useState(false);
     const history = useHistory();
+    const [code, setCode] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     // A handler function that updates user's input.
     const handleInputChange = (field, value) => {
@@ -46,10 +49,6 @@ function PostSignupForm() {
     };
 
     const renderVerificationStep = () => {
-            const [code, setCode] = useState('');
-            const [showAlert, setShowAlert] = useState(false);
-            const [alertMessage, setAlertMessage] = useState('');
-    
             const handleVerificationInputChange = (event) => {
               const newValue = event.detail.value;
               // Allow only up to 5 digits to be entered
