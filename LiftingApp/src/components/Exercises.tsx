@@ -9,7 +9,7 @@ const liftIconMap = {
     "Deadlift": "assets/exercise_icons/deadlift.png",
     "Lat Pulldowns": "assets/exercise_icons/lat-pulldown.png",
     "Bicep Curls": "assets/exercise_icons/bicep-curls-seated.png",
-    
+    "Leg Extensions" : "assets/exercise_icons/leg-extension.png",
   };
   
 
