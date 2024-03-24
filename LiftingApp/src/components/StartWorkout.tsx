@@ -3,7 +3,7 @@ import { IonRange, IonInput, IonButton, IonItem, IonLabel } from '@ionic/react';
 import { useNavigation } from '../hooks/useNavigation'; 
 import './StartWorkout.css';
 import { useHistory } from 'react-router';
-
+import { useLocation } from 'react-router-dom';
 
 function StartWorkout() {
     const [sleepQuality, setSleepQuality] = useState(1);
@@ -11,14 +11,16 @@ function StartWorkout() {
     const [desireToTrain, setDesireToTrain] = useState(1);
     const [isError, setIsError] = useState(false);
     const history = useHistory();
+    const location = useLocation();
+    const user_id = location.state || {};
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
-
+    
     const navigateToWorkout = () => {
         console.log(sleepQuality, stressLevel, desireToTrain);
         // CODE HERE: pass the sleepQuality, stressLevel, and desireToTrain to the workout page.
         history.push({
             pathname: '/Workout',
-            state: { sleepQuality, stressLevel, desireToTrain }
+            state: { sleepQuality, stressLevel, desireToTrain, user_id }
         });
     };
 
@@ -37,7 +39,7 @@ function StartWorkout() {
 
             if (data.success) {
                 // Navigating to the /workout page if the backend responds with success
-                history.push('/workout');
+                history.push('/Workout');
             } 
             else {
                 // Handle the error case

@@ -1,13 +1,19 @@
 import React from 'react';
-import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonItem, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
+import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonContent, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import HeatmapCalendar from './HeatmapCal';
+import "./Profile.css"
 
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
     const history = useHistory();
+    const user_id = history.location.state || {};
+    const name = "Sam Feng"
+    const age = "21"
+    const sex = "Male"
+    const pfp = "https://ionicframework.com/docs/img/demos/avatar.svg"
 
     return (
         <IonPage>
@@ -16,19 +22,25 @@ const Profile: React.FC = () => {
                     <h1>My Profile</h1>
                 </IonText>
 
-                <div id="profile-header">
-                    <IonAvatar className="profile-avatar">
-                        {/* FIXME: CHANGE ACCORDINGLY TO USER */}
-                        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Profile pic" />
-                    </IonAvatar>
-                    <div className="profile-info">
-                        <h2>Sam Feng</h2>
-                        <p>21, Male</p>
-                    </div>
-                    {/* FIXME: NEED PAGE FOR CHANGING PROFILE SETTINGS */}
+                <IonGrid>
+                    <IonRow>
+                        <IonCol size="12" className="ion-text-center">
+                            <IonAvatar style={{ margin: '0 auto' }}>
+                                <img src={pfp} alt="User Avatar" />
+                            </IonAvatar>
+                        </IonCol>
+                    </IonRow>
 
-                    <IonIcon icon={settingsOutline} className="profile-settings" />
-                </div>
+                    <IonRow>
+                        <IonCol size="12">
+                            <div className='profile-text' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <h2>{name}, {age}</h2>
+                                <IonIcon icon={settingsOutline} style={{ marginLeft: 'auto', fontSize: '24px' }} />
+                            </div>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+
 
                 <h2>Your Scoreboard</h2>
                 <IonCard className="scoreboard-card">
@@ -61,19 +73,31 @@ const Profile: React.FC = () => {
             <IonFooter>
                     <IonTabBar>
                         <IonTabButton tab="Home">
-                            <IonIcon icon={homeOutline} onClick={() => history.push('/homepage')}/>
+                            <IonIcon icon={homeOutline} onClick={() => history.push({
+                            pathname: '/homepage',
+                            state: user_id
+                        })}/>
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Exercises">
-                            <IonIcon icon={barbell} onClick={() => history.push('/exercises')}/>
+                            <IonIcon icon={barbell} onClick={() => history.push({
+                            pathname: '/exercises',
+                            state: user_id
+                        })}/>
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={timeOutline} onClick={() => history.push('/history')}/>
+                            <IonIcon icon={timeOutline} onClick={() => history.push({
+                            pathname: '/history',
+                            state: user_id
+                        })}/>
                             <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
-                            <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
+                            <IonIcon icon={personOutline} onClick={() => history.push({
+                            pathname: '/profile',
+                            state: user_id
+                        })}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
                     </IonTabBar>

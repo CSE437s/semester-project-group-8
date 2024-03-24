@@ -1,45 +1,18 @@
-#profile-header {
+.profile-text h2 {
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
+.scoreboard-card {
+  --background: #f0f0f0; /* Light grey background for the card */
+}
+
+.statistics-container {
+  margin: 20px;
+  background: #dcdcdc; /* Placeholder background */
+  height: 200px; /* Adjust height as needed */
   display: flex;
-  flex-direction: row !important;
   align-items: center;
-  padding: 20px;
-
-  }
-
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-  }
-  
-  .profile-info h2 {
-    margin: 0 !important;
-    padding-left: 0 !important;
-    font-size: 1.2rem; 
-  }
-  
-  .profile-info p {
-    margin: 0;
-    padding: 0;
-    font-size: 1rem; /* Adjust to your preference */
-  }
-  
-  .profile-settings {
-    flex-grow: 0;
-    font-size: 2rem; /* Adjust icon size */
-    /* Add other styling or interactive states as needed */
-  }
-  
-  .scoreboard-card {
-    --background: #f0f0f0; /* Light grey background for the card */
-  }
-  
-  .statistics-container {
-    margin: 20px;
-    background: #dcdcdc; /* Placeholder background */
-    height: 200px; /* Adjust height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  justify-content: center;
+}
     
