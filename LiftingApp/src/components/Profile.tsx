@@ -60,6 +60,7 @@ const Profile: React.FC = () => {
                     </IonGrid>
                 </IonCard>
 
+                <br></br>
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     
