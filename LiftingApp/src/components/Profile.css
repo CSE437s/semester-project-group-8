@@ -5,12 +5,13 @@
 
 .scoreboard-card {
   --background: #f0f0f0; /* Light grey background for the card */
+  /* --color: */
 }
 
 .statistics-container {
   margin: 20px;
-  background: #dcdcdc; /* Placeholder background */
-  height: 200px; /* Adjust height as needed */
+  /* background: #dcdcdc;  */
+  /* height: 200px;  */
   display: flex;
   align-items: center;
   justify-content: center;

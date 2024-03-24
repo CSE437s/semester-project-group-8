@@ -2,9 +2,10 @@ import React from 'react';
 import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonContent, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-import HeatmapCalendar from './HeatmapCal';
+
 import "./Profile.css"
 
+import HeatmapCalendar from './HeatmapCal'; 
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
@@ -64,7 +65,8 @@ const Profile: React.FC = () => {
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     
-                    <HeatmapCalendar/>
+                    {/* <HeatmapCalendar/> */}
+                    <HeatmapCalendar />
 
                 </div>
 

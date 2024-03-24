@@ -1,44 +1,50 @@
-import React, { useEffect, useRef } from 'react';
-import CalHeatMap from 'cal-heatmap';
-import 'cal-heatmap/cal-heatmap.css';
+import React from 'react';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
+import './HeatmapCal.css'
+import { subYears, isBefore, isAfter, addDays } from 'date-fns';
 
-
-const data_this = [
-    { date: '2024-01-01', value: 1 },
-    { date: '2024-01-02', value: 1 },
+const data = [
+    { date: '2024-01-05', count: 1 },
+    { date: '2024-01-09', count: 1 },
+    { date: '2024-02-12', count: 1 },
+    { date: '2024-02-13', count: 1 },
+    { date: '2024-02-20', count: 1 },
+    { date: '2024-03-22', count: 1 },
+    // Add more dates as needed
   ];
 
 const HeatmapCalendar = ({ }) => {
-  const containerRef = useRef(null); // Create a ref for the container div
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1); 
+    const endOfYear = new Date(today.getFullYear(), 11, 31);
 
-  useEffect(() => {
-    if (containerRef.current) {
-        
-        // containerRef.current.innerHTML = '';
+  return (
+    <CalendarHeatmap
+        startDate={startOfYear}
+        endDate={endOfYear}
 
-        const cal = new CalHeatMap();
+      values={data}
 
-        cal.paint({
-            data: {source : data_this},
-            range: 12,
-            domain: { type: 'month'},
-            subDomain: { type: 'day' },
-            date: { start: new Date('2024-01-01') },
-            scale: {
-                color: {
-                scheme: 'Cool',
-                type: 'linear',
-                domain: [0, 30],
-                },
-            },
-            
-        });
-    }
+      horizontal = {true}
 
-  }, [data_this]); // Depend on `data` to reinitialize if it changes
+      classForValue={(value) => {
+        if (!value || value.count === 0) {
+          return 'color-empty';
+        }
+        return 'heatmap-color-1';
+        // return `color-scale-${value.count}`;
+      }}
+      showWeekdayLabels={true}
 
-  // Return a container for the heatmap
-  return <div ref={containerRef} id="cal-heatmap"></div>;
+      tooltipDataAttrs={(value) => {
+        return {
+          'data-tip': value.date ? `Lifts done: ${value.count}` : 'No lifts',
+        };
+
+      }}
+    />
+  );
 };
 
 export default HeatmapCalendar;
