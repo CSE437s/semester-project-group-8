@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
-import { IonInput, IonList, IonButton, IonItem, IonModal } from '@ionic/react';
+import { IonInput, IonList, IonButton, IonItem, IonSelect, IonModal, IonSelectOption } from '@ionic/react';
 import './WorkoutForm.css';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -18,6 +18,8 @@ function WorkoutForm() {
     const {sleepQuality, stressLevel, desireToTrain} = location.state || {}; // from StartWorkout.tsx
     const [showRecommendation, setShowRecommendation] = useState(true); // for workout recommendation
     const user_id = location.state || {};
+    const RPEOptions = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]; // for RPE dropdown
+    const [, forceUpdate] = useState();
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
@@ -48,6 +50,8 @@ function WorkoutForm() {
         const updatedSets = [...sets];
         updatedSets[exerciseIndex][setIndex] = { ...updatedSets[exerciseIndex][setIndex], [field]: value };
         setSets(updatedSets);
+        console.log('updatedSets:', updatedSets);
+        console.log('RPE:', updatedSets[exerciseIndex][setIndex].RPE);
         //submitSet(exerciseIndex, setIndex);
     };
 
@@ -108,6 +112,7 @@ function WorkoutForm() {
                     set_num: set.setNumber,
                     rep_num: set.reps,
                     weight: set.lbs,
+                    rpe: set.rpe,
                     date: new Date().toISOString().slice(0, 10),
                 };
     
@@ -164,6 +169,7 @@ function WorkoutForm() {
                             <div>Set</div>
                             <div>Lbs</div>
                             <div>Reps</div>
+                            <div>RPE</div>
                             <div>Actions</div> {/* Added Actions header */}
                         </div>
                         {sets[exerciseIndex].map((set, setIndex) => (
@@ -182,6 +188,22 @@ function WorkoutForm() {
                                         placeholder="Reps"
                                         onIonChange={e => updateSet(exerciseIndex, setIndex, 'reps', e.detail.value)}
                                     />
+                                </div>
+                                <div>
+                                    <IonItem>
+                                        <IonSelect
+                                            value={set.RPE}
+                                            placeholder="Select RPE"
+                                            onIonChange={e => updateSet(exerciseIndex, setIndex, 'RPE', parseFloat(e.detail.value))}
+                                            interface="popover"
+                                        >
+                                            {RPEOptions.map((RPEValue) => (
+                                            <IonSelectOption key={RPEValue} value={RPEValue}>
+                                                {RPEValue}
+                                            </IonSelectOption>
+                                            ))}
+                                        </IonSelect>
+                                    </IonItem>
                                 </div>
                                 <div>
                                     <IonIcon 
