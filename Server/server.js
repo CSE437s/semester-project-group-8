@@ -208,7 +208,7 @@ app.post('/signup2', (req, res) =>{
   })
 });
 
-app.post('/addset', (req, res) =>{
+app.post('/addset', async (req, res) =>{
   console.log("add set");
   const credentials = req.body;
   console.log(credentials);
@@ -226,12 +226,18 @@ app.post('/addset', (req, res) =>{
   //need to add check to see if set is already submitted
   console.log({ user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date });
   const sql = `INSERT INTO Exercise (user_id, lift_id, rpe, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?,?)`;
-  db.query(sql, [user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
+  db.query(sql, [user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], async (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      recommendlift_json = recommendlift(weight, rep_num, rpe, lift_id, set_num);
-      //gonna need to return recommend set here
-      return res.json({message: 'set input into database', recommendlift: recommendlift_json});
+      try {
+        const recommendlift_json = await recommendlift(weight, rep_num, rpe, lift_id, set_num);
+        console.log("recommendlift_json: ", recommendlift_json);
+        // Return the response with recommendlift_json
+        res.json({ message: 'Set input into database', recommendlift: JSON.parse(recommendlift_json) });
+      } catch (error) {
+        console.error("Error in addset: ", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
   })
 });
 
@@ -244,43 +250,81 @@ function simplemaxcalculate(weight, rep_num, rpereq){
   const rpeColumn = `\`${rpereq}\``; 
   const sql = `SELECT ${rpeColumn} FROM RPE WHERE reps = ?`;
 
-  db.query(sql, [rep_num], (err, data) => { 
-    console.log(err, data);
-    if(err) return console.error(err); 
-    if (data.length > 0) {
-      const percentage = data[0][rpereq]; 
-      console.log(percentage);
-      const theoreticMaxLift = weight / percentage;
-      console.log(theoreticMaxLift);
-      return theoreticMaxLift;
-    } else {
-      console.log("SQL error for simple max calculate call");
-      return { error: 'No data found for the given reps' };
-    }
+  return new Promise((resolve, reject) => {
+    db.query(sql, [rep_num], (err, data) => {
+      console.log(err, data);
+      if (err) {
+        console.error(err);
+        reject(err); // Reject the promise if there's an error
+      } else if (data.length > 0) {
+        const percentage = data[0][rpereq];
+        console.log(percentage);
+        const theoreticMaxLift = Number(weight) / percentage;
+        console.log(theoreticMaxLift);
+        resolve(theoreticMaxLift); // Resolve with the calculated value
+      } else {
+        console.log("SQL error for simple max calculate call");
+        reject({ error: 'No data found for the given reps' });
+      }
+    });
   });
 }
 
 
-function recommendlift(weight, rep_num, rpe, lift_id, set_num,){
+async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
   if(set_num >= 3){
     if(lift_id == 2){
       console.log("leg extension rec");
-      //return leg extension rec lift_id = 6;
+      // Directly return the JSON stringified object
+      return JSON.stringify({ lift_id: 6 }); // for leg extension recommendation
     }
-    else if(lift_id== 1){
+    else if(lift_id == 1){
       console.log("bicep curl rec");
-      //return bicep curl extension lift_id = 5;
+      // Directly return the JSON stringified object
+      return JSON.stringify({ lift_id: 5 }); // for bicep curl recommendation
     }
   }
   else{
-    const theoreticMaxLift = simplemaxcalculate(weight, rep_num, rpe);
-    console.log("theoreticMaxLift: " +theoreticMaxLift + '\n' )
-    const new_reps = 10; //this should be changed in future so that user can input
-    const new_rpe = 8; //this should be changed in future so that user can input
-    const weight_rec = simplemaxcalculate(theoreticMaxLift, new_reps, new_rpe);
-    return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe}); 
+    // Await the resolution of simplemaxcalculate before proceeding
+    const theoreticMaxLift = await simplemaxcalculate(weight, rep_num, rpe);
+    console.log("theoreticMaxLift: ", theoreticMaxLift);
+    const new_reps = 10; // For future dynamic input
+    const new_rpe = 8;  // For future dynamic input
+
+    // Since you're already in an async function, use await for the query
+    try {
+      const rpeColumn = `\`${new_rpe}\``; 
+      const sql = `SELECT ${rpeColumn} FROM RPE WHERE reps = ?`;
+      const data = await new Promise((resolve, reject) => {
+        db.query(sql, [new_reps], (err, result) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else if (result.length > 0) {
+            resolve(result[0][new_rpe]);
+          } else {
+            console.log("SQL error for simple max calculate call");
+            reject({ error: 'No data found for the given reps' });
+          }
+        });
+      });
+
+      const percentage = data;
+      const weight_rec = Number(theoreticMaxLift) * percentage;
+      console.log("weight_rec: ", weight_rec);
+
+      // Now directly return the JSON stringified object with correct values
+      return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe}); 
+
+    } catch (error) {
+      console.error("Error in calculating recommended lift: ", error);
+      // Handle errors, perhaps by returning an error message or code
+      return JSON.stringify({ error: "Failed to calculate recommended lift." });
+    }
   }
 }
+
+
 
 app.get('/getlifts', (req, res) => {
   console.log("Request for lifts from lift table");
