@@ -3,6 +3,16 @@ import { IonPage, IonSearchbar, IonHeader, IonToolbar, IonList, IonContent, IonF
 import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 
+const liftIconMap = {
+    "Bench Press": "assets/exercise_icons/bench.png",
+    "Squat": "assets/exercise_icons/squat.png",
+    "Deadlift": "assets/exercise_icons/deadlift.png",
+    "Lat Pulldowns": "assets/exercise_icons/lat-pulldown.png",
+    "Bicep Curls": "assets/exercise_icons/bicep-curls-seated.png",
+    
+  };
+  
+
 const Exercises: React.FC = () => {
     console.log("Exercise page called");
     const history = useHistory();
@@ -37,9 +47,16 @@ const Exercises: React.FC = () => {
                 <div className='exercises-container'>
                     <IonList>
                         {exercises.map((exercise) => (
-                        <IonItem key={exercise.lift_id}>
-                            <IonLabel>{exercise.lift_name}</IonLabel>
-                        </IonItem>
+                            <IonItem key={exercise.lift_id}>
+                                {/* <IonIcon icon={liftIconMap[exercise.lift_name] || barbell} 
+                                slot="start" /> */}
+                                <img 
+                                    src={liftIconMap[exercise.lift_name] || barbell} 
+                                    alt="Exercise Icon"
+                                    style={{ width: '25px', marginRight: '10px' }} // Adjust size as needed
+                                />
+                                <IonLabel>{exercise.lift_name}</IonLabel>
+                            </IonItem>
                     ))}
                     </IonList>
                 </div>
