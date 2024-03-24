@@ -35,8 +35,8 @@ function WorkoutForm() {
         .catch(error => console.error('Fetch error:', error));
     }, []);
 
-    const selectExercise = (liftName) => {
-        setSelectedExercises(currentExercises => [...currentExercises, liftName]);
+    const selectExercise = (exercise) => {
+        setSelectedExercises(currentExercises => [...currentExercises, exercise]);
         setSets(currentSets => [...currentSets, []]);
         setShowModal(false);
     };
@@ -76,7 +76,7 @@ function WorkoutForm() {
             return exerciseSets;
         });
         setSets(updatedSets);
-        submitSet(exerciseIndex, setIndex);
+        submitSet();
     };
     const deleteSet = (exerciseIndex, setIndex) => {
         const updatedSets = sets.map((exerciseSets, idx) => {
@@ -97,10 +97,10 @@ function WorkoutForm() {
     }
     
     const submitSet = async () => {
+        
         for (let exerciseIndex = 0; exerciseIndex < selectedExercises.length; exerciseIndex++) {
             const exerciseName = selectedExercises[exerciseIndex];
-            //const lift_id; //SET TO 0 FOR NOW.
-    
+            const exercise = selectedExercises[exerciseIndex];
             for (let setIndex = 0; setIndex < sets[exerciseIndex].length; setIndex++) {
                 const set = sets[exerciseIndex][setIndex];
                 const data = {
@@ -108,11 +108,11 @@ function WorkoutForm() {
                     sleepQuality: sleepQuality,
                     stressLevel: stressLevel,
                     desireToTrain: desireToTrain,
-                    lift_id: exerciseIndex,
+                    lift_id: exercise.lift_id,
                     set_num: set.setNumber,
                     rep_num: set.reps,
                     weight: set.lbs,
-                    rpe: set.rpe,
+                    rpe: set.RPE,
                     date: new Date().toISOString().slice(0, 10),
                 };
     
@@ -144,7 +144,7 @@ function WorkoutForm() {
             <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
                 <IonList>
                     {exercises.map((exercise) => (
-                        <IonItem key={exercise.lift_id} button onClick={() => selectExercise(exercise.lift_name)}>
+                        <IonItem key={exercise.lift_id} button onClick={() => selectExercise(exercise)}>
                             {exercise.lift_name}
                         </IonItem>
                     ))}
@@ -163,7 +163,7 @@ function WorkoutForm() {
             )}
             {selectedExercises.map((exercise, exerciseIndex) => (
                 <div key={exerciseIndex} className="workout-container">
-                    <div className="exercise-header">{exercise}</div>
+                    <div className="exercise-header">{exercise.lift_name}</div>
                     <div className="sets-container">
                         <div className="header-row">
                             <div>Set</div>
