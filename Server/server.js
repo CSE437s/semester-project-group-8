@@ -224,21 +224,21 @@ app.post('/addset', (req, res) =>{
   //eventually add to sql call 
   const date = credentials.date;
   //need to add check to see if set is already submitted
-  const sql = `INSERT INTO Exercise (user_id, lift_id, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?)`;
-  db.query(sql, [user_id, lift_id, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
+  const sql = `INSERT INTO Exercise (user_id, lift_id, rpe, set_num, rep_num, weight, sleep_quality, stress_level, desire_to_train, date) VALUES (?,?,?,?,?,?,?,?,?,?)`;
+  db.query(sql, [user_id, lift_id, rpe, set_num, rep_num, weight, sleepQuality, stressLevel, desireToTrain, date], (err, data) => {
       console.log(err, data);
       if(err) return res.json(err);
-      return res.json({message: 'set input into database' });
+      recommendlift_json = recommendlift(weight, rep_num, rpe, lift_id, set_num);
+      //gonna need to return recommend set here
+      return res.json({message: 'set input into database', recommendlift: recommendlift_json});
   })
 });
 
-app.post('/simplemaxcalculate', (req, res) =>{
+function simplemaxcalculate(weight, rep_num, rpereq){
   console.log("rpe request");
-  const weight = req.body.weight;
-  const rep_num = Number(req.body.rep_num);
-  console.log(rep_num);
-  const rpereq = Number(req.body.rpe);
-  console.log(rpereq);
+  console.log("repnum: " + rep_num);
+  console.log("weight: " + weight);
+  console.log("rpe: " + rpereq);
   const sql = `SELECT * FROM RPE WHERE reps = ?`
   db.query(sql, [rpereq, rep_num], (err, data) => {
     console.log(err, data);
@@ -247,12 +247,34 @@ app.post('/simplemaxcalculate', (req, res) =>{
       const percentage = data[0].rpereq;
       console.log(percentage);
       const theoreticMaxLift = weight/percentage;
-      res.json({ theoreticMaxLift: theoreticMaxLift });
+      return theoreticMaxLift;
     } else {
-      res.json({ error: 'No data found for the given reps' });
+      console.log("sql error for simople max calculate call");
+      return JSON.stringify({ error: 'No data found for the given reps' });
     }
   })  
-});
+}
+
+function recommendlift(weight, rep_num, rpe, lift_id, set_num,){
+  if(set_num >= 3){
+    if(lift_id == 2){
+      console.log("leg extension rec");
+      //return leg extension rec lift_id = 6;
+    }
+    else if(lift_id== 1){
+      console.log("bicep curl rec");
+      //return bicep curl extension lift_id = 5;
+    }
+  }
+  else{
+    const theoreticMaxLift = simplemaxcalculate(weight, rep_num, rpe);
+    console.log("theoreticMaxLift: " +theoreticMaxLift + '\n' )
+    const new_reps = 10; //this should be changed in future so that user can input
+    const new_rpe = 8; //this should be changed in future so that user can input
+    const weight_rec = simplemaxcalculate(theoreticMaxLift, new_reps, new_rpe);
+    return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe}); 
+  }
+}
 
 app.get('/getlifts', (req, res) => {
   console.log("Request for lifts from lift table");
@@ -278,46 +300,6 @@ app.get('/recentLift', (req, res) => {
     console.log(data);
     return res.json(data);
   })
-});
-
-app.post('/recommendlift', (req, res) => {
-  const prevliftdata = req.body;
-  const weight = prevliftdata.weight;
-  const rep_num = prevliftdata.rep_num;
-  const rpe = prevliftdata.rpe;
-  const lift_id = prevliftdata.lift_id;
-  const set_num = prevliftdata.set_num;
-  //should check if on third set, if so, change exercise
-  //Two user flows to demonstrate for beta:
-  // 1. populates squat as first exercise —> leg extension rec popup after 3 completed sets of squat 
-  // 2. populates bench press as 1st exercise —> after 3 sets done —> bicep curl is recommended
-
-  axios.get('/simplemaxcalculate', {
-    params: {
-      weight: weight,
-      rep_num: rep_num,
-      rpe: rpe
-    }
-  })
-  .then(response =>{
-    const theoreticMaxLift = response.data;
-    //TODO
-    const new_rpe = 8; //this should be changed in future so that user can input
-    const new_reps = 10; //this should be changed in future so that user can input
-    axios.get('/simplemaxcalculate', {
-      params: {
-        weight: theoreticMaxLift,
-        rep_num: new_reps,
-        rpe: new_rpe
-      }
-    })
-    res.end(JSON.stringify({ a: 1 //object TODO
-  }));
-  })
-  .catch(error => {
-    res.status(500).json({ error: 'An error occurred' });
-  });
-  //need to finish;
 });
 
 app.get('/totalpoundslifted', (req, res) =>{
