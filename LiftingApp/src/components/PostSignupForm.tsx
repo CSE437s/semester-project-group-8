@@ -74,6 +74,7 @@ function PostSignupForm() {
                   const data = await response.json();
     
                   if (response.ok) {
+                    //TODO: ask Geoffrey to return a user_id in the response.
                     setIsVerified(true); 
                     setAlertMessage('Verification successful!');
                     nextStep();

@@ -24,7 +24,7 @@ function NavHomeForm() {
 
                 <IonButton className="start-empty-workout-button" onClick={() => history.push({
                     pathname: '/StartWorkout',
-                    state: { user_id: user_id }
+                    state: user_id
                 })}>
                     Start an Empty Workout
                 </IonButton>
@@ -41,30 +41,33 @@ function NavHomeForm() {
             </div>
             */}
 
-                <IonFooter>
+<IonFooter>
                     <IonTabBar>
                         <IonTabButton tab="Home">
-                            <IonIcon icon={homeOutline} />
+                            <IonIcon icon={homeOutline} onClick={() => history.push({
+                            pathname: '/homepage',
+                            state: user_id
+                        })}/>
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Exercises">
                             <IonIcon icon={barbell} onClick={() => history.push({
                             pathname: '/exercises',
-                            state: { user_id: user_id }
+                            state: user_id
                         })}/>
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
                             <IonIcon icon={timeOutline} onClick={() => history.push({
                             pathname: '/history',
-                            state: { user_id: user_id }
+                            state: user_id
                         })}/>
                             <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
                             <IonIcon icon={personOutline} onClick={() => history.push({
                             pathname: '/profile',
-                            state: { user_id: user_id }
+                            state: user_id
                         })}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>

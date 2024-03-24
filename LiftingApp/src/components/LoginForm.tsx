@@ -32,10 +32,9 @@ function LoginForm() {
             console.log(data);
             console.log(data.user_id);
             if(data.success == "true") {
-                console.log("push is yet to be called");
                 history.push({
                     pathname: '/Homepage',
-                    state: { user_id: data.user_id}
+                    state: data.user_id
                 });
                 console.log("push is called");
             } else {

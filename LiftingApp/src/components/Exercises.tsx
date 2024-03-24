@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 const Exercises: React.FC = () => {
     console.log("Exercise page called");
     const history = useHistory();
+    const user_id = history.location.state || {};
     const [exercises, setExercises] = useState([]);
 
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
@@ -48,19 +49,31 @@ const Exercises: React.FC = () => {
             <IonFooter>
                     <IonTabBar>
                         <IonTabButton tab="Home">
-                            <IonIcon icon={homeOutline} onClick={() => history.push('/homepage')}/>
+                            <IonIcon icon={homeOutline} onClick={() => history.push({
+                            pathname: '/homepage',
+                            state: user_id
+                        })}/>
                             <IonLabel>Home</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Exercises">
-                            <IonIcon icon={barbell} onClick={() => history.push('/exercises')}/>
+                            <IonIcon icon={barbell} onClick={() => history.push({
+                            pathname: '/exercises',
+                            state: user_id
+                        })}/>
                             <IonLabel>Exercises</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Templates">
-                            <IonIcon icon={timeOutline} onClick={() => history.push('/History')}/>
+                            <IonIcon icon={timeOutline} onClick={() => history.push({
+                            pathname: '/history',
+                            state: user_id
+                        })}/>
                             <IonLabel>History</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="Profile">
-                            <IonIcon icon={personOutline} onClick={() => history.push('/profile')}/>
+                            <IonIcon icon={personOutline} onClick={() => history.push({
+                            pathname: '/profile',
+                            state: user_id
+                        })}/>
                             <IonLabel>Profile</IonLabel>
                         </IonTabButton>
                     </IonTabBar>

@@ -17,7 +17,7 @@ function WorkoutForm() {
     const location = useLocation();
     const {sleepQuality, stressLevel, desireToTrain} = location.state || {}; // from StartWorkout.tsx
     const [showRecommendation, setShowRecommendation] = useState(true); // for workout recommendation
-
+    const user_id = location.state || {};
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
@@ -86,7 +86,10 @@ function WorkoutForm() {
     const cancelWorkout = () => {
         setSelectedExercises([]);
         setSets([]);
-        history.push('/Homepage'); 
+        history.push({
+            pathname: '/Homepage',
+            state: user_id
+        });
     }
     
     const submitSet = async () => {
