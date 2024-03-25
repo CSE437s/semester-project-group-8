@@ -10,6 +10,11 @@ const liftIconMap = {
     "Lat Pulldowns": "assets/exercise_icons/lat-pulldown.png",
     "Bicep Curls": "assets/exercise_icons/bicep-curls-seated.png",
     "Leg Extensions" : "assets/exercise_icons/leg-extension.png",
+    "Elliptical" : "assets/exercise_icons/elliptical.png",
+    "Bike" : "assets/exercise_icons/bike.png",
+    "Pull ups" : "assets/exercise_icons/pullups.png",
+    "Treadmill" : "assets/exercise_icons/treadmill.png",
+
   };
   
 
