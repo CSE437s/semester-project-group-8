@@ -1,14 +1,15 @@
 import React from 'react';
 import { IonIcon, IonButton } from '@ionic/react';
 import { checkmarkOutline, closeOutline } from 'ionicons/icons';
-
-function WorkoutRec({ onAccept, onCancel }) {
+import './WorkoutRec.css';
+function WorkoutRec({ onAccept, onCancel, liftName, lbs, reps, rpe }) {
     return (
+        
         <div className="recommendation-container">
-            {/* <IonIcon name="fitness-outline" /> Placeholder for the workout icon */}
             <div className="recommendation-details">
-                <h3>Leg Extensions</h3>
-                <p>3 sets, 10-12 reps</p>
+                <h3>{liftName || 'Recommended Lift'}</h3> 
+                <p>{lbs} lbs, {reps} reps</p>
+                <p>RPE: {rpe}</p>
             </div>
             <div className="recommendation-actions">
                 <div className="buttons-container">
@@ -25,6 +26,5 @@ function WorkoutRec({ onAccept, onCancel }) {
         </div>
     );
 }
-
 
 export default WorkoutRec;

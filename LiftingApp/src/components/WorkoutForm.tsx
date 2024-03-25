@@ -16,7 +16,8 @@ function WorkoutForm() {
     const history = useHistory();
     const location = useLocation();
     const {sleepQuality, stressLevel, desireToTrain} = location.state || {}; // from StartWorkout.tsx
-    const [showRecommendation, setShowRecommendation] = useState(true); // for workout recommendation
+    const [showRecommendation, setShowRecommendation] = useState(false); // for workout recommendation
+    const [recommendation, setRecommendation] = useState(null); // this is used for storing recommnedation returned from the backend
     const user_id = location.state || {};
     const RPEOptions = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]; // for RPE dropdown
     const [, forceUpdate] = useState();
@@ -40,8 +41,8 @@ function WorkoutForm() {
         setSets(currentSets => [...currentSets, []]);
         setShowModal(false);
     };
-    const addSet = (exerciseIndex) => {
-        const newSet = { setNumber: sets[exerciseIndex].length + 1, lbs: '', reps: '' };
+    const addSet = (exerciseIndex, weight = '', reps = '', RPE = '') => {
+        const newSet = { setNumber: sets[exerciseIndex].length + 1, lbs: weight, reps, RPE };
         const updatedSets = [...sets];
         updatedSets[exerciseIndex] = [...updatedSets[exerciseIndex], newSet];
         setSets(updatedSets);
@@ -96,6 +97,23 @@ function WorkoutForm() {
         });
     }
     
+    const acceptRecommendation = () => {
+        console.log('Accepting recommendation:', recommendation);
+        if (!recommendation) return;
+
+        const { weight_rec, new_reps, new_rpe } = recommendation;
+        console.log(`Adding set with: ${weight_rec}, reps: ${new_reps}, RPE: ${new_rpe}`);
+        const exerciseIndex = selectedExercises.findIndex(exercise => exercise.lift_id === recommendation.lift_id);
+        if (exerciseIndex === -1) {
+            console.error('Exercise not found for recommendation');
+            return; 
+        }
+
+        addSet(exerciseIndex, weight_rec.toString(), new_reps.toString(), new_rpe.toString());
+
+        setShowRecommendation(false);
+    };
+
     const submitSet = async () => {
         
         for (let exerciseIndex = 0; exerciseIndex < selectedExercises.length; exerciseIndex++) {
@@ -105,9 +123,9 @@ function WorkoutForm() {
                 const set = sets[exerciseIndex][setIndex];
                 const data = {
                     user_id: 0, 
-                    sleepQuality: sleepQuality,
-                    stressLevel: stressLevel,
-                    desireToTrain: desireToTrain,
+                    sleep_quality: sleepQuality,
+                    stress_level: stressLevel,
+                    desire_to_train: desireToTrain,
                     lift_id: exercise.lift_id,
                     set_num: set.setNumber,
                     rep_num: set.reps,
@@ -128,6 +146,8 @@ function WorkoutForm() {
                         throw new Error(responseData.message || 'Failed to submit set');
                     }
                     console.log('Set submitted successfully', responseData);
+                    setShowRecommendation(true);
+                    setRecommendation(responseData.recommendlift);
                 } catch (error) {
                     console.error('Error submitting set:', error);
                     return;
@@ -151,15 +171,15 @@ function WorkoutForm() {
                 </IonList>
                 <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
             </IonModal>
-            {showRecommendation && (
-            <WorkoutRec
-                onAccept={() => {
-                    setShowRecommendation(false);
-                }}
-                onCancel={() => {
-                    setShowRecommendation(false);
-                }}
-            />
+            {showRecommendation && recommendation && (
+                <WorkoutRec
+                    onAccept={acceptRecommendation}
+                    onCancel={() => setShowRecommendation(false)}
+                    liftName= {recommendation.lift_name}
+                    lbs={recommendation.weight_rec || 0} 
+                    reps={`${recommendation.new_reps}`} 
+                    rpe={recommendation.new_rpe} 
+                />
             )}
             {selectedExercises.map((exercise, exerciseIndex) => (
                 <div key={exerciseIndex} className="workout-container">
