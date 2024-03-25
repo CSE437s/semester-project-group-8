@@ -213,9 +213,9 @@ app.post('/addset', async (req, res) =>{
   const credentials = req.body;
   console.log(credentials);
   const user_id = credentials.user_id;
-  const sleepQuality = credentials.sleepQuality;
-  const stressLevel = credentials.stressLevel;
-  const desireToTrain = credentials.desireToTrain;
+  const sleepQuality = credentials.sleep_quality;
+  const stressLevel = credentials.stress_level;
+  const desireToTrain = credentials.desire_to_train;
   const lift_id = credentials.lift_id;
   const set_num = credentials.set_num;
   const rep_num = credentials.rep_num;
@@ -314,7 +314,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
-      return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe}); 
+      return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe, lift_id: lift_id}); 
 
     } catch (error) {
       console.error("Error in calculating recommended lift: ", error);
