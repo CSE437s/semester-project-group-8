@@ -310,7 +310,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
       });
 
       const percentage = data;
-      const weight_rec = Number(theoreticMaxLift) * percentage;
+      const weight_rec = Math.floor(Number(theoreticMaxLift) * percentage/5)*5;
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
