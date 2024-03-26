@@ -51,6 +51,7 @@ function PostSignupForm() {
     const renderVerificationStep = () => {
             const handleVerificationInputChange = (event) => {
               const newValue = event.detail.value;
+              console.log(newValue)
               // Allow only up to 5 digits to be entered
               if (/^\d{0,5}$/.test(newValue)) {
                 setCode(newValue);
@@ -68,7 +69,7 @@ function PostSignupForm() {
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ verificationcode:code , username: username }),
+                    body: JSON.stringify({ verificationcode: code , username: username }),
                   });
                   const data = await response.json();
     
