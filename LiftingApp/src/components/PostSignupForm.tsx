@@ -126,7 +126,12 @@ function PostSignupForm() {
 
     const renderWelcomeStep = () => {
         return (
-                <div>
+                <div className='welcome-step'>
+                    <video autoPlay loop muted playsInline className='welcome-step-video'>
+                        <source src="assets/loginVideo.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
                     <IonText className="welcome-text">
                         <h1 className='getting-started-text'>Let's Get Started</h1>
                         <h1 className='username-text'>{username}</h1>

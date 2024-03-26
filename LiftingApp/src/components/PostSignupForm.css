@@ -13,6 +13,7 @@
 }
 
 .welcome-text h3 {
+    /* padding-top: 160px; */
     margin: 20px;
 }
 
@@ -96,25 +97,26 @@
     width: auto;
   }
 
-  .video-background {
-    position: relative;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: hidden;
-    flex-direction: column; /* Stack children vertically */
-  
+  .welcome-step {
+    overflow: hidden !important;
   }
-  
-  .video-background video {
+
+  .welcome-step video {
     position: absolute;
     top: 50%;
     left: 50%;
     min-width: 100%;
     min-height: 100%;
+    max-height: 100vh;
     width: auto;
     height: auto;
     z-index: -1;
     transform: translate(-50%, -50%);
     object-fit: cover;
+    overflow: hidden !important;
+    opacity: 60%;
   }
 
+  .welcome-step-video {
+    overflow: hidden !important;
+  }
