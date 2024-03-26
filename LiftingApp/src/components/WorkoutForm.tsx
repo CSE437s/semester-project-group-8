@@ -160,7 +160,7 @@ function WorkoutForm() {
     
     return (
         <div className='workout-container'>
-            <IonButton onClick={() => setShowModal(true)}>Add Exercises</IonButton>
+            <IonButton className="add-exercise-button" onClick={() => setShowModal(true)}>Add Exercises</IonButton>
             <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
                 <IonList>
                     {exercises.map((exercise) => (
@@ -193,7 +193,7 @@ function WorkoutForm() {
                             <div>Actions</div> {/* Added Actions header */}
                         </div>
                         {sets[exerciseIndex].map((set, setIndex) => (
-                            <div key={setIndex} className="set-row">
+                            <div key={setIndex} className={`set-row ${set.done ? 'green-background' : ''}`}>
                                 <div>{set.setNumber}</div>
                                 <div>
                                     <IonInput
@@ -213,7 +213,7 @@ function WorkoutForm() {
                                     <IonItem>
                                         <IonSelect
                                             value={set.RPE}
-                                            placeholder="Select RPE"
+                                            placeholder="RPE"
                                             onIonChange={e => updateSet(exerciseIndex, setIndex, 'RPE', parseFloat(e.detail.value))}
                                             interface="popover"
                                         >
@@ -240,11 +240,11 @@ function WorkoutForm() {
                             </div>
                         ))}
                     </div>
-                    <IonButton onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
-                    <IonButton onClick={() => deleteExercise(exerciseIndex)}>Delete Exercise</IonButton>
+                    <IonButton className="add-set-button" onClick={() => addSet(exerciseIndex)}>+ Add Sets</IonButton>
+                    <IonButton className="delete-exercise-button" onClick={() => deleteExercise(exerciseIndex)}>Delete Exercise</IonButton>
                 </div>
             ))}
-            <IonButton onClick={cancelWorkout}>Cancel Workout</IonButton>
+            <IonButton className="cancel-workout-button" onClick={cancelWorkout}>Finish Workout</IonButton>
         </div>
     );
 }

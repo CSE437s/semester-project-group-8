@@ -1,3 +1,8 @@
+.green-background {
+    background-color: rgb(135, 223, 135);
+    opacity: 60%;
+  }
+
 .workout-container ion-button {
     --background: #ff4b4b;
     color: white;
@@ -13,6 +18,7 @@
     font-weight: bold;
     text-align: left;
     margin: 20px 0;
+    padding-left: 16px;
     
 }
 .ion-select {
@@ -98,4 +104,40 @@
     width: auto; 
     --border-radius: 8px;
     font-weight: bold;
+}
+
+.add-exercise-button{
+    --background: #BAD6FF !important;
+    font-weight: bold;
+    color: #1573FF !important;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cancel-workout-button {
+    --background: #67DD2F !important;
+    padding-top: 50px;
+    font-weight: bold;
+    padding-bottom: 70px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.add-set-button {
+    --background: lightgray !important;
+    font-weight: bold;
+    color: black !important;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.delete-exercise-button {
+    --background: none !important;
+    font-weight: bold;
+    color: #fc8787 !important;
+    margin-top: 10px;
 }
