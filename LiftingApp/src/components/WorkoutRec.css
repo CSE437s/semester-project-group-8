@@ -1,3 +1,44 @@
 .recommendation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px; 
+    box-sizing: border-box;
+    width: 100%; 
     z-index: 1000;
+    background-color: lightgray;
+}
+
+.recommendation-details {
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.recommendation-actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    padding: 0 10px; 
+}
+
+.buttons-container {
+    flex: 1; 
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.custom-accept-button {
+    border-radius: 100px !important;
+    flex-basis: 48%; 
+    --background: #67DD2F !important;
+    font-weight: bold;
+
+}
+
+.custom-cancel-button {
+    border-radius: 100px !important;
+    flex-basis: 48%; 
+    font-weight: bold;
+
 }
