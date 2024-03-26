@@ -127,6 +127,7 @@
 
 .add-set-button {
     --background: lightgray !important;
+    --background-activated: darkgray !important;
     font-weight: bold;
     color: black !important;
     width: 95%;

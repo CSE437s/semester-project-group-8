@@ -8,6 +8,8 @@ h1, h2 {
 
 .start-empty-workout-button {
     --background: #ff4b4b;
+    --background-activated: #fc8787 !important;
+
     display: block; 
     margin-left: auto;
     margin-right: auto;
