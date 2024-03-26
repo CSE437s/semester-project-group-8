@@ -126,16 +126,14 @@ function PostSignupForm() {
 
     const renderWelcomeStep = () => {
         return (
-            <div>
+                <div>
+                    <IonText className="welcome-text">
+                        <h1 className='getting-started-text'>Let's Get Started</h1>
+                        <h1 className='username-text'>{username}</h1>
+                        <h3>The following information helps us refine our lifting recommendations.</h3>
+                    </IonText>
 
-            <IonItem>
-                <IonText className="welcome-text">
-                    <h1>Let's Get Started <br></br>{username}</h1>
-                    <h3>The following information helps us refine our lifting recommendations.</h3>
-                </IonText>
-
-            </IonItem>
-            </div>
+                </div>
             
         );
     }

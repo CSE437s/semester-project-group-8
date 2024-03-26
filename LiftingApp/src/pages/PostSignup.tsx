@@ -3,6 +3,7 @@ import React from 'react';
 import './PostSignup.css';
 import { useHistory } from 'react-router-dom';
 import PostSignupForm from '../components/PostSignupForm';
+import './PostSignup.css'
 
 const PostSignup: React.FC = () => {
   const history = useHistory();
@@ -13,7 +14,9 @@ const PostSignup: React.FC = () => {
         {/* <IonText className="welcome-text">
           <h1>Let's Get Started <br></br>"Username"</h1>
         </IonText> */}
-        <PostSignupForm />
+
+          <PostSignupForm />
+        
       </IonContent>
     </IonPage>
   );

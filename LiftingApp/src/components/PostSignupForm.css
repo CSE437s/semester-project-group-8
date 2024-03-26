@@ -7,6 +7,28 @@
 
 }
 
+.welcome-text h1, h3{
+    color: black;
+    padding-left: 0;
+}
+
+.welcome-text h3 {
+    margin: 20px;
+}
+
+.getting-started-text {
+    margin-bottom: 10px !important;
+}
+
+.username-text{
+    margin-top: 0 !important;
+    color: #ff4b4b !important;
+    font-style: italic;
+    padding-top: 0;
+    padding-bottom: 15px;
+
+}
+
 .goal-page {
     display: flex;
     flex-direction: column;
@@ -72,5 +94,27 @@
     --background:#b4b3b3;
     margin-top: auto;
     width: auto;
+  }
+
+  .video-background {
+    position: relative;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden;
+    flex-direction: column; /* Stack children vertically */
+  
+  }
+  
+  .video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
   }
 
