@@ -162,7 +162,7 @@ app.post('/verify', function(req, res) {
       if(err) return res.json(err);
       if (data.length == 0) {
         // unable to verify user
-        return res.status(404).json({ success: "false", message: 'unable to find user' });
+        return res.status(404).json({ success: "false", message: 'Unable to find user' });
       }
       if(Number(data[0].verificationcode) == Number(verificationcode)){
         //edit sql data for verified

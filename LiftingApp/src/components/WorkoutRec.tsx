@@ -5,6 +5,7 @@ import './WorkoutRec.css';
 function WorkoutRec({ onAccept, onCancel, liftName, lbs, reps, rpe }) {
     return (
         
+        // TODO (Sam): ADD ion-progress-bar...?
         <div className="recommendation-container">
             <div className="recommendation-details">
                 <h3>{liftName || 'Recommended Lift:'}</h3> 

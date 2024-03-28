@@ -245,6 +245,7 @@ function WorkoutForm() {
                 </div>
             ))}
             <IonButton className="cancel-workout-button" onClick={cancelWorkout}>Finish Workout</IonButton>
+            {/* Todo (Sam) Add an IonActionSheet? */}
         </div>
     );
 }
