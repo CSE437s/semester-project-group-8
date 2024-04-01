@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IonPage, IonSearchbar, IonPopover, IonToolbar, IonList, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
+import './Exercises.css'
 
 const liftIconMap = {
     "Bench Press": "assets/exercise_icons/bench.png",
@@ -64,26 +65,29 @@ const Exercises: React.FC = () => {
                 <IonSearchbar placeholder="Search" showClearButton="focus" debounce={250} onIonChange={handleSearch}></IonSearchbar>
 
                 <div className='exercises-container'>
+
                     <IonList>
                         {searchResults.map((exercise) => (
-                            <div>
-                                <IonItem button={true} detail={false} id="click-trigger" key={exercise.lift_id}>
+                            <div key={exercise.lift_id}> 
+                                <IonItem button={true} detail={false} id={`click-trigger-${exercise.lift_id}`}>
                                     <img 
-                                        src={liftIconMap[exercise.lift_name] || barbell} 
-                                        alt="Exercise Icon"
-                                        style={{ width: '25px', marginRight: '10px' }}
+                                    src={liftIconMap[exercise.lift_name] || barbell} 
+                                    alt="Exercise Icon"
+                                    style={{ width: '25px', marginRight: '10px' }}
                                     />
                                     <IonLabel>{exercise.lift_name}</IonLabel>
-
                                 </IonItem>
 
-                                <IonPopover trigger="click-trigger" keepContentsMounted={true}> 
-                                    <IonContent class="ion-padding">Testing Testing 123!</IonContent>
+                                <IonPopover trigger={`click-trigger-${exercise.lift_id}`} keepContentsMounted={true}> 
+                                    <IonContent class="ion-padding popup">
+                                        <p>Info about <strong>{exercise.lift_name}</strong></p>
+                                        <p>Placeholder Text Here</p>
+                                    </IonContent>
                                 </IonPopover>
                             </div>
-                            
                         ))}
                     </IonList>
+
                     
                 </div>
 
