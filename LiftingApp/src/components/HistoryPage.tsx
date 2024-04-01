@@ -13,7 +13,7 @@ const History: React.FC = () => {
     const user_id = location.state.user_id || '';
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
-    useEffect(() => {
+    useEffect(() => {        
         if (user_id) {
             fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
                 method: 'GET',

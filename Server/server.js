@@ -371,7 +371,7 @@ app.get('/totalpoundslifted', (req, res) =>{
 })
 
 app.get('/exercisehistory',(req,res) =>{ 
-  const user_id = req.body.user_id;
+  const user_id = req.query.user_id;
   const sql = `SELECT * FROM exercise WHERE user_id = ?`;
   db.query(sql, [user_id], async (err, data) => {
     console.log(err, data);
