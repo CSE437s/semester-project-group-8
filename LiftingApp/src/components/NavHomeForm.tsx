@@ -41,7 +41,7 @@ function NavHomeForm() {
             </div>
             */}
 
-<IonFooter>
+                <IonFooter>
                     <IonTabBar>
                         <IonTabButton tab="Home">
                             <IonIcon icon={homeOutline} onClick={() => history.push({

@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import './HistoryPage.css'
 
 const History: React.FC = () => {
     console.log("Template page called");
+    const [exercises, setExercises] = useState([]);
     const history = useHistory();
-    const user_id = history.location.state || {};
+    const location = useLocation();
+    const user_id = location.state.user_id || '';
+    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+
+    useEffect(() => {
+        if (user_id) {
+            fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                setExercises(data);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                // Handle fetch error (e.g., network error, server error)
+            });
+        } else {
+            console.log('User ID is missing.');
+            // Optionally handle the case where user_id is missing or invalid
+        }
+    }, [apiUrl, user_id]);
+
     return (
         <IonPage>
             <div>
@@ -14,19 +42,20 @@ const History: React.FC = () => {
                     <h1>History</h1>
                 </IonText>
 
-                <div className="template-history-container">
-                    <div className="template-builder">
-                        <IonText>
-                        <h2>Workout Name</h2>
-                        <h3>Date</h3>
-                        <h3>Workout Length (time), Pounds Pushed, PRs</h3>
-                        <h4>Sets x Exercise</h4>
-                        <h4>4 x Lateral Raise (Dumbbells)</h4>
-                        <h4>3 x Shoulder Press (Machine)</h4>
-                        {/* Content for template builder */}
-                        </IonText>
+                {exercises.length === 0 ? (
+                <div className="centered-message">
+                    <div className='center-table-cell'>
+                        No Workout History
                     </div>
+                </div>) : (
+                <div className="template-history-container">
+                    {exercises.map((exercise, index) => (
+                        <div key={index}>
+                            <p>{exercise.lift_name} - {exercise.date}</p>
+                        </div>
+                    ))}
                 </div>
+                )}
 
                 
             </div>
