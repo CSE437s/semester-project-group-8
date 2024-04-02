@@ -23,7 +23,7 @@ const Profile: React.FC = () => {
 
     const [profile, setProfile] = useState({
         username: localStorage.getItem('username') || 'John Doe',
-        birthday: localStorage.getItem('birthday') || '__ Years Old',
+        birthday: localStorage.getItem('birthday') || '21', //change this later to some placeholder
     });
 
 
