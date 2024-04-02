@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { checkmarkOutline, closeOutline } from 'ionicons/icons';
 import WorkoutRec from './WorkoutRec';
+import ExerciseRec from './ExerciseRec';
 
 
 function WorkoutForm() {
@@ -45,6 +46,15 @@ function WorkoutForm() {
         const updatedSets = [...sets];
         updatedSets[exerciseIndex] = [...updatedSets[exerciseIndex], newSet];
         setSets(updatedSets);
+    };
+
+    const addExercise = (exercise_id) => {
+        const exerciseToAdd = exercises.find(exercise => exercise.lift_id === exercise_id);
+        if (exerciseToAdd) {
+            selectExercise(exerciseToAdd);
+        } else {
+            console.error('Exercise with ID ' + newExerciseId + ' not found');
+        }
     };
     const updateSet = (exerciseIndex, setIndex, field, value) => {
         const updatedSets = [...sets];
@@ -100,17 +110,21 @@ function WorkoutForm() {
         console.log('Accepting recommendation:', recommendation);
         if (!recommendation) return;
 
-        const { weight_rec, new_reps, new_rpe } = recommendation;
-        console.log(`Adding set with: ${weight_rec}, reps: ${new_reps}, RPE: ${new_rpe}`);
-        const exerciseIndex = selectedExercises.findIndex(exercise => exercise.lift_id === recommendation.lift_id);
-        if (exerciseIndex === -1) {
-            console.error('Exercise not found for recommendation');
-            return; 
+        if (recommendation.rec_type === "set") {
+            const { weight_rec, new_reps, new_rpe } = recommendation;
+            console.log(`Adding set with: ${weight_rec}, reps: ${new_reps}, RPE: ${new_rpe}`);
+            const exerciseIndex = selectedExercises.findIndex(exercise => exercise.lift_id === recommendation.lift_id);
+            if (exerciseIndex === -1) {
+                console.error('Exercise not found for recommendation');
+                return; 
+            }
+            addSet(exerciseIndex, weight_rec.toString(), new_reps.toString(), new_rpe.toString());
+            setShowRecommendation(false);
+        } else if (recommendation.rec_type === "exercise") {
+            const newExerciseId = recommendation.lift_id;
+            addExercise(newExerciseId);
+            setShowRecommendation(false);
         }
-
-        addSet(exerciseIndex, weight_rec.toString(), new_reps.toString(), new_rpe.toString());
-
-        setShowRecommendation(false);
     };
 
     const submitSet = async (exerciseIndex, setIndex) => {
@@ -150,6 +164,8 @@ function WorkoutForm() {
                     setRecommendation(recommendlift);
                 } else if (recommendlift.rec_type === "exercise") {
                     console.log('Set submitted successfully', recommendlift);
+                    setShowRecommendation(true);
+                    setRecommendation(recommendlift);
                 }
             }
             
@@ -174,7 +190,14 @@ function WorkoutForm() {
                 </IonList>
                 <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
             </IonModal>
-            {showRecommendation && recommendation && (
+            {showRecommendation && recommendation && recommendation.rec_type === "exercise" && (
+                <ExerciseRec
+                    onAccept={acceptRecommendation}
+                    onCancel={() => setShowRecommendation(false)}
+                    liftName={exercises.find(ex => ex.lift_id === recommendation.lift_id)?.lift_name}
+                />
+            )}
+            {showRecommendation && recommendation.rec_type === "set" && recommendation && (
                 <WorkoutRec
                     onAccept={acceptRecommendation}
                     onCancel={() => setShowRecommendation(false)}
