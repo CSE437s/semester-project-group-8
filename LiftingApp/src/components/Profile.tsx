@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import "./Profile.css"
 
 import HeatmapCalendar from './HeatmapCal'; 
+import MonthlyCalendar from './MonthlyCal';
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
@@ -24,6 +25,7 @@ const Profile: React.FC = () => {
         username: localStorage.getItem('username') || 'John Doe',
         birthday: localStorage.getItem('birthday') || '__ Years Old',
     });
+
 
     return (
         <IonPage>
@@ -75,8 +77,8 @@ const Profile: React.FC = () => {
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     
-                    {/* <HeatmapCalendar/> */}
                     <HeatmapCalendar />
+                    {/* <MonthlyCalendar /> */}
 
                 </div>
 
