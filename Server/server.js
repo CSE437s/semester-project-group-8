@@ -234,7 +234,7 @@ app.post('/addset', async (req, res) =>{
         const recommendlift_json = await recommendlift(weight, rep_num, rpe, lift_id, set_num);
         console.log("recommendlift_json: ", recommendlift_json);
         // Return the response with recommendlift_json
-        res.json({ message: 'Set input into database', recommendlift: JSON.parse(recommendlift_json) });
+        res.json({ message: 'Set input into database', recommendlift: recommendlift_json });
       } catch (error) {
         console.error("Error in addset: ", error);
         res.status(500).json({ error: "Internal server error" });
@@ -277,12 +277,12 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
     if(lift_id == 2){
       console.log("leg extension rec");
       // Directly return the JSON stringified object
-      return JSON.stringify({ lift_id: 6 }); // for leg extension recommendation
+      return JSON.stringify({ rec_type: "exercise", lift_id: 6 });  // for leg extension recommendation
     }
     else if(lift_id == 1){
       console.log("bicep curl rec");
       // Directly return the JSON stringified object
-      return JSON.stringify({ lift_id: 5 }); // for bicep curl recommendation
+      return JSON.stringify({ rec_type: "exercise", lift_id: 5 }); // for bicep curl recommendation
     }
   }
   else{
@@ -315,7 +315,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
-      return JSON.stringify({ weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe, lift_id: lift_id}); 
+      return JSON.stringify({ rec_type: "set", weight_rec: weight_rec, new_reps: new_reps, new_rpe: new_rpe, lift_id: lift_id}); 
 
     } catch (error) {
       console.error("Error in calculating recommended lift: ", error);

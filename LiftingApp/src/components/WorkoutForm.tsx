@@ -20,7 +20,6 @@ function WorkoutForm() {
     const [recommendation, setRecommendation] = useState(null); // this is used for storing recommnedation returned from the backend
     const user_id = history.location.state || {};
     const RPEOptions = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]; // for RPE dropdown
-    const [, forceUpdate] = useState();
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     useEffect(() => {
         fetch(`${apiUrl}/getlifts`, {
@@ -77,7 +76,7 @@ function WorkoutForm() {
             return exerciseSets;
         });
         setSets(updatedSets);
-        submitSet();
+        submitSet(exerciseIndex, setIndex);
     };
     const deleteSet = (exerciseIndex, setIndex) => {
         const updatedSets = sets.map((exerciseSets, idx) => {
@@ -114,45 +113,49 @@ function WorkoutForm() {
         setShowRecommendation(false);
     };
 
-    const submitSet = async () => {
-        
-        for (let exerciseIndex = 0; exerciseIndex < selectedExercises.length; exerciseIndex++) {
-            const exerciseName = selectedExercises[exerciseIndex];
-            const exercise = selectedExercises[exerciseIndex];
-            for (let setIndex = 0; setIndex < sets[exerciseIndex].length; setIndex++) {
-                const set = sets[exerciseIndex][setIndex];
-                const data = {
-                    user_id: user_id.user_id, 
-                    sleep_quality: sleepQuality,
-                    stress_level: stressLevel,
-                    desire_to_train: desireToTrain,
-                    lift_id: exercise.lift_id,
-                    set_num: set.setNumber,
-                    rep_num: set.reps,
-                    weight: set.lbs,
-                    rpe: set.RPE,
-                    date: new Date().toISOString().slice(0, 10),
-                };
-    
-                try {
-                    const response = await fetch('http://localhost:3000/addset', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data),
-                    });
-    
-                    const responseData = await response.json();
-                    if (!response.ok) {
-                        throw new Error(responseData.message || 'Failed to submit set');
-                    }
-                    console.log('Set submitted successfully', responseData);
+    const submitSet = async (exerciseIndex, setIndex) => {
+        const exercise = selectedExercises[exerciseIndex];
+        const set = sets[exerciseIndex][setIndex];
+        const data = {
+            user_id: user_id.user_id, 
+            sleep_quality: sleepQuality,
+            stress_level: stressLevel,
+            desire_to_train: desireToTrain,
+            lift_id: exercise.lift_id,
+            set_num: set.setNumber,
+            rep_num: set.reps,
+            weight: set.lbs,
+            rpe: set.RPE,
+            date: new Date().toISOString().slice(0, 10),
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/addset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const responseData = await response.json();
+            console.log('Response data:', responseData);
+            if (!response.ok) {
+                throw new Error(responseData.message || 'Failed to submit set');
+            }
+            if (responseData.recommendlift) {
+                console.log('recommendlift:', responseData.recommendlift);
+                const recommendlift = JSON.parse(responseData.recommendlift);
+                if (recommendlift.rec_type === "set") {
+                    console.log('Set submitted successfully', recommendlift);
                     setShowRecommendation(true);
-                    setRecommendation(responseData.recommendlift);
-                } catch (error) {
-                    console.error('Error submitting set:', error);
-                    return;
+                    setRecommendation(recommendlift);
+                } else if (recommendlift.rec_type === "exercise") {
+                    console.log('Set submitted successfully', recommendlift);
                 }
             }
+            
+        } catch (error) {
+            console.error('Error submitting set:', error);
+            return;
         }
     };
     
