@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonTabBar, IonButton, IonTabButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import { homeOutline, createOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
-import { useLocation } from 'react-router-dom';
 import './HistoryPage.css'
 
 const History: React.FC = () => {
     console.log("Template page called");
     const [exercises, setExercises] = useState([]);
     const history = useHistory();
-    const location = useLocation();
-    const user_id = location.state.user_id || '';
+    const user_id = history.location.state || '';
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
     useEffect(() => {        
