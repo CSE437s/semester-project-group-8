@@ -8,7 +8,7 @@ import { checkmarkOutline, closeOutline } from 'ionicons/icons';
 import WorkoutRec from './WorkoutRec';
 import ExerciseRec from './ExerciseRec';
 
-
+// TODO: updatedSets are probably what caused issues after three sets are done for the new recommended set.
 function WorkoutForm() {
     const [exercises, setExercises] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
