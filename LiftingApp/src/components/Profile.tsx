@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonPage, IonAvatar, IonCard, IonFooter, IonTabBar, IonGrid, IonTabButton, IonIcon, IonContent, IonLabel, IonText, IonRow, IonCol } from '@ionic/react';
 import { homeOutline, settingsOutline, barbell, personOutline, timeOutline } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import "./Profile.css"
 
@@ -9,12 +9,21 @@ import HeatmapCalendar from './HeatmapCal';
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
+    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+    const location = useLocation();
+    const { username } = location.state || {};
+    
     const history = useHistory();
     const user_id = history.location.state || {};
     const name = "Sam Feng"
     const age = "21"
     const sex = "Male"
     const pfp = "https://ionicframework.com/docs/img/demos/avatar.svg"
+
+    const [profile, setProfile] = useState({
+        username: localStorage.getItem('username') || 'John Doe',
+        birthday: localStorage.getItem('birthday') || '__ Years Old',
+    });
 
     return (
         <IonPage>
@@ -35,7 +44,8 @@ const Profile: React.FC = () => {
                     <IonRow>
                         <IonCol size="12">
                             <div className='profile-text' style={{ display: 'flex', alignItems: 'center' }}>
-                                    <h2>{name}, {age}</h2>
+                                    {/* <h2>{name}, {age}</h2> */}
+                                    <h2>{profile.username}, {profile.birthday}</h2>
                                 <IonIcon icon={settingsOutline} style={{ marginLeft: 'auto', fontSize: '24px' }} />
                             </div>
                         </IonCol>

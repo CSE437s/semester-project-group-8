@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import './HistoryPage.css'
 
 const History: React.FC = () => {
-    console.log("Template page called");
+    console.log("History page called");
     const [exercises, setExercises] = useState([]);
     const history = useHistory();
     const user_id = history.location.state || '';
@@ -35,28 +35,28 @@ const History: React.FC = () => {
 
     return (
         <IonPage>
-            <div>
-                <IonText className='start-workout-text'>
-                    <h1>History</h1>
-                </IonText>
+            <IonContent>
+                <div>
+                    <IonText className='start-workout-text'>
+                        <h1>History</h1>
+                    </IonText>
 
-                {exercises.length === 0 ? (
-                <div className="centered-message">
-                    <div className='center-table-cell'>
-                        No Workout History
-                    </div>
-                </div>) : (
-                <div className="template-history-container">
-                    {exercises.map((exercise, index) => (
-                        <div key={index}>
-                            <p>{exercise.lift_name} - {exercise.date}</p>
+                    {exercises.length === 0 ? (
+                    <div className="centered-message">
+                        <div className='center-table-cell'>
+                            No Workout History
                         </div>
-                    ))}
+                    </div>) : (
+                    <div className="template-history-container">
+                        {exercises.map((exercise, index) => (
+                            <div key={index}>
+                                <p>{exercise.lift_name} - {exercise.date}</p>
+                            </div>
+                        ))}
+                    </div>
+                    )}   
                 </div>
-                )}
-
-                
-            </div>
+            </IonContent>
 
             <IonFooter>
                     <IonTabBar>

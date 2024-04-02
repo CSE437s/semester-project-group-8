@@ -181,6 +181,10 @@ function PostSignupForm() {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
+
+            localStorage.setItem('username', formData.username); //sam added for profile
+            localStorage.setItem('birthday', formData.birthday); //sam added for profile content
+
             console.log(data);
         } catch (error) {
             console.error('Error submitting form data: ', error);
@@ -264,7 +268,10 @@ function PostSignupForm() {
                             <h2 className='post-signup-start-button'>Start A Workout!</h2>
                         </IonButton>
                         
-                        <IonButton className="go-home-button" onClick={() => history.push('/Homepage')}>
+                        <IonButton className="go-home-button" onClick={async () => {
+                            await submitFormData();
+                            history.push('/Homepage');
+                            }}>
                             Go To Home
                         </IonButton>
                     </div>
