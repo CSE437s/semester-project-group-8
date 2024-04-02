@@ -18,7 +18,7 @@ function WorkoutForm() {
     const {sleepQuality, stressLevel, desireToTrain} = location.state || {}; // from StartWorkout.tsx
     const [showRecommendation, setShowRecommendation] = useState(false); // for workout recommendation
     const [recommendation, setRecommendation] = useState(null); // this is used for storing recommnedation returned from the backend
-    const user_id = location.state || {};
+    const user_id = history.location.state || {};
     const RPEOptions = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]; // for RPE dropdown
     const [, forceUpdate] = useState();
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
@@ -122,7 +122,7 @@ function WorkoutForm() {
             for (let setIndex = 0; setIndex < sets[exerciseIndex].length; setIndex++) {
                 const set = sets[exerciseIndex][setIndex];
                 const data = {
-                    user_id: 0, 
+                    user_id: user_id.user_id, 
                     sleep_quality: sleepQuality,
                     stress_level: stressLevel,
                     desire_to_train: desireToTrain,
