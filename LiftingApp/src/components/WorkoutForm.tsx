@@ -137,17 +137,22 @@ function WorkoutForm() {
             });
 
             const responseData = await response.json();
+            console.log('Response data:', responseData);
             if (!response.ok) {
                 throw new Error(responseData.message || 'Failed to submit set');
             }
-            
-            if (responseData.recommendlift.rec_type === "set") {
-                console.log('Set submitted successfully', responseData);
-                setShowRecommendation(true);
-                setRecommendation(responseData.recommendlift);
-            } else if (responseData.recommendlift.rec_type === "exercise") {
-                console.log('Set submitted successfully', responseData);
+            if (responseData.recommendlift) {
+                console.log('recommendlift:', responseData.recommendlift);
+                const recommendlift = JSON.parse(responseData.recommendlift);
+                if (recommendlift.rec_type === "set") {
+                    console.log('Set submitted successfully', recommendlift);
+                    setShowRecommendation(true);
+                    setRecommendation(recommendlift);
+                } else if (recommendlift.rec_type === "exercise") {
+                    console.log('Set submitted successfully', recommendlift);
+                }
             }
+            
         } catch (error) {
             console.error('Error submitting set:', error);
             return;

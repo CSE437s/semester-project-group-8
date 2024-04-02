@@ -234,7 +234,7 @@ app.post('/addset', async (req, res) =>{
         const recommendlift_json = await recommendlift(weight, rep_num, rpe, lift_id, set_num);
         console.log("recommendlift_json: ", recommendlift_json);
         // Return the response with recommendlift_json
-        res.json({ message: 'Set input into database', recommendlift: JSON.parse(recommendlift_json) });
+        res.json({ message: 'Set input into database', recommendlift: recommendlift_json });
       } catch (error) {
         console.error("Error in addset: ", error);
         res.status(500).json({ error: "Internal server error" });
@@ -277,7 +277,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num){
     if(lift_id == 2){
       console.log("leg extension rec");
       // Directly return the JSON stringified object
-      return JSON.stringify({ rec_type: "exercise" ,lift_id: 6 }); // for leg extension recommendation
+      return JSON.stringify({ rec_type: "exercise", lift_id: 6 });  // for leg extension recommendation
     }
     else if(lift_id == 1){
       console.log("bicep curl rec");
