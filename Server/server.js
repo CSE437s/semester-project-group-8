@@ -386,7 +386,7 @@ app.get('/exercisehistory',(req,res) =>{
 
 app.get('/profile',(req,res) =>{ 
   const user_id = req.query.user_id;
-  const sql = `SELECT * FROM users WHERE user_id = ?`;
+  const sql = `SELECT * FROM users WHERE id = ?`;
   db.query(sql, [user_id], async (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
