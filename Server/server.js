@@ -384,6 +384,20 @@ app.get('/exercisehistory',(req,res) =>{
   });
 })
 
+app.get('/profile',(req,res) =>{ 
+  const user_id = req.query.user_id;
+  const sql = `SELECT * FROM users WHERE user_id = ?`;
+  db.query(sql, [user_id], async (err, data) => {
+    console.log(err, data);
+    if(err) return res.json(err);
+    if (data.length == 0){
+      return res.status(404).json({ success: "false", message: 'No user data' });
+    }
+    //data is not formatted by session, but maybe you can group by date to categorize lifts
+    return res.json(data);
+  });
+})
+
 db.on('error', function(err) {
     console.log("[mysql error]",err);
 });
