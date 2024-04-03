@@ -190,16 +190,17 @@ app.post('/signup2', (req, res) =>{
 
   console.log("Received data:", req.body);
 
-  const sqlCheckDup = `SELECT username FROM users WHERE username = ?`;
+  const sqlCheckDup = `SELECT username, id FROM users WHERE username = ?`;
   db.query(sqlCheckDup, [username], (err, data) => {
     console.log(err, data);
     if(err) return res.json(err);
+    var user_id = data[0].id;
     if(data.length > 0 && username == data[0].username){
       const sql = `UPDATE users SET goal = ?, birthday = ?, gender = ?, intensity = ? WHERE username = ?`;
       db.query(sql, [goal, birthday, gender, intensity, username], (err, data) => {
         console.log(err, data);
         if(err) return res.json(err);
-        return res.json({ message: 'Successfully inserted post signup form data' });
+        return res.json({ message: 'Successfully inserted post signup form data', user_id: user_id});
       })
     }
     else{

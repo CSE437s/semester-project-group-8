@@ -46,7 +46,8 @@ const History: React.FC = () => {
                         <div className='center-table-cell'>
                             No Workout History
                         </div>
-                    </div>) : (
+                    </div>
+                    ) : (
                     <div className="template-history-container">
                         {exercises.map((exercise, index) => (
                             <div key={index}>
