@@ -16,15 +16,43 @@ const Profile: React.FC = () => {
     
     const history = useHistory();
     const user_id = history.location.state || {};
-    const name = "Sam Feng"
-    const age = "21"
-    const sex = "Male"
+   
     const pfp = "https://ionicframework.com/docs/img/demos/avatar.svg"
 
     const [profile, setProfile] = useState({
         username: localStorage.getItem('username') || 'John Doe',
-        birthday: localStorage.getItem('birthday') || '21', //change this later to some placeholder
+        birthday: localStorage.getItem('birthday') || '2003-03-07T17:17:00', 
     });
+
+    const calculateAge = (isoString) => {
+        const birthday = new Date(isoString);
+        const today = new Date();
+        let age = today.getFullYear() - birthday.getFullYear();
+        const m = today.getMonth() - birthday.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    const [totalPoundsLifted, setTotalPoundsLifted] = useState(0);
+
+    useEffect(() => {
+        fetch(`${apiUrl}/totalpoundslifted`, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: user_id }), 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success === "true") {
+                setTotalPoundsLifted(data.totalpoundslifted);
+            }
+        })
+        .catch(error => console.error('Error fetching total pounds lifted:', error));
+    }, [apiUrl, user_id]);
 
 
     return (
@@ -46,8 +74,7 @@ const Profile: React.FC = () => {
                     <IonRow>
                         <IonCol size="12">
                             <div className='profile-text' style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/* <h2>{name}, {age}</h2> */}
-                                    <h2>{profile.username}, {profile.birthday}</h2>
+                                    <h2>{profile.username}, {calculateAge(profile.birthday)}</h2>
                                 <IonIcon icon={settingsOutline} style={{ marginLeft: 'auto', fontSize: '24px' }} />
                             </div>
                         </IonCol>
@@ -65,7 +92,7 @@ const Profile: React.FC = () => {
 
                         </IonCol>
                         <IonCol>
-                            <IonLabel>Total Pounds Moved</IonLabel>
+                            <IonLabel>{totalPoundsLifted} Pounds Moved!</IonLabel>
                             {/* FIXME: Add dynamic data here */}
 
                         </IonCol>
