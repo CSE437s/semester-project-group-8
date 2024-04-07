@@ -4,11 +4,13 @@ import { IonInput, IonButton, IonItem, IonLabel, IonText, IonImg, IonRange,
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import "./PostSignupForm.css"
+import { set } from 'date-fns';
 
 function PostSignupForm() {
     const [currentStep, setCurrentStep] = useState(1);
     const location = useLocation();
     const { username } = location.state || {};
+    const [user_id, setUserId] = useState('');
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     const [formData, setFormData] = useState( {
         username: username,
@@ -75,6 +77,9 @@ function PostSignupForm() {
     
                   if (response.ok) {
                     //TODO: ask Geoffrey to return a user_id in the response.
+                    console.log(data);
+                    console.log(data.user_id);
+                    setUserId(data.user_id);
                     setIsVerified(true); 
                     setAlertMessage('Verification successful!');
                     nextStep();
@@ -185,7 +190,6 @@ function PostSignupForm() {
             localStorage.setItem('username', formData.username); //sam added for profile
             localStorage.setItem('birthday', formData.birthday); //sam added for profile content
 
-            console.log(data);
         } catch (error) {
             console.error('Error submitting form data: ', error);
         }
@@ -263,14 +267,20 @@ function PostSignupForm() {
                     <div className='button-container'>
                         <IonButton className="start-workout-button" onClick={async () => {
                             await submitFormData();
-                            history.push('/StartWorkout');
+                            history.push({
+                                state: user_id,
+                                pathname: '/StartWorkout'
+                            });
                             }}>
                             <h2 className='post-signup-start-button'>Start A Workout!</h2>
                         </IonButton>
                         
                         <IonButton className="go-home-button" onClick={async () => {
                             await submitFormData();
-                            history.push('/Homepage');
+                            history.push({
+                                pathname: '/Homepage',
+                                state: user_id
+                            });
                             }}>
                             Go To Home
                         </IonButton>

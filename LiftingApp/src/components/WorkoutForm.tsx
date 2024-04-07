@@ -142,7 +142,7 @@ function WorkoutForm() {
             rpe: set.RPE,
             date: new Date().toISOString().slice(0, 10),
         };
-
+        console.log('Submitting set:', data);
         try {
             const response = await fetch('http://localhost:3000/addset', {
                 method: 'POST',

@@ -15,6 +15,7 @@ function StartWorkout() {
     const user_id = location.state || {};
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     
+    console.log("user_id: ", user_id);
     const navigateToWorkout = () => {
         console.log(sleepQuality, stressLevel, desireToTrain);
         // CODE HERE: pass the sleepQuality, stressLevel, and desireToTrain to the workout page.

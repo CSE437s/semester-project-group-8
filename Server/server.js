@@ -155,7 +155,7 @@ app.post('/verify', function(req, res) {
   const credentials= req.body;
   const verificationcode = credentials.verificationcode;
   const username = credentials.username;
-  const sql = `SELECT verificationcode FROM users WHERE username = ?`;
+  const sql = `SELECT id, verificationcode FROM users WHERE username = ?`;
   db.query(sql, [username], async (err, data) => {
       console.log(err, data);
       console.log(data[0].verificationcode);
@@ -166,12 +166,12 @@ app.post('/verify', function(req, res) {
       }
       if(Number(data[0].verificationcode) == Number(verificationcode)){
         //edit sql data for verified
-        const sql = `UPDATE users SET verified = 1 WHERE username = ?`;
-        db.query(sql, [username], async (err, data) => {
-          console.log(err, data);
+        const Updatesql = `UPDATE users SET verified = 1 WHERE username = ?`;
+        db.query(Updatesql, [username], async (err, updateResult) => {
+          console.log(err, updateResult);
           if(err) return res.json(err);
         });
-        return res.json({ success: "true" , message: "User verified!" });
+        return res.json({ success: "true" , message: "User verified!", user_id: data[0].id});
       }
       else{
         return res.status(404).json({success:"false", message: "Incorrect verification code"});
