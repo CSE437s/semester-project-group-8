@@ -36,16 +36,23 @@ const Profile: React.FC = () => {
     };
 
     const [totalPoundsLifted, setTotalPoundsLifted] = useState(0);
+    const [isDataFetched, setIsDataFetched] = useState(true);
 
     useEffect(() => {
         fetch(`${apiUrl}/totalpoundslifted`, {
-            method: 'POST', 
+            method: 'POST', // Assuming the endpoint requires a POST request
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user_id: user_id }), 
+            body: JSON.stringify({ user_id: user_id }), // Ensure to send the correct user ID
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 404) {
+                setIsDataFetched(false);
+                throw new Error('404 not found');
+            }
+            return response.json();
+        })
         .then(data => {
             if(data.success === "true") {
                 setTotalPoundsLifted(data.totalpoundslifted);
@@ -92,8 +99,12 @@ const Profile: React.FC = () => {
 
                         </IonCol>
                         <IonCol>
-                            <IonLabel>{totalPoundsLifted} Pounds Moved!</IonLabel>
-                            {/* FIXME: Add dynamic data here */}
+                            {/* Conditional rendering based on fetch success or 404 error */}
+                            {isDataFetched ? (
+                                <IonText>{totalPoundsLifted} Pounds Moved!</IonText>
+                            ) : (
+                                <IonText>Total Pounds Lifted</IonText> 
+                            )}
 
                         </IonCol>
                         </IonRow>
@@ -104,8 +115,8 @@ const Profile: React.FC = () => {
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     
-                    <HeatmapCalendar />
-                    {/* <MonthlyCalendar /> */}
+                    {/* <HeatmapCalendar /> */}
+                    <MonthlyCalendar />
 
                 </div>
 
