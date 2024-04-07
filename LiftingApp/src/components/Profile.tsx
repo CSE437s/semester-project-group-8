@@ -5,14 +5,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import "./Profile.css"
 
-import HeatmapCalendar from './HeatmapCal'; 
 import MonthlyCalendar from './MonthlyCal';
 
 const Profile: React.FC = () => {
     console.log("Profile page called");
     const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
     const location = useLocation();
-    const { username } = location.state || {};
+    // const { username } = location.state || {};
     
     const history = useHistory();
     const user_id = history.location.state || {};
@@ -115,7 +114,6 @@ const Profile: React.FC = () => {
                 <h2>Lifting Calendar</h2>
                 <div className="statistics-container">
                     
-                    {/* <HeatmapCalendar /> */}
                     <MonthlyCalendar />
 
                 </div>

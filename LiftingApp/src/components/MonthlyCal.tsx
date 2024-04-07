@@ -67,12 +67,21 @@ const MonthlyCalendar = () => {
         setDate(newDate);
     };
 
+    const resetToToday = () => {
+        setDate(new Date()); 
+    };
+
+
     return (
         <div>
-            <div>
-                <h2>{months[date.getMonth()]} {date.getFullYear()}</h2>
-                <IonButton onClick={() => navigateMonth(-1)}>Prev</IonButton>
-                <IonButton onClick={() => navigateMonth(1)}>Next</IonButton>
+            <div className='month-buttons-row'>
+                <h2 className='month-text'>{months[date.getMonth()]} {date.getFullYear()}</h2>
+
+                <div>
+                    <IonButton onClick={() => navigateMonth(-1)}>Prev</IonButton>
+                    <IonButton onClick={() => resetToToday()}>Today</IonButton>
+                    <IonButton onClick={() => navigateMonth(1)}>Next</IonButton>
+                </div>
             </div>
 
             <IonGrid>
