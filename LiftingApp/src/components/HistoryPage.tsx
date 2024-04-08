@@ -88,15 +88,17 @@ const History: React.FC = () => {
         <IonPage>
             <IonContent>
                 {sortedDates.map(date => (
-                    <div key={date}>
+                    <div key={date} className="workout-date-section">
                         <IonText>
-                            <h2>{date}</h2>
+                            <h2 className="workout-date-header">{date}</h2>
                         </IonText>
-                        {exercises[date].map(exercise => (
-                            <IonItem key={exercise.lift_id}>
-                                <IonLabel>
-                                    <h3>{exercise.sets} x {exercise.lift_name}</h3>
-                                    <p>Best Set: {exercise.bestSet.weight}lbs x {exercise.bestSet.reps}</p>
+                        {exercises[date].map((exercise, index) => (
+                            <IonItem key={index} className="workout-exercise-item">
+                                <IonLabel className="workout-exercise-label">
+                                    <h3 className="workout-exercise-title">{exercise.sets} x {exercise.lift_name}</h3>
+                                    <p className="workout-exercise-details">
+                                        Best Set: {exercise.bestSet.weight}lbs x {exercise.bestSet.reps}
+                                    </p>
                                 </IonLabel>
                             </IonItem>
                         ))}
