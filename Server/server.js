@@ -380,7 +380,6 @@ app.get('/exercisehistory',(req,res) =>{
     if (data.length == 0){
       return res.status(404).json({ success: "false", message: 'No exercise data' });
     }
-    //data is not formatted by session, but maybe you can group by date to categorize lifts
     return res.json(data);
   });
 })
