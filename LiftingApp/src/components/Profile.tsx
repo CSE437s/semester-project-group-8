@@ -38,12 +38,11 @@ const Profile: React.FC = () => {
     const [isDataFetched, setIsDataFetched] = useState(true);
 
     useEffect(() => {
-        fetch(`${apiUrl}/totalpoundslifted`, {
-            method: 'POST', // Assuming the endpoint requires a POST request
+        fetch(`${apiUrl}/getlifts`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user_id: user_id }), // Ensure to send the correct user ID
         })
         .then(response => {
             if (response.status === 404) {

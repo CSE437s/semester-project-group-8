@@ -79,11 +79,11 @@ const MonthlyCalendar = () => {
                 <h2 className='month-text'>{months[date.getMonth()]} {date.getFullYear()}</h2>
 
                 <div>
-                    <IonButton color="medium" onClick={() => navigateMonth(-1)}>
+                    <IonButton color="medium" fill="clear" onClick={() => navigateMonth(-1)}>
                         <IonIcon slot="icon-only" icon={chevronBackOutline}></IonIcon>
                     </IonButton>
                     <IonButton color="dark" fill="clear" onClick={() => resetToToday()}>Today</IonButton>
-                    <IonButton color="medium" onClick={() => navigateMonth(1)}>
+                    <IonButton color="medium" fill="clear" onClick={() => navigateMonth(1)}>
                         <IonIcon slot="icon-only" icon={chevronForwardOutline}></IonIcon>
                     </IonButton>
                 </div>
