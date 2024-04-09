@@ -4,7 +4,7 @@ import { IonPage, IonIcon, IonButton, IonGrid, IonContent, IonLabel, IonText, Io
 import { chevronForwardOutline, chevronBackOutline } from 'ionicons/icons';
 
 import "./MonthlyCal.css"
-import * as d3 from 'd3';
+
 const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -76,17 +76,13 @@ const MonthlyCalendar = () => {
     return (
         <div>
             <div className='month-buttons-row'>
-                <h2 className='month-text'>{months[date.getMonth()]} {date.getFullYear()}</h2>
-
-                <div>
                     <IonButton color="medium" fill="clear" onClick={() => navigateMonth(-1)}>
                         <IonIcon slot="icon-only" icon={chevronBackOutline}></IonIcon>
                     </IonButton>
-                    <IonButton color="dark" fill="clear" onClick={() => resetToToday()}>Today</IonButton>
+                    <IonButton color="dark" fill="clear" onClick={() => resetToToday()}>{months[date.getMonth()]} {date.getFullYear()}</IonButton>
                     <IonButton color="medium" fill="clear" onClick={() => navigateMonth(1)}>
                         <IonIcon slot="icon-only" icon={chevronForwardOutline}></IonIcon>
                     </IonButton>
-                </div>
             </div>
 
             <IonGrid>

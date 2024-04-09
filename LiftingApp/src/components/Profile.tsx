@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
 
     const [profile, setProfile] = useState({
         username: localStorage.getItem('username') || 'John Doe',
-        birthday: localStorage.getItem('birthday') || '2003-03-07T17:17:00', 
+        birthday: localStorage.getItem('birthday') || '2000-01-01T17:17:00', 
     });
 
     const calculateAge = (isoString) => {
@@ -37,8 +37,9 @@ const Profile: React.FC = () => {
     const [totalPoundsLifted, setTotalPoundsLifted] = useState(0);
     const [isDataFetched, setIsDataFetched] = useState(true);
 
+
     useEffect(() => {
-        fetch(`${apiUrl}/getlifts`, {
+        fetch(`${apiUrl}/totalpoundslifted?user_id=${user_id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ const Profile: React.FC = () => {
                 </IonCard>
 
                 <br></br>
-                <h2>Lifting Calendar</h2>
+                {/* <h2>Lifting Calendar</h2> */}
                 <div className="statistics-container">
                     
                     <MonthlyCalendar />
