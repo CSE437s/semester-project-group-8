@@ -40,7 +40,7 @@ const Profile: React.FC = () => {
 
     useEffect(() => {
         fetch(`${apiUrl}/totalpoundslifted`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },

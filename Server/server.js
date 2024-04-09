@@ -354,7 +354,7 @@ app.get('/recentLift', (req, res) => {
   })
 });
 
-app.get('/totalpoundslifted', (req, res) =>{
+app.post('/totalpoundslifted', (req, res) =>{
   const user_id = req.body.user_id;
   let totalweight = 0;
   const sql = `SELECT rep_num, weight FROM exercise WHERE user_id = ?`;
