@@ -39,11 +39,13 @@ const Profile: React.FC = () => {
 
 
     useEffect(() => {
-        fetch(`${apiUrl}/totalpoundslifted?user_id=${user_id}`, {
+        fetch(`${apiUrl}/totalpoundslifted`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({user_id}),
+
         })
         .then(response => {
             if (response.status === 404) {
