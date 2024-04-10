@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonBackButton, IonButtons } from '@ionic/react';
-import './Signup.css';
-import SignupForm from '../components/SignupForm';
+import React, { useState } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonInput,
+  IonButton,
+  IonBackButton,
+  IonButtons,
+} from "@ionic/react";
+import "./Signup.css";
+import SignupForm from "../components/SignupForm";
 
 const SignUp: React.FC = () => {
   return (

@@ -1,12 +1,12 @@
 // src/hooks/useNavigation.ts
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 export function useNavigation() {
-    const history = useHistory();
+  const history = useHistory();
 
-    function navigateTo(path: string) {
-        history.push(path);
-    }
+  function navigateTo(path: string) {
+    history.push(path);
+  }
 
-    return navigateTo;
+  return navigateTo;
 }

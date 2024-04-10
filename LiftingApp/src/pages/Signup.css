@@ -1,14 +1,14 @@
 .signup-form {
-    max-width: 400px;
-    margin: auto;
-    }
-    
+  max-width: 400px;
+  margin: auto;
+}
+
 .signup-form ion-input {
-    margin-bottom: 15px;
-    border-radius: 4px;
+  margin-bottom: 15px;
+  border-radius: 4px;
 }
 
 .signup-form ion-button {
-    margin-top: 20px;
-    --background: #ff4b4b;
+  margin-top: 20px;
+  --background: #ff4b4b;
 }

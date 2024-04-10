@@ -1,144 +1,146 @@
 .green-background {
-    background-color: rgb(135, 223, 135);
-    opacity: 60%;
-  }
+  background-color: rgb(135, 223, 135);
+  opacity: 60%;
+}
 
 .workout-container ion-button {
-    --background: #ff4b4b;
-    color: white;
+  --background: #ff4b4b;
+  color: white;
 }
 .workout-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .exercise-header {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: left;
-    margin: 20px 0;
-    padding-left: 16px;
-    
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+  margin: 20px 0;
+  padding-left: 16px;
 }
 .ion-select {
-    --padding-start: 0px;
-    --padding-end: 0px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  --padding-start: 0px;
+  --padding-end: 0px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sets-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.set-row, .header-row {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    align-items: center; 
+.set-row,
+.header-row {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  align-items: center;
 }
 
-.header-row > div, .set-row > div {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
+.header-row > div,
+.set-row > div {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-row > div {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .ion-input {
-    --padding-start: 0px;
-    --padding-end: 0px;
-    text-align: center;
+  --padding-start: 0px;
+  --padding-end: 0px;
+  text-align: center;
 }
 
-.set-info, .input-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.set-info,
+.input-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-container > ion-input {
-    width: 100%; 
+  width: 100%;
 }
 
 .recommendation-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #3a3a3a;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #3a3a3a;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.recommendation-details h3, .recommendation-details p {
-    margin: 0;
+.recommendation-details h3,
+.recommendation-details p {
+  margin: 0;
 }
 
 .recommendation-actions IonButton {
-    --background: transparent;
-    --background-activated: transparent;
+  --background: transparent;
+  --background-activated: transparent;
 }
 
 .buttons-container {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    gap: 10px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .custom-button {
-    width: auto; 
-    --border-radius: 8px;
-    font-weight: bold;
+  width: auto;
+  --border-radius: 8px;
+  font-weight: bold;
 }
 
-.add-exercise-button{
-    --background: #BAD6FF !important;
-    font-weight: bold;
-    color: #1573FF !important;
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
+.add-exercise-button {
+  --background: #bad6ff !important;
+  font-weight: bold;
+  color: #1573ff !important;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cancel-workout-button {
-    --background: #67DD2F !important;
-    padding-top: 50px;
-    font-weight: bold;
-    padding-bottom: 70px;
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
+  --background: #67dd2f !important;
+  padding-top: 50px;
+  font-weight: bold;
+  padding-bottom: 70px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .add-set-button {
-    --background: lightgray !important;
-    --background-activated: darkgray !important;
-    font-weight: bold;
-    color: black !important;
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-
+  --background: lightgray !important;
+  --background-activated: darkgray !important;
+  font-weight: bold;
+  color: black !important;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .delete-exercise-button {
-    --background: none !important;
-    font-weight: bold;
-    color: #fc8787 !important;
-    margin-top: 10px;
+  --background: none !important;
+  font-weight: bold;
+  color: #fc8787 !important;
+  margin-top: 10px;
 }

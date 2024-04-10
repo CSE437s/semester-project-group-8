@@ -1,69 +1,69 @@
 ion-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.login-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    width: 90%;
-    max-width: 500px;
-    margin:auto;
-    padding: 20px;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
 }
 
 .login-form .login-button {
-    margin-top: 2em;
-    --background: #ff4b4b;
-    color: white;
+  margin-top: 2em;
+  --background: #ff4b4b;
+  color: white;
 }
 
 .login-form .login-sign-up-button {
-    color: #ff4b4b
+  color: #ff4b4b;
 }
 
 .login-form .ion-item {
-    width: 100%; 
-    max-width: 500px;
-    margin: auto;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
 
 .login-input {
-    width: 100%;
+  width: 100%;
 }
 
-.error-message{
-    color: red;
-    font-size: 12px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    text-align: left;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: left;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
 }
 
-.success-message{
-    color: green;
-    font-size: 12px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    text-align: left;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
+.success-message {
+  color: green;
+  font-size: 12px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: left;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
 }

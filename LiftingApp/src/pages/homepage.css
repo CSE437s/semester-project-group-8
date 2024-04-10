@@ -5,7 +5,6 @@
   height: 100%; /* Full height */
   overflow: hidden;
   flex-direction: column; /* Stack children vertically */
-
 }
 
 .video-background video {
@@ -23,14 +22,14 @@
 }
 
 .workout-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .welcome-text h1 {
-  margin-top: 20vh; 
+  margin-top: 20vh;
   text-align: center;
   flex-grow: 1;
   flex-basis: 25%;
@@ -58,14 +57,14 @@
   margin-top: 80%;
   --background: #ff4b4b;
   color: white;
-  width: 80%; 
-  margin-left: auto; 
+  width: 80%;
+  margin-left: auto;
   margin-right: auto;
   z-index: 1;
 }
 
 .home-login-button {
-  margin-left: auto; 
+  margin-left: auto;
   margin-right: auto;
   color: #ff4b4b;
   z-index: 1;

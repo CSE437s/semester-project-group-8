@@ -1,32 +1,27 @@
 .highlighted {
-    background-color: #fc8787; 
-  }
-  
-  .today {
-    border: 1px solid #FF4500; 
-  }
-  
-  .inactive {
-    color: #CCCCCC; 
-  }
-  
-  .calendar-day {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3px;
-    border-radius: 4px;
-    margin: 2px;
-    height: 40px; 
-  }
+  background-color: #fc8787;
+}
 
+.today {
+  border: 1px solid #ff4500;
+}
 
-  .month-buttons-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.inactive {
+  color: #cccccc;
+}
 
-  }
-  
-  
-  
+.calendar-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 4px;
+  margin: 2px;
+  height: 40px;
+}
+
+.month-buttons-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,41 +1,38 @@
 ion-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .workout-form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 .workout-range {
-    /* width: 90%; */
-    padding: 0 20px;
-    box-sizing: border-box;
+  /* width: 90%; */
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 ion-range {
-    --bar-background: #ff4b4b;
-    --bar-background-active: #fc8787;
-    --bar-height: 2vw;
-    --bar-border-radius: 8px;
-    --knob-background: black;
-    --knob-size: 6vw;
-    /* --pin-color: #ffffff */
-  }
+  --bar-background: #ff4b4b;
+  --bar-background-active: #fc8787;
+  --bar-height: 2vw;
+  --bar-border-radius: 8px;
+  --knob-background: black;
+  --knob-size: 6vw;
+  /* --pin-color: #ffffff */
+}
 
-  ion-range::part(pin) {
-    z-index: 99;
-  }
+ion-range::part(pin) {
+  z-index: 99;
+}
 
-
-
-
-  /* @media (min-width: 600px) {
+/* @media (min-width: 600px) {
     ion-range {
       --bar-height: 8px;
       --knob-size: 40px;
@@ -44,14 +41,11 @@ ion-range {
   } */
 
 .workout-form .workout-begin-button {
-    margin-top: 4em;
-    --background: #ff4b4b;
-    color: white;
+  margin-top: 4em;
+  --background: #ff4b4b;
+  color: white;
 }
 
 .workout-form .workout-skip-button {
-    color: #ff4b4b
+  color: #ff4b4b;
 }
-
-
-

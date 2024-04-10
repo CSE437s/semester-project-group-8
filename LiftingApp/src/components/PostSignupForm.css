@@ -1,126 +1,123 @@
 * {
-    font-family: 'Arial', sans-serif;
-  }
-
-.page-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
+  font-family: "Arial", sans-serif;
 }
 
-.welcome-text h1, h3{
-    color: black;
-    padding-left: 0;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.welcome-text h1,
+h3 {
+  color: black;
+  padding-left: 0;
 }
 
 .welcome-text h3 {
-    /* padding-top: 160px; */
-    margin: 20px;
+  /* padding-top: 160px; */
+  margin: 20px;
 }
 
 .getting-started-text {
-    margin-bottom: 10px !important;
+  margin-bottom: 10px !important;
 }
 
-.username-text{
-    margin-top: 0 !important;
-    color: #ff4b4b !important;
-    font-style: italic;
-    padding-top: 0;
-    padding-bottom: 15px;
-
+.username-text {
+  margin-top: 0 !important;
+  color: #ff4b4b !important;
+  font-style: italic;
+  padding-top: 0;
+  padding-bottom: 15px;
 }
 
 .goal-page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.button-container h2{
-    padding: 0 !important;
+.button-container h2 {
+  padding: 0 !important;
 }
 
 .logo-post-signup {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .verify-button {
-    --background: #ff4b4b;
-    color: white;
-    /* width: 200px; */
-    padding: 15px;
-    align-items: center;
+  --background: #ff4b4b;
+  color: white;
+  /* width: 200px; */
+  padding: 15px;
+  align-items: center;
 }
 
 .next-back-button {
-    --background: #ff4b4b;
-    color: white;
+  --background: #ff4b4b;
+  color: white;
 }
 
 .nav-buttons {
-    margin-top: 2em;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-
+  margin-top: 2em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .gender-step {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .button-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50vh;
 }
 
-
 .start-workout-button {
-    margin-top: 2em;
-    --background: #ff4b4b;
-    color: white;
+  margin-top: 2em;
+  --background: #ff4b4b;
+  color: white;
 }
 
 .go-home-button {
-    --background:#b4b3b3;
-    margin-top: auto;
-    width: auto;
-  }
+  --background: #b4b3b3;
+  margin-top: auto;
+  width: auto;
+}
 
-  .welcome-step {
-    overflow: hidden !important;
-  }
+.welcome-step {
+  overflow: hidden !important;
+}
 
-  .welcome-step video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    max-height: 100vh;
-    width: auto;
-    height: auto;
-    z-index: -1;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    overflow: hidden !important;
-    opacity: 60%;
-  }
+.welcome-step video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  overflow: hidden !important;
+  opacity: 60%;
+}
 
-  .welcome-step-video {
-    overflow: hidden !important;
-  }
+.welcome-step-video {
+  overflow: hidden !important;
+}

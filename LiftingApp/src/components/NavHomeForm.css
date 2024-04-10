@@ -1,44 +1,44 @@
-h1, h2 {
+h1,
+h2 {
   padding-left: 16px;
 }
 
 .start-workout-text {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .start-empty-workout-button {
-    --background: #ff4b4b;
-    --background-activated: #fc8787 !important;
+  --background: #ff4b4b;
+  --background-activated: #fc8787 !important;
 
-    display: block; 
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-  }
-  
-  .template-history-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .template-builder{
-    width: 90%;
-    margin: 10px;
-    padding: 20px;
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    text-align: center;
-  }
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.template-history-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.template-builder {
+  width: 90%;
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
 
 .footer {
-    display: flex;
-    justify-content: space-around;
-    background: #f4f4f4;
-  }
+  display: flex;
+  justify-content: space-around;
+  background: #f4f4f4;
+}
 
 .footer ion-tab-button {
-    flex-grow: 1;
-  }
-  
+  flex-grow: 1;
+}
