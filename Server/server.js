@@ -277,6 +277,7 @@ app.post("/addset", async (req, res) => {
   const rpe = credentials.rpe; //TODO
   //eventually add to sql call
   const date = credentials.date;
+  const dayvars = Number(sleepQuality) + Number(stressLevel) + Number(desireToTrain);
   //need to add check to see if set is already submitted
   console.log({
     user_id,
@@ -315,8 +316,9 @@ app.post("/addset", async (req, res) => {
           rpe,
           lift_id,
           set_num,
+          dayvars,
         );
-        console.log("recommendlift_json: ", recommendlift_json);
+        console.log("This hits! recommendlift_json: ", recommendlift_json);
         // Return the response with recommendlift_json
         res.json({
           message: "Set input into database",
@@ -359,16 +361,17 @@ function simplemaxcalculate(weight, rep_num, rpereq) {
   });
 }
 
-async function recommendlift(weight, rep_num, rpe, lift_id, set_num) {
+async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
   if (set_num >= 3) {
     if (lift_id == 2) {
       console.log("leg extension rec");
-      // Directly return the JSON stringified object
       return JSON.stringify({ rec_type: "exercise", lift_id: 6 }); // for leg extension recommendation
     } else if (lift_id == 1) {
       console.log("bicep curl rec");
-      // Directly return the JSON stringified object
       return JSON.stringify({ rec_type: "exercise", lift_id: 5 }); // for bicep curl recommendation
+    } else if (lift_id == 3){
+      console.log("lat pulldown rec");
+      return JSON.stringify({ rec_type: "exercise", lift_id: 4}); // for lat pulldown recommendation
     }
   } else {
     // Await the resolution of simplemaxcalculate before proceeding
@@ -396,8 +399,9 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num) {
       });
 
       const percentage = data;
+      console.log("dayvars: " + dayvars);
       const weight_rec =
-        Math.floor((Number(theoreticMaxLift) * percentage) / 5) * 5;
+        Math.floor((Number(theoreticMaxLift) * percentage * (dayvars/30)) / 5) * 5;
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
