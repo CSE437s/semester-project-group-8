@@ -61,6 +61,15 @@ function WorkoutForm() {
     setSets(updatedSets);
   };
 
+  const getLocalDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};
+
   const addExercise = (exercise_id) => {
     const exerciseToAdd = exercises.find(
       (exercise) => exercise.lift_id === exercise_id,
@@ -120,7 +129,7 @@ function WorkoutForm() {
     setSets([]);
     history.push({
       pathname: "/Homepage",
-      state: user_id,
+      state: user_id.user_id,
     });
   };
 
@@ -167,7 +176,7 @@ function WorkoutForm() {
       rep_num: set.reps,
       weight: set.lbs,
       rpe: set.RPE,
-      date: new Date().toISOString().slice(0, 10),
+      date: getLocalDate(),
     };
     console.log("Submitting set:", data);
     try {
