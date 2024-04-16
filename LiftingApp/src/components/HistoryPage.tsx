@@ -41,7 +41,7 @@ const History: React.FC = () => {
           liftsMap[lift.lift_id] = lift.lift_name;
         });
         setLifts(liftsMap);
-
+        console.log("user_id: ", user_id);
         // Fetch exercise history after successfully loading lifts data
         if (user_id) {
           fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
@@ -141,7 +141,7 @@ const History: React.FC = () => {
             <IonIcon
               icon={homeOutline}
               onClick={() =>
-                history.push({ pathname: "/homepage", state: user_id })
+                history.push({ pathname: "/Homepage", state: user_id })
               }
             />
             <IonLabel>Home</IonLabel>

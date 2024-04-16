@@ -110,10 +110,15 @@ const Exercises: React.FC = () => {
                   keepContentsMounted={true}
                 >
                   <IonContent class="ion-padding popup">
-                    <p>
-                      Info about <strong>{exercise.lift_name}</strong>
-                    </p>
-                    <p>Placeholder Text Here</p>
+                    <IonText>
+                      <h2>{exercise.lift_name}</h2>
+                    </IonText>
+                    <p>{exercise.description}</p>
+                    {exercise.link && (
+                       <a href={exercise.link} target="_blank" rel="noopener noreferrer">
+                       Learn more
+                     </a>
+                    )}
                   </IonContent>
                 </IonPopover>
               </div>

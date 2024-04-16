@@ -15,7 +15,6 @@ function StartWorkout() {
   const user_id = location.state || {};
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-  console.log("user_id: ", user_id);
   const navigateToWorkout = () => {
     console.log(sleepQuality, stressLevel, desireToTrain);
     // CODE HERE: pass the sleepQuality, stressLevel, and desireToTrain to the workout page.
@@ -25,31 +24,31 @@ function StartWorkout() {
     });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  // const handleSubmit = async (event: React.FormEvent) => {
+  //   event.preventDefault();
 
-    try {
-      const response = await fetch(`${apiUrl}/workout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ sleepQuality, stressLevel, desireToTrain }),
-      });
+  //   try {
+  //     const response = await fetch(`${apiUrl}/workout`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ sleepQuality, stressLevel, desireToTrain }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success) {
-        // Navigating to the /workout page if the backend responds with success
-        history.push("/Workout");
-      } else {
-        // Handle the error case
-        console.error("Error submitting workout preferences:", data.error);
-      }
-    } catch (error) {
-      console.error("Network or server error:", error);
-    }
-  };
+  //     if (data.success) {
+  //       // Navigating to the /workout page if the backend responds with success
+  //       navigateToWorkout();
+  //     } else {
+  //       // Handle the error case
+  //       console.error("Error submitting workout preferences:", data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Network or server error:", error);
+  //   }
+  // };
 
   return (
     <form className="workout-form">
