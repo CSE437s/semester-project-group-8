@@ -230,7 +230,7 @@ function WorkoutForm() {
             </IonItem>
           ))}
         </IonList>
-        <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
+        <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
       </IonModal>
       {showRecommendation &&
         recommendation &&

@@ -21,7 +21,7 @@ import "./HistoryPage.css";
 
 const History: React.FC = () => {
   const [exercises, setExercises] = useState({});
-  const [sortedDates, setSortedDates] = useState([]);
+  const [sortedDates, setSortedDates] = useState<string[]>([]);
   const [lifts, setLifts] = useState({});
   const history = useHistory();
   const user_id = history.location.state || "";
@@ -114,26 +114,35 @@ const History: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-        {sortedDates.map((date) => (
-          <div key={date} className="workout-date-section">
-            <IonText>
-              <h2 className="workout-date-header">{date}</h2>
-            </IonText>
-            {exercises[date].map((exercise, index) => (
-              <IonItem key={index} className="workout-exercise-item">
-                <IonLabel className="workout-exercise-label">
-                  <h3 className="workout-exercise-title">
-                    {exercise.sets} x {exercise.lift_name}
-                  </h3>
-                  <p className="workout-exercise-details">
-                    Best Set: {exercise.bestSet.weight}lbs x{" "}
-                    {exercise.bestSet.reps}
-                  </p>
-                </IonLabel>
-              </IonItem>
-            ))}
-          </div>
-        ))}
+        {sortedDates.length > 0 ? (
+          sortedDates.map((date) => (
+            <div key={date} className="workout-date-section">
+              <IonText>
+                <h2 className="workout-date-header">{date}</h2>
+              </IonText>
+              {exercises[date].map((exercise, index) => (
+                <IonItem key={index} className="workout-exercise-item">
+                  <IonLabel className="workout-exercise-label">
+                    <h3 className="workout-exercise-title">
+                      {exercise.sets} x {exercise.lift_name}
+                    </h3>
+                    <p className="workout-exercise-details">
+                      Best Set: {exercise.bestSet.weight}lbs x{" "}
+                      {exercise.bestSet.reps}
+                    </p>
+                  </IonLabel>
+                </IonItem>
+              ))}
+            </div>
+
+          ))
+
+        ) : (
+          <IonText className="centered-message">
+            <h2>No Workout History</h2>
+          </IonText>
+        )} 
+
       </IonContent>
       <IonFooter>
         <IonTabBar>
