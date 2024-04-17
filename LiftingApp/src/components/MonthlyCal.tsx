@@ -6,7 +6,7 @@ import {
   IonGrid,
   IonContent,
   IonLabel,
-  IonText,
+  IonText, IonItem,
   IonModal, IonHeader, IonToolbar, IonTitle, IonButtons,
   IonRow,
   IonCol,
@@ -34,6 +34,7 @@ const months = [
 const MonthlyCalendar = () => {
   const currentDate = new Date();
 
+  const [exercises, setExercises] = useState({});
   const history = useHistory();
   const user_id = history.location.state || "";
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
@@ -171,6 +172,13 @@ const MonthlyCalendar = () => {
     setDate(new Date());
   };
 
+
+  const modal = useRef<HTMLIonModalElement>(null);
+
+  function dismiss() {
+    modal.current?.dismiss();
+  }
+
   return (
     <div>
       <div className="month-buttons-row">
@@ -202,7 +210,40 @@ const MonthlyCalendar = () => {
         {calendarRows}
       </IonGrid>
 
-      <IonModal isOpen={showModal}>
+      <IonModal ref={modal} isOpen={showModal} onDidDismiss={() => setShowModal(false)} className="custom-modal">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>{selectedDate} Workout</IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={() => setShowModal(false)}>
+                <IonIcon icon={closeCircle}></IonIcon>
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+
+        <div className="custom-modal-content"> {/* Use the custom CSS class here */}
+          {workoutDetails && workoutDetails.length > 0 ? (
+            workoutDetails.map((detail, index) => (
+              <IonItem key={index}>
+                <IonLabel>
+                  <p>Text lorem ipsum</p>
+                  {/* Uncomment and use the following lines if needed */}
+                  {/* <h3>{detail.lift_name}</h3>
+                  <p>Sets: {detail.sets}</p>
+                  <p>Best Set: {detail.bestSet.weight} lbs x {detail.bestSet.reps}</p> */}
+                </IonLabel>
+              </IonItem>
+            ))
+          ) : (
+            <IonText className="centered-message">
+              <h2>No workouts recorded on this day.</h2>
+            </IonText>
+          )}
+        </div>
+      </IonModal>
+
+      {/* <IonModal isOpen={showModal}>
         <IonHeader> 
           <IonToolbar>
 
@@ -218,7 +259,6 @@ const MonthlyCalendar = () => {
 
         <IonContent>
           <div>
-            {/* <h2>Details for {selectedDate}</h2> */}
             {workoutDetails ? (
               <ul>
                 {workoutDetails.map((detail, index) => (
@@ -230,7 +270,7 @@ const MonthlyCalendar = () => {
             )}
           </div>
         </IonContent>
-      </IonModal>
+      </IonModal> */}
     </div>
   );
 };
