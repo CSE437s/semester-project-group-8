@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import {
   IonPage,
   IonIcon,
@@ -12,6 +11,7 @@ import {
   IonCol,
 } from "@ionic/react";
 import { chevronForwardOutline, chevronBackOutline } from "ionicons/icons";
+import { useHistory } from "react-router-dom";
 
 import "./MonthlyCal.css";
 
@@ -33,22 +33,35 @@ const months = [
 const MonthlyCalendar = () => {
   const currentDate = new Date();
 
-  const dummyData = [
-    //FIXME: NEED TO ADAPT ACCORDING TO LIFT HISTORY DATE
-    { date: "2024-03-22", count: 1 },
-    { date: "2024-03-23", count: 1 },
-    { date: "2024-03-24", count: 1 },
-    { date: "2024-04-02", count: 1 },
-    { date: "2024-04-13", count: 3 },
-    { date: "2024-04-14", count: 2 },
-  ];
-
+  const history = useHistory();
+  const user_id = history.location.state || "";
+  const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   const [date, setDate] = useState(currentDate);
   const [calendarRows, setCalendarRows] = useState([]);
+  const [highlightedDays, setHighlightedDays] = useState([]);
+
+  useEffect(() => {
+    // Fetch exercise history dates
+    fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      const dates = data.map(entry => entry.date); // Assuming each entry has a 'date' field
+      setHighlightedDays(dates);
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+    });
+  }, [apiUrl, user_id]);
+
 
   useEffect(() => {
     generateCalendar();
-  }, [date]);
+  }, [date, highlightedDays]);
 
   const generateCalendar = () => {
     const year = date.getFullYear();
@@ -58,14 +71,7 @@ const MonthlyCalendar = () => {
     let day = 1;
 
     // Format and find highlighted dates for the current month
-    const highlightedDates = dummyData
-      .filter(
-        (d) =>
-          new Date(d.date).getMonth() === month &&
-          new Date(d.date).getFullYear() === year,
-      )
-      .map((d) => new Date(d.date).getDate());
-
+    const formattedHighlightedDays = highlightedDays.map(d => new Date(d).toLocaleDateString());
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
 
@@ -86,7 +92,8 @@ const MonthlyCalendar = () => {
             year === new Date().getFullYear()
               ? "today"
               : "";
-          const isHighlighted = highlightedDates.includes(dayIndex)
+          const currentDayString = new Date(year, month, dayIndex).toLocaleDateString();
+          const isHighlighted = formattedHighlightedDays.includes(currentDayString)
             ? "highlighted"
             : "";
           week.push(
