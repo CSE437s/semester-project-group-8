@@ -2,3 +2,18 @@
   height: 100%;
   text-align: center;
 }
+
+.ion-footer {
+  padding: 0; 
+  margin: 0;
+}
+
+.ion-tab-bar {
+  --padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+
+.ion-tab-bar {
+  min-height: 50px; 
+  background-color: #fff;
+}

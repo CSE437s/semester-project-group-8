@@ -24,6 +24,7 @@ import {
 } from "ionicons/icons";
 import { useHistory } from "react-router";
 import "./Exercises.css";
+import VideoModal from './VideoModal';
 
 const liftIconMap = {
   "Bench Press": "assets/exercise_icons/bench.png",
@@ -44,6 +45,10 @@ const Exercises: React.FC = () => {
   const user_id = history.location.state || {};
   const [exercises, setExercises] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState('');
+  const [currentDescription, setCurrentDescription] = useState('');
+  const [currentExerciseName, setCurrentExerciseName] = useState('');
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -61,6 +66,21 @@ const Exercises: React.FC = () => {
       })
       .catch((error) => console.error("Fetch error:", error));
   }, []);
+
+  function formatDescription(description) {
+    const maxLength = 100; // Maximum number of characters to display
+    if (description.length > maxLength) {
+      return description.substring(0, maxLength) + '…';
+    }
+    return description;
+  }
+
+  const openModalWithVideo = (videoUrl: string, description: string, exerciseName: string) => {
+    setCurrentVideoUrl(videoUrl);
+    setCurrentDescription(description);
+    setShowModal(true);
+    setCurrentExerciseName(exerciseName);
+  };
 
   const handleSearch = (event: CustomEvent) => {
     const query = event.detail.value?.toLowerCase() || "";
@@ -113,12 +133,19 @@ const Exercises: React.FC = () => {
                     <IonText>
                       <h2>{exercise.lift_name}</h2>
                     </IonText>
-                    <p>{exercise.description}</p>
+                    <p>{formatDescription(exercise.description)}</p>
                     {exercise.link && (
-                       <a href={exercise.link} target="_blank" rel="noopener noreferrer">
-                       Learn more
-                     </a>
+                      <IonButton onClick={() => openModalWithVideo(exercise.link, exercise.description, exercise.lift_name)}>
+                        Learn more
+                      </IonButton>
                     )}
+                    <VideoModal
+                      isOpen={showModal}
+                      videoUrl={currentVideoUrl}
+                      description={currentDescription}
+                      exerciseName={currentExerciseName}
+                      onClose={() => setShowModal(false)}
+                    />
                   </IonContent>
                 </IonPopover>
               </div>
