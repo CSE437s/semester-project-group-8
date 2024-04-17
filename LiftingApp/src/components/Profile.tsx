@@ -39,8 +39,8 @@ const Profile: React.FC = () => {
   const pfp = "https://ionicframework.com/docs/img/demos/avatar.svg";
 
   const [profile, setProfile] = useState({
-    username: localStorage.getItem("username") || "John Doe",
-    birthday: localStorage.getItem("birthday") || "2000-01-01T17:17:00",
+    username: "John Doe",
+    birthday: "2000-01-01T17:17:00",
   });
 
   const calculateAge = (isoString) => {
@@ -58,6 +58,27 @@ const Profile: React.FC = () => {
   const [isDataFetched, setIsDataFetched] = useState(true);
 
   useEffect(() => {
+    fetch(`${apiUrl}/profile?user_id=${user_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.length === 0) {
+          throw new Error("No user data found");
+        }
+        console.log()
+        setProfile({
+          username: data[0].username,
+          birthday: data[0].birthday, 
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching profile data:", error);
+      });
+
     fetch(`${apiUrl}/totalpoundslifted`, {
       method: "POST",
       headers: {
@@ -129,7 +150,7 @@ const Profile: React.FC = () => {
                 {isDataFetched ? (
                   <IonText>{totalPoundsLifted} Pounds Moved!</IonText>
                 ) : (
-                  <IonText>Total Pounds Lifted</IonText>
+                  <IonText>Total Pounds Lifted...</IonText>
                 )}
               </IonCol>
             </IonRow>
