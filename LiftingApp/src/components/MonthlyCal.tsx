@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef,} from "react";
 import {
   IonPage,
   IonIcon,
@@ -7,10 +7,11 @@ import {
   IonContent,
   IonLabel,
   IonText,
+  IonModal, IonHeader, IonToolbar, IonTitle, IonButtons,
   IonRow,
   IonCol,
 } from "@ionic/react";
-import { chevronForwardOutline, chevronBackOutline } from "ionicons/icons";
+import { chevronForwardOutline, chevronBackOutline, closeCircle} from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 
 import "./MonthlyCal.css";
@@ -63,6 +64,43 @@ const MonthlyCalendar = () => {
     generateCalendar();
   }, [date, highlightedDays]);
 
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [workoutDetails, setWorkoutDetails] = useState(null);
+  const handleDayClick = (isoDate) => {
+    // Log the date to ensure it's being passed correctly
+    console.log(`Fetching details for date: ${isoDate}`);
+    
+    fetch(`${apiUrl}/exercisehistory?user_id=${user_id}&date=${isoDate}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.length === 0) {
+        throw new Error('No workouts found for this date.');
+      }
+      console.log(data); // Log data to ensure it is correct
+      setWorkoutDetails(data);  // Assuming data is an array of workout details for the day
+      setSelectedDate(isoDate);
+      setShowModal(true);
+    })
+    .catch(error => {
+      console.error("Error fetching workout details:", error);
+      alert("Failed to fetch workout details: " + error.message);
+    });
+  };
+
+
+
   const generateCalendar = () => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -96,10 +134,17 @@ const MonthlyCalendar = () => {
           const isHighlighted = formattedHighlightedDays.includes(currentDayString)
             ? "highlighted"
             : "";
+
+          const calendarDayClick = () => {
+            const isoDate = new Date(year, month, dayIndex).toISOString().split('T')[0];
+            handleDayClick(isoDate);
+          };
+  
           week.push(
             <IonCol
               key={col}
               className={`calendar-day ${isToday} ${isHighlighted}`}
+              onClick={calendarDayClick}
             >
               {dayIndex}
             </IonCol>,
@@ -156,6 +201,36 @@ const MonthlyCalendar = () => {
         </IonRow>
         {calendarRows}
       </IonGrid>
+
+      <IonModal isOpen={showModal}>
+        <IonHeader> 
+          <IonToolbar>
+
+            <IonTitle>{selectedDate} Workout</IonTitle>
+
+            <IonButtons slot="end">
+              <IonButton onClick={() => setShowModal(false)}>
+                <IonIcon icon={closeCircle}></IonIcon>
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+
+        <IonContent>
+          <div>
+            {/* <h2>Details for {selectedDate}</h2> */}
+            {workoutDetails ? (
+              <ul>
+                {workoutDetails.map((detail, index) => (
+                  <li key={index}>{detail.description} - {detail.sets} sets</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No workouts recorded on this day.</p>
+            )}
+          </div>
+        </IonContent>
+      </IonModal>
     </div>
   );
 };

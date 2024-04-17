@@ -147,15 +147,15 @@ const Profile: React.FC = () => {
           <IonGrid>
             <IonRow>
               <IonCol>
-                <IonLabel>Workouts</IonLabel>
+                <IonText className="scoreboard-text">Workouts</IonText>
                 {/* FIXME: Add dynamic data here */}
               </IonCol>
               <IonCol>
                 {/* Conditional rendering based on fetch success or 404 error */}
                 {isDataFetched ? (
-                  <IonText>{totalPoundsLifted} Pounds Moved!</IonText>
+                  <IonText className="scoreboard-text">{totalPoundsLifted} lbs Moved!</IonText>
                 ) : (
-                  <IonText>Total Pounds Lifted...</IonText>
+                  <IonText className="scoreboard-text">Total Pounds Lifted...</IonText>
                 )}
               </IonCol>
             </IonRow>
