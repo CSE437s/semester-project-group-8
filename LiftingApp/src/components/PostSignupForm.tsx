@@ -222,8 +222,6 @@ function PostSignupForm() {
       });
       const data = await response.json();
 
-      localStorage.setItem("username", formData.username); //sam added for profile
-      localStorage.setItem("birthday", formData.birthday); //sam added for profile content
     } catch (error) {
       console.error("Error submitting form data: ", error);
     }
@@ -302,6 +300,24 @@ function PostSignupForm() {
     );
   };
 
+  const handleGoHome = async () => {
+    console.log("Submitting form data: ", formData);
+    await submitFormData();  // Ensure form data is submitted
+    history.push({
+      pathname: "/Homepage",
+      state: user_id,
+    });
+  };
+  
+  const handleStartWorkout = async () => {
+    await submitFormData();  // Ensure form data is submitted
+    history.push({
+      pathname: "/StartWorkout",
+      state: user_id,
+    });
+  };
+  
+
   const renderEndStep = () => {
     return (
       <div className="page-container">
@@ -311,27 +327,27 @@ function PostSignupForm() {
 
         <div className="button-container">
           <IonButton
-            className="start-workout-button"
-            onClick={async () => {
-              await submitFormData();
-              history.push({
-                state: user_id,
-                pathname: "/StartWorkout",
-              });
-            }}
+            className="start-workout-button" onClick={handleStartWorkout}
+            // onClick={async () => {
+            //   await submitFormData();
+            //   history.push({
+            //     state: user_id,
+            //     pathname: "/StartWorkout",
+            //   });
+            // }}
           >
             <h2 className="post-signup-start-button">Start A Workout!</h2>
           </IonButton>
 
           <IonButton
-            className="go-home-button"
-            onClick={async () => {
-              await submitFormData();
-              history.push({
-                pathname: "/Homepage",
-                state: user_id,
-              });
-            }}
+            className="go-home-button" onClick={handleGoHome}
+            // onClick={async () => {
+            //   await submitFormData();
+            //   history.push({
+            //     pathname: "/Homepage",
+            //     state: user_id,
+            //   });
+            // }}
           >
             Go To Home
           </IonButton>
@@ -356,6 +372,7 @@ function PostSignupForm() {
         return renderEndStep();
     }
   };
+
   return (
     <div>
       {renderStep()}
