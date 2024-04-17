@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   IonInput,
   IonButton,
@@ -11,6 +11,7 @@ import {
   IonSelectOption,
   IonDatetime,
   IonAlert,
+  IonButtons,
 } from "@ionic/react";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -249,7 +250,8 @@ function PostSignupForm() {
             showDefaultButtons={true}
             preferWheel={true}
             onIonChange={(e) => handleInputChange("birthday", e.detail.value)}
-          ></IonDatetime>
+          >
+          </IonDatetime>
         </IonItem>
 
         {/* GENDER INPUT */}

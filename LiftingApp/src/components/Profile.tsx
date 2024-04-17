@@ -40,10 +40,12 @@ const Profile: React.FC = () => {
 
   const [profile, setProfile] = useState({
     username: "John Doe",
-    birthday: "2000-01-01T17:17:00",
+    birthday: "",
   });
 
   const calculateAge = (isoString) => {
+    if (!isoString) return "";
+
     const birthday = new Date(isoString);
     const today = new Date();
     let age = today.getFullYear() - birthday.getFullYear();
@@ -126,12 +128,15 @@ const Profile: React.FC = () => {
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <h2>
-                  {profile.username}, {calculateAge(profile.birthday)}
+                  {profile.username} 
+                  {calculateAge(profile.birthday) !== "" ? `, ${calculateAge(profile.birthday)}` : ""}
                 </h2>
-                <IonIcon
+
+{/* HAVENT IMPLEMENTED ANYTHING YET FOR EDITING SO COMMENTED OUT */}
+                {/* <IonIcon
                   icon={settingsOutline}
                   style={{ marginLeft: "auto", fontSize: "24px" }}
-                />
+                /> */}
               </div>
             </IonCol>
           </IonRow>
