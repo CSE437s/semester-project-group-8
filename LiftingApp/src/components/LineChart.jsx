@@ -6,7 +6,7 @@ Chart.register(...registerables);
 
 function LineChart({ chartData, title }) {
   if (!chartData || chartData.length === 0) {
-    return <div>No data available for {title}</div>;
+    return <div style={{ textAlign: 'center', padding: '20px', fontSize: '18px', color: 'grey' }}>No data available for {title}</div>;
   }
 
   const data = {
