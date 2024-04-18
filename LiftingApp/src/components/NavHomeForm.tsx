@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonFooter,
   IonTitle,
@@ -21,6 +21,8 @@ import {
 import { useNavigation } from "../hooks/useNavigation";
 import "./NavHomeForm.css";
 import { useHistory } from "react-router-dom";
+// @ts-ignore
+import Graph from './Graph';
 
 function NavHomeForm() {
   console.log("NavHomeForm called");
@@ -28,17 +30,19 @@ function NavHomeForm() {
   const user_id = history.location.state || {};
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   console.log("user_id: ", user_id);
+  const [seed, setSeed] = useState(1);
+  const reset = () => {
+    setSeed(Math.random());
+  }
   return (
     <IonPage>
-      <div>
+      <div className="page-content"> {/* Apply the scrollable class here */}
         <IonText className="start-workout-text">
           <h1>Start Workout</h1>
         </IonText>
-
         <IonText className="ion-padding quick-start-label">
           <h2 className="ion-padding-start">Quick Start</h2>
         </IonText>
-
         <IonButton
           className="start-empty-workout-button"
           onClick={() =>
@@ -50,6 +54,7 @@ function NavHomeForm() {
         >
           Start an Empty Workout
         </IonButton>
+        <Graph user_id={user_id} key={seed}/>
       </div>
 
       {/* 
