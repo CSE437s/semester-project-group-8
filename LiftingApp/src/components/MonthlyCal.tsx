@@ -69,37 +69,119 @@ const MonthlyCalendar = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [workoutDetails, setWorkoutDetails] = useState(null);
-  const handleDayClick = (isoDate) => {
-    // Log the date to ensure it's being passed correctly
-    console.log(`Fetching details for date: ${isoDate}`);
-    
-    fetch(`${apiUrl}/exercisehistory?user_id=${user_id}&date=${isoDate}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP status ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      if (data.length === 0) {
-        throw new Error('No workouts found for this date.');
-      }
-      console.log(data); // Log data to ensure it is correct
-      setWorkoutDetails(data);  // Assuming data is an array of workout details for the day
-      setSelectedDate(isoDate);
-      setShowModal(true);
-    })
-    .catch(error => {
-      console.error("Error fetching workout details:", error);
-      alert("Failed to fetch workout details: " + error.message);
-    });
-  };
+  const [sortedDates, setSortedDates] = useState<string[]>([]);
+  const [lifts, setLifts] = useState({});
 
+  const handleDayClick = (isoDate) => {
+    fetch(`${apiUrl}/getlifts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const liftsMap = {};
+          data.forEach((lift) => {
+            liftsMap[lift.lift_id] = lift.lift_name;
+          });
+          setLifts(liftsMap);
+
+          // Log the date to ensure it's being passed correctly
+          console.log(`Fetching details for date: ${isoDate}`);
+          
+          fetch(`${apiUrl}/exercisehistory?user_id=${user_id}&date=${isoDate}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP status ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.length === 0) {
+              throw new Error('No workouts found for this date.');
+            }
+
+            // BELOW DATA FORMATTING
+            const clickedDay = new Date(isoDate).toLocaleDateString(
+              "en-US",
+              {
+                weekday: "long",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              },
+            );
+
+            const groupedByDate = data.reduce((acc, current) => {
+              const dateStr = new Date(current.date).toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                },
+              );
+
+              if (!acc[dateStr]) {
+                acc[dateStr] = [];
+              }
+
+              const exerciseIndex = acc[dateStr].findIndex(
+                (ex) => ex.lift_id === current.lift_id,
+              );
+              if (exerciseIndex > -1) {
+                acc[dateStr][exerciseIndex].sets += 1;
+                const bestSet = acc[dateStr][exerciseIndex].bestSet;
+                const currentSet = current.weight * current.rep_num;
+                if (currentSet > bestSet.weight * bestSet.reps) {
+                  acc[dateStr][exerciseIndex].bestSet = {
+                    weight: current.weight,
+                    reps: current.rep_num,
+                  };
+                }
+              } else {
+                acc[dateStr].push({
+                  lift_id: current.lift_id,
+                  sets: 1,
+                  bestSet: { weight: current.weight, reps: current.rep_num },
+                  lift_name: liftsMap[current.lift_id], // Use liftsMap to set lift_name
+                });
+              }
+
+              return acc;
+
+            }, {});
+
+            setExercises(groupedByDate);
+            setSortedDates(
+              Object.keys(groupedByDate).sort(
+                (a, b) => new Date(b) - new Date(a),
+              ),
+            );
+            console.log("exercises:")
+            console.log(exercises[clickedDay]) 
+
+            console.log(data); // Log data to ensure it is correct
+            console.log("HELLO")
+            setWorkoutDetails(data);  // Assuming data is an array of workout details for the day
+            setSelectedDate(isoDate);
+            setShowModal(true);
+          })
+          .catch(error => {
+            console.error("Error fetching workout details:", error);
+            alert("Failed to fetch workout details: " + error.message);
+          });
+
+       });
+        
+  }
 
 
   const generateCalendar = () => {
@@ -222,16 +304,13 @@ const MonthlyCalendar = () => {
           </IonToolbar>
         </IonHeader>
 
-        <div className="custom-modal-content"> {/* Use the custom CSS class here */}
+        <div className="custom-modal-content"> 
           {workoutDetails && workoutDetails.length > 0 ? (
             workoutDetails.map((detail, index) => (
               <IonItem key={index}>
                 <IonLabel>
                   <p>Text lorem ipsum</p>
-                  {/* Uncomment and use the following lines if needed */}
-                  {/* <h3>{detail.lift_name}</h3>
-                  <p>Sets: {detail.sets}</p>
-                  <p>Best Set: {detail.bestSet.weight} lbs x {detail.bestSet.reps}</p> */}
+                  <p>{detail.sets} x {detail.lift_name}</p>
                 </IonLabel>
               </IonItem>
             ))

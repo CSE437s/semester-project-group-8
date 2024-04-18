@@ -1,17 +1,25 @@
 import React from 'react';
-import { IonModal, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonList, IonItem, IonLabel } from '@ionic/react';
+import { IonModal, IonIcon, IonHeader, IonToolbar, IonTitle, IonButton, IonList, IonItem, IonLabel, IonButtons } from '@ionic/react';
+import { closeCircle} from "ionicons/icons";
+
+import "./ExerciseDetailModal.css";
 
 const ExerciseDetailModal = ({ isOpen, onClose, exerciseDetails, date, totalPounds }) => {
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+    <IonModal isOpen={isOpen} onDidDismiss={onClose} className="custom-modal">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>{date}</IonTitle>
-          <IonButton slot="end" onClick={onClose}>Close</IonButton>
+            <h2>{date}</h2>
+            <IonButtons slot="end">
+              <IonButton onClick={onClose}>
+                <IonIcon icon={closeCircle} style={{ fontSize: '32px' }}></IonIcon>
+              </IonButton>
+            </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <h2>Total Pounds Lifted Today: {totalPounds}</h2>
+      
+      <div className="custom-modal-content">
+        <h3>Total Pounds Lifted: {totalPounds}</h3>
         {exerciseDetails.map((exercise, index) => (
           <div key={index}>
             <h3>{exercise.lift_name}</h3>
@@ -24,7 +32,7 @@ const ExerciseDetailModal = ({ isOpen, onClose, exerciseDetails, date, totalPoun
             </IonList>
           </div>
         ))}
-      </IonContent>
+      </div>
     </IonModal>
   );
 };
