@@ -318,7 +318,7 @@ app.post("/addset", async (req, res) => {
           set_num,
           dayvars,
         );
-        console.log("This hits! recommendlift_json: ", recommendlift_json);
+        console.log("recommendlift_json: ", recommendlift_json);
         // Return the response with recommendlift_json
         res.json({
           message: "Set input into database",
@@ -401,7 +401,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
       const percentage = data;
       console.log("dayvars: " + dayvars);
       const weight_rec =
-        Math.floor((Number(theoreticMaxLift) * percentage * (Math.max(dayvars/15, .8)) /5) * 5);
+        Math.round((Number(theoreticMaxLift) * percentage * Math.max(dayvars/15, .8)) / 5) * 5;
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
