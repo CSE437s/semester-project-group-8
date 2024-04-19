@@ -62,9 +62,6 @@ const MonthlyCalendar = () => {
   }, [apiUrl, user_id]);
 
 
-
-
-
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ date: '', totalPounds: 0, exerciseDetails: [] });
   const [selectedDate, setSelectedDate] = useState("");
@@ -199,9 +196,9 @@ const MonthlyCalendar = () => {
       setShowModal(true);
     }
     else {
-      console.log("NOTHING IN EXERCISES")
-      setModalData({ date, totalPounds, exerciseDetails });
-      setShowModal(true);
+      console.log("NO LIFT THIS DAY")
+      // setModalData({ date, totalPounds, exerciseDetails });
+      // setShowModal(true);
     }
     
   };
@@ -255,8 +252,6 @@ const MonthlyCalendar = () => {
               month: 'short',  
               day: 'numeric',   
             });
-
-            console.log(formattedDate); 
             
             handleDateSectionClick(formattedDate)
           };
