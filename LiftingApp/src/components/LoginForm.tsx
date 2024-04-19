@@ -12,8 +12,6 @@ function LoginForm() {
   const [loginStatus, setLoginStatus] = useState("");
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-  // const apiUrl = 'http://localhost:3000';
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);

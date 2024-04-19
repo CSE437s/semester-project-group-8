@@ -115,6 +115,7 @@ const History: React.FC = () => {
 
   const handleDateSectionClick = (date) => {
     const exercisesForDate = rawExercises.filter(ex => {
+      console.log(date)
       const exDateStr = new Date(ex.date).toLocaleDateString("en-US", {
         weekday: "long",
         year: "numeric",
@@ -123,6 +124,8 @@ const History: React.FC = () => {
       });
       return exDateStr === date;
     });
+
+    console.log(exercisesForDate)
   
     let totalPounds = 0;
     const exercisesDetail = exercisesForDate.reduce((acc, ex) => {
@@ -153,11 +156,13 @@ const History: React.FC = () => {
     setShowModal(true);
   };
   
+
   return (
     <IonPage>
        <IonContent>
         {sortedDates.length > 0 ? (
           sortedDates.map((date) => (
+            
             <div key={date}>
               <IonText className="workout-date-header" onClick={() => handleDateSectionClick(date)}>
                 <h2>{date}</h2>

@@ -11,6 +11,7 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
+import ExerciseDetailModal from './ExerciseDetailModal';
 import { chevronForwardOutline, chevronBackOutline, closeCircle} from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 
@@ -61,128 +62,155 @@ const MonthlyCalendar = () => {
   }, [apiUrl, user_id]);
 
 
-  useEffect(() => {
-    generateCalendar();
-  }, [date, highlightedDays]);
+
 
 
   const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({ date: '', totalPounds: 0, exerciseDetails: [] });
   const [selectedDate, setSelectedDate] = useState("");
   const [workoutDetails, setWorkoutDetails] = useState(null);
   const [sortedDates, setSortedDates] = useState<string[]>([]);
   const [lifts, setLifts] = useState({});
+  const [rawExercises, setRawExercises] = useState([]);
 
-  const handleDayClick = (isoDate) => {
+  useEffect(() => {
     fetch(`${apiUrl}/getlifts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const liftsMap = {};
-          data.forEach((lift) => {
-            liftsMap[lift.lift_id] = lift.lift_name;
-          });
-          setLifts(liftsMap);
-
-          // Log the date to ensure it's being passed correctly
-          console.log(`Fetching details for date: ${isoDate}`);
-          
-          fetch(`${apiUrl}/exercisehistory?user_id=${user_id}&date=${isoDate}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const liftsMap = {};
+        data.forEach((lift) => {
+          liftsMap[lift.lift_id] = lift.lift_name;
+        });
+        setLifts(liftsMap);
+        console.log("user_id: ", user_id);
+        if (user_id) {
+          fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP status ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            if (data.length === 0) {
-              throw new Error('No workouts found for this date.');
-            }
+            .then((response) => response.json())
+            .then((data) => {
+              setRawExercises(data);
+              const groupedByDate = data.reduce((acc, current) => {
+                const dateStr = new Date(current.date).toLocaleDateString(
+                  "en-US",
+                  {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  },
+                );
 
-            // BELOW DATA FORMATTING
-            const clickedDay = new Date(isoDate).toLocaleDateString(
-              "en-US",
-              {
-                weekday: "long",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              },
-            );
-
-            const groupedByDate = data.reduce((acc, current) => {
-              const dateStr = new Date(current.date).toLocaleDateString(
-                "en-US",
-                {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                },
-              );
-
-              if (!acc[dateStr]) {
-                acc[dateStr] = [];
-              }
-
-              const exerciseIndex = acc[dateStr].findIndex(
-                (ex) => ex.lift_id === current.lift_id,
-              );
-              if (exerciseIndex > -1) {
-                acc[dateStr][exerciseIndex].sets += 1;
-                const bestSet = acc[dateStr][exerciseIndex].bestSet;
-                const currentSet = current.weight * current.rep_num;
-                if (currentSet > bestSet.weight * bestSet.reps) {
-                  acc[dateStr][exerciseIndex].bestSet = {
-                    weight: current.weight,
-                    reps: current.rep_num,
-                  };
+                if (!acc[dateStr]) {
+                  acc[dateStr] = [];
                 }
-              } else {
-                acc[dateStr].push({
-                  lift_id: current.lift_id,
-                  sets: 1,
-                  bestSet: { weight: current.weight, reps: current.rep_num },
-                  lift_name: liftsMap[current.lift_id], // Use liftsMap to set lift_name
-                });
-              }
 
-              return acc;
+                const exerciseIndex = acc[dateStr].findIndex(
+                  (ex) => ex.lift_id === current.lift_id,
+                );
+                if (exerciseIndex > -1) {
+                  acc[dateStr][exerciseIndex].sets += 1;
+                  const bestSet = acc[dateStr][exerciseIndex].bestSet;
+                  const currentSet = current.weight * current.rep_num;
+                  if (currentSet > bestSet.weight * bestSet.reps) {
+                    acc[dateStr][exerciseIndex].bestSet = {
+                      weight: current.weight,
+                      reps: current.rep_num,
+                    };
+                  }
+                } else {
+                  acc[dateStr].push({
+                    lift_id: current.lift_id,
+                    sets: 1,
+                    bestSet: { weight: current.weight, reps: current.rep_num },
+                    lift_name: liftsMap[current.lift_id],
+                  });
+                }
 
-            }, {});
+                return acc;
+              }, {});
 
-            setExercises(groupedByDate);
-            setSortedDates(
-              Object.keys(groupedByDate).sort(
-                (a, b) => new Date(b) - new Date(a),
-              ),
-            );
-            console.log("exercises:")
-            console.log(exercises[clickedDay]) 
+              setExercises(groupedByDate);
+              setSortedDates(
+                Object.keys(groupedByDate).sort(
+                  (a, b) => new Date(b) - new Date(a),
+                ),
+              );
+            })
+            .catch((error) => {
+              console.error("Fetch error:", error);
+            });
+        } else {
+          console.log("User ID is missing.");
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  }, [apiUrl, user_id]);
 
-            console.log(data); // Log data to ensure it is correct
-            console.log("HELLO")
-            setWorkoutDetails(data);  // Assuming data is an array of workout details for the day
-            setSelectedDate(isoDate);
-            setShowModal(true);
-          })
-          .catch(error => {
-            console.error("Error fetching workout details:", error);
-            alert("Failed to fetch workout details: " + error.message);
-          });
+  const handleDateSectionClick = (date) => {
+    const exercisesForDate = rawExercises.filter(ex => {
+      const exDateStr = new Date(ex.date).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+      return exDateStr === date;
+    });
+    console.log(exercisesForDate)
+  
+    let totalPounds = 0;
+    const exercisesDetail = exercisesForDate.reduce((acc, ex) => {
+      totalPounds += ex.weight * ex.rep_num;
 
-       });
-        
-  }
+      if (!acc[ex.lift_id]) {
+        acc[ex.lift_id] = {
+          lift_name: lifts[ex.lift_id],
+          sets: []
+        };
+      }
+      acc[ex.lift_id].sets.push({
+        weight: ex.weight,
+        reps: ex.rep_num,
+        setNumber: acc[ex.lift_id].sets.length + 1
+      });
+  
+      return acc;
+    }, {});
+  
+    const exerciseDetails = Object.keys(exercisesDetail).map(key => ({
+      lift_id: key,
+      lift_name: exercisesDetail[key].lift_name,
+      sets: exercisesDetail[key].sets
+    }));
+  
+    if (exerciseDetails.length > 0) {
+      setModalData({ date, totalPounds, exerciseDetails });
+      setShowModal(true);
+    }
+    else {
+      console.log("NOTHING IN EXERCISES")
+      setModalData({ date, totalPounds, exerciseDetails });
+      setShowModal(true);
+    }
+    
+  };
 
+
+
+  useEffect(() => {
+    generateCalendar();
+  }, [date, highlightedDays]);
 
   const generateCalendar = () => {
     const year = date.getFullYear();
@@ -219,8 +247,18 @@ const MonthlyCalendar = () => {
             : "";
 
           const calendarDayClick = () => {
-            const isoDate = new Date(year, month, dayIndex).toISOString().split('T')[0];
-            handleDayClick(isoDate);
+            const date = new Date(year, month, dayIndex); 
+
+            const formattedDate = date.toLocaleDateString('en-US', {
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'short',  
+              day: 'numeric',   
+            });
+
+            console.log(formattedDate); 
+            
+            handleDateSectionClick(formattedDate)
           };
   
           week.push(
@@ -255,12 +293,6 @@ const MonthlyCalendar = () => {
   };
 
 
-  const modal = useRef<HTMLIonModalElement>(null);
-
-  function dismiss() {
-    modal.current?.dismiss();
-  }
-
   return (
     <div>
       <div className="month-buttons-row">
@@ -292,64 +324,14 @@ const MonthlyCalendar = () => {
         {calendarRows}
       </IonGrid>
 
-      <IonModal ref={modal} isOpen={showModal} onDidDismiss={() => setShowModal(false)} className="custom-modal">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>{selectedDate} Workout</IonTitle>
-            <IonButtons slot="end">
-              <IonButton onClick={() => setShowModal(false)}>
-                <IonIcon icon={closeCircle}></IonIcon>
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
+      <ExerciseDetailModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        exerciseDetails={modalData.exerciseDetails}
+        date={modalData.date}
+        totalPounds={modalData.totalPounds}
+      />
 
-        <div className="custom-modal-content"> 
-          {workoutDetails && workoutDetails.length > 0 ? (
-            workoutDetails.map((detail, index) => (
-              <IonItem key={index}>
-                <IonLabel>
-                  <p>Text lorem ipsum</p>
-                  <p>{detail.sets} x {detail.lift_name}</p>
-                </IonLabel>
-              </IonItem>
-            ))
-          ) : (
-            <IonText className="centered-message">
-              <h2>No workouts recorded on this day.</h2>
-            </IonText>
-          )}
-        </div>
-      </IonModal>
-
-      {/* <IonModal isOpen={showModal}>
-        <IonHeader> 
-          <IonToolbar>
-
-            <IonTitle>{selectedDate} Workout</IonTitle>
-
-            <IonButtons slot="end">
-              <IonButton onClick={() => setShowModal(false)}>
-                <IonIcon icon={closeCircle}></IonIcon>
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-
-        <IonContent>
-          <div>
-            {workoutDetails ? (
-              <ul>
-                {workoutDetails.map((detail, index) => (
-                  <li key={index}>{detail.description} - {detail.sets} sets</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No workouts recorded on this day.</p>
-            )}
-          </div>
-        </IonContent>
-      </IonModal> */}
     </div>
   );
 };
