@@ -50,6 +50,15 @@ h3 {
   margin-bottom: 20px;
 }
 
+ion-range {
+  width: 100%; 
+  box-sizing: border-box;
+  overflow: visible;
+  align-items: left;
+  display: flex;
+  justify-content: left;
+}
+
 .verify-button {
   --background: #ff4b4b;
   color: white;
