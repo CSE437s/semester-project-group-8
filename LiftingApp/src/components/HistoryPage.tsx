@@ -18,6 +18,8 @@ import {
 } from "ionicons/icons";
 import { useHistory } from "react-router";
 import ExerciseDetailModal from './ExerciseDetailModal';
+import "./HistoryPage.css";
+
 const History: React.FC = () => {
   const [exercises, setExercises] = useState({});
   const [sortedDates, setSortedDates] = useState<string[]>([]);
@@ -28,6 +30,7 @@ const History: React.FC = () => {
   const history = useHistory();
   const user_id = history.location.state || "";
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 
   useEffect(() => {
     fetch(`${apiUrl}/getlifts`, {
