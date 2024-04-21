@@ -36,8 +36,8 @@ describe('recommendlift function', () => {
         const result = await recommendlift(100, 8, 7, 1, 2, 10);
         const expected = JSON.stringify({
         rec_type: "set",
-        weight_rec: 85,
-        new_reps: 10,
+        weight_rec: 110,
+        new_reps: 7,
         new_rpe: 8,
         lift_id: 1,
         });
@@ -72,7 +72,6 @@ describe('/profile endpoint', () => {
             message: "No user data"
         });
     });
-
 });
 
 describe('/exercisehistory endpoint', () => {

@@ -362,6 +362,9 @@ function simplemaxcalculate(weight, rep_num, rpereq) {
 }
 
 async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
+  if (dayvars == null){
+    dayvars = Number(12);
+  }
   if (set_num >= 3) {
     if (lift_id == 2) {
       console.log("leg extension rec");
@@ -381,9 +384,9 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
     if (lift_id == 1 || lift_id == 2 || lift_id == 3){
       new_reps = 7;
     }
-    var new_rpe = 7; 
+    var new_rpe = 8; 
     if ((dayvars/15) < .5){
-      new_rpe = 5;
+      new_rpe = 6;
     }
 
     if ((dayvars/15) >= .85){
