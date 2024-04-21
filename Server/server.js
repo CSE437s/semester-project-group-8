@@ -377,7 +377,13 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
     // Await the resolution of simplemaxcalculate before proceeding
     const theoreticMaxLift = await simplemaxcalculate(weight, rep_num, rpe);
     console.log("theoreticMaxLift: ", theoreticMaxLift);
-    const new_reps = 10; // For future dynamic input
+    
+    if (lift_id == 1 || lift_id == 2 || lift_id == 3){
+      const new_reps = 7;
+    }
+    else{
+    const new_reps = 10;
+    }
     const new_rpe = 8; // For future dynamic input
 
     // Since you're already in an async function, use await for the query
@@ -436,7 +442,6 @@ app.get("/recentLift", (req, res) => {
   const user_id = req.query.user_id;
   const date = new Date().toJSON().slice(0, 10);
   console.log("Request most recent exercise for user ");
-  //need to retrieve variables
   const sql =
     "SELECT rep_num, weight, rpe FROM Exercises WHERE user_id = ? AND exercise_id = ? AND set_num = (SELECT MAX(set_num) FROM Exercises WHERE user_id = ? AND exercise_id = ? AND date = ?)";
   db.query(
@@ -449,7 +454,7 @@ app.get("/recentLift", (req, res) => {
       return res.json(data);
     },
   );
-});
+}); 
 
 app.post("/totalpoundslifted", (req, res) => {
   const user_id = req.body.user_id;
@@ -496,8 +501,7 @@ app.get("/profile", (req, res) => {
         .status(404)
         .json({ success: "false", message: "No user data" });
     }
-    //data is not formatted by session, but maybe you can group by date to categorize lifts
-    return res.json(data);
+    return res.status(200).json(data);
   });
 });
 
@@ -510,4 +514,4 @@ app.listen(3000, () => {
 });
 
 
-module.exports = { simplemaxcalculate, recommendlift};
+module.exports = { simplemaxcalculate, recommendlift, app, db};
