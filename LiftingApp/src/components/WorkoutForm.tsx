@@ -20,7 +20,8 @@ import {
   IonActionSheet,
   IonItemSliding,
   IonItemOptions,
-  IonItemOption
+  IonItemOption,
+  IonSearchbar,
 } from "@ionic/react";
 
 import {
@@ -30,6 +31,7 @@ import {
   personOutline,
   timeOutline,
   ellipsisHorizontal,
+  
 } from "ionicons/icons";
 
 import "./WorkoutForm.css";
@@ -233,6 +235,19 @@ function WorkoutForm() {
     }
   };
 
+  const [searchResults, setSearchResults] = useState([]);
+  const handleSearch = (event: CustomEvent) => {
+    const query = event.detail.value?.toLowerCase() || "";
+    if (query === "") {
+      setSearchResults(exercises); // Show all exercises if query is empty
+    } else {
+      const filteredExercises = exercises.filter((exercise) =>
+        exercise.lift_name.toLowerCase().includes(query),
+      );
+      setSearchResults(filteredExercises);
+    }
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -250,6 +265,7 @@ function WorkoutForm() {
       <div className="workout-container">
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
           <IonList>
+            <IonSearchbar placeholder="Search" onIonChange={handleSearch} debounce={500} />
             {exercises.map((exercise) => (
               <div>
                 <IonItem
@@ -259,10 +275,7 @@ function WorkoutForm() {
                     {exercise.lift_name}
                 </IonItem>
               </div>
-
-
             ))}
-
           </IonList>
           <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
         </IonModal>
