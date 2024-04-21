@@ -1,20 +1,24 @@
 .popup {
   height: 100%;
   text-align: center;
+  overflow: hidden; /* Hide any overflow beyond the container */
 }
 
-.ion-footer {
-  padding: 0; 
-  margin: 0;
+.exercises-container {
+  height: calc(100% - 150px); /* Adjust height according to your footer's height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
+/* Reset ion-footer and ion-tab-bar styles */
+.ion-footer,
 .ion-tab-bar {
+  padding: 0;
+  margin: 0;
+  background-color: #fff; /* Set background color */
+}
+
+/* Adjust ion-tab-bar height */
+.ion-tab-bar {
+  min-height: 50px;
   --padding-bottom: env(safe-area-inset-bottom, 0);
 }
-
-
-.ion-tab-bar {
-  min-height: 50px; 
-  background-color: #fff;
-}
-

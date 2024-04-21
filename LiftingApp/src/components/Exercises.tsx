@@ -31,12 +31,22 @@ const liftIconMap = {
   Squat: "assets/exercise_icons/squat.png",
   Deadlift: "assets/exercise_icons/deadlift.png",
   "Lat Pulldowns": "assets/exercise_icons/lat-pulldown.png",
-  "Bicep Curls": "assets/exercise_icons/bicep-curls-seated.png",
+  "Seated Bicep Curls": "assets/exercise_icons/bicep-curls-seated.png",
   "Leg Extensions": "assets/exercise_icons/leg-extension.png",
-  Elliptical: "assets/exercise_icons/elliptical.png",
-  Bike: "assets/exercise_icons/bike.png",
   "Pull ups": "assets/exercise_icons/pullups.png",
-  Treadmill: "assets/exercise_icons/treadmill.png",
+  "Crunches": "assets/exercise_icons/ab-crunches.png",
+  "Shoulder Press": "assets/exercise_icons/shoulder-press-machine.png",
+  "Seated Cable Rows": "assets/exercise_icons/seated-cable-rows.png",
+  "Leg Press" : "assets/exercise_icons/leg-press.png",
+  "Rear Delt Fly": "assets/exercise_icons/rows-dumbbell.png",
+  "Romanian Deadlift" : "assets/exercise_icons/deadlift.png",
+  "Russian Twist": "assets/exercise_icons/situps.png",
+  "Preacher Curls": "assets/exercise_icons/bicep-curls-seated.png",
+  "Hammer Curls": "assets/exercise_icons/bicep-curls-seated.png",
+  "Dips": "assets/exercise_icons/dips.png",
+  "Barbell Rows" : "assets/exercise_icons/deadlift.png",
+  "Lateral Raises" : "assets/exercise_icons/squat.png",
+  "Leg Raises": "assets/exercise_icons/leg-press.png"
 };
 
 const Exercises: React.FC = () => {
@@ -99,9 +109,9 @@ const Exercises: React.FC = () => {
 
   return (
     <IonPage>
-      <div>
+      <IonContent fullscreen className="ion-padding-top">
         <IonText className="start-workout-text">
-          <h1 className="ion-padding">Exercises Page</h1>
+          <h1>Exercises Page</h1>
         </IonText>
 
         <IonSearchbar
@@ -109,35 +119,35 @@ const Exercises: React.FC = () => {
           showClearButton="focus"
           debounce={250}
           onIonChange={handleSearch}
-        ></IonSearchbar>
+        />
 
-        <div className="exercises-container">
         <IonList>
-            {searchResults.map((exercise) => (
-              <IonItem
-                key={exercise.lift_id}
-                button={true}
-                onClick={() => openModalWithVideo(exercise)}
-              >
-                <img
-                  src={liftIconMap[exercise.lift_name] || barbell}
-                  alt="Exercise Icon"
-                  style={{ width: "25px", marginRight: "10px" }}
-                />
-                <IonLabel>{exercise.lift_name}</IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </div>
+          {searchResults.map((exercise) => (
+            <IonItem
+              key={exercise.lift_id}
+              button={true}
+              onClick={() => openModalWithVideo(exercise)}
+            >
+              <img
+                src={liftIconMap[exercise.lift_name] || barbell}
+                alt="Exercise Icon"
+                slot="start"
+                style={{ width: "25px", marginRight: "10px" }}
+              />
+              <IonLabel>{exercise.lift_name}</IonLabel>
+            </IonItem>
+          ))}
+        </IonList>
+
         <VideoModal
-            isOpen={showModal}
-            videoUrl={currentVideoUrl}
-            description={currentDescription}
-            exerciseName={currentExerciseName}
-            onClose={() => setShowModal(false)}
-          />
-      </div>
-      
+          isOpen={showModal}
+          videoUrl={currentVideoUrl}
+          description={currentDescription}
+          exerciseName={currentExerciseName}
+          onClose={() => setShowModal(false)}
+        />
+      </IonContent>
+
       <IonFooter>
         <IonTabBar>
           <IonTabButton tab="Home">
