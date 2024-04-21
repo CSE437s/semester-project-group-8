@@ -18,6 +18,9 @@ import {
   IonRow,
   IonCol,
   IonActionSheet,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption
 } from "@ionic/react";
 
 import {
@@ -309,71 +312,85 @@ function WorkoutForm() {
                 <div>Lbs</div>
                 <div>Reps</div>
                 <div>RPE</div>
-                <div>Actions</div> {/* Added Actions header */}
+                <div>Action</div> {/* Added Actions header */}
               </div>
               {sets[exerciseIndex].map((set, setIndex) => (
-                <div
-                  key={setIndex}
-                  className={`set-row ${set.done ? "green-background" : ""}`}
-                >
-                  <div>{set.setNumber}</div>
-                  <div>
-                    <IonInput
-                      value={set.lbs}
-                      placeholder="lbs"
-                      onIonChange={(e) =>
-                        updateSet(exerciseIndex, setIndex, "lbs", e.detail.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <IonInput
-                      value={set.reps}
-                      placeholder="Reps"
-                      onIonChange={(e) =>
-                        updateSet(exerciseIndex, setIndex, "reps", e.detail.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <IonItem>
-                      <IonSelect
-                        value={set.RPE}
-                        placeholder="RPE"
-                        onIonChange={(e) =>
-                          updateSet(
-                            exerciseIndex,
-                            setIndex,
-                            "RPE",
-                            parseFloat(e.detail.value),
-                          )
-                        }
-                        interface="popover"
+                <div>
+                  <IonItemSliding key={setIndex}>
+                    <div
+                      key={setIndex}
+                      className={`set-row ${set.done ? "green-background" : ""}`}
+                    >
+                      <div>{set.setNumber}</div>
+                      <div>
+                        <IonInput
+                          value={set.lbs}
+                          placeholder="lbs"
+                          onIonChange={(e) =>
+                            updateSet(exerciseIndex, setIndex, "lbs", e.detail.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <IonInput
+                          value={set.reps}
+                          placeholder="Reps"
+                          onIonChange={(e) =>
+                            updateSet(exerciseIndex, setIndex, "reps", e.detail.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <IonItem>
+                          <IonSelect
+                            value={set.RPE}
+                            placeholder="RPE"
+                            onIonChange={(e) =>
+                              updateSet(
+                                exerciseIndex,
+                                setIndex,
+                                "RPE",
+                                parseFloat(e.detail.value),
+                              )
+                            }
+                            interface="popover"
+                          >
+                            {RPEOptions.map((RPEValue) => (
+                              <IonSelectOption key={RPEValue} value={RPEValue}>
+                                {RPEValue}
+                              </IonSelectOption>
+                            ))}
+                          </IonSelect>
+                        </IonItem>
+                      </div>
+                      <div>
+                        <IonIcon
+                          icon={checkmarkOutline}
+                          style={{
+                            marginRight: "10px",
+                            color: set.done ? "green" : "grey",
+                            fontSize: "34px",
+                          }}
+                          onClick={() => toggleDone(exerciseIndex, setIndex)}
+                        />
+                        {/* <IonIcon
+                          icon={closeOutline}
+                          style={{ fontSize: "24px" }}
+                          onClick={() => deleteSet(exerciseIndex, setIndex)}
+                        /> */}
+                      </div>
+                    </div>
+
+                    <IonItemOptions side="end" >
+                      <IonItemOption
+                        color="danger"
+                        onClick={() => deleteSet(exerciseIndex, setIndex)}
                       >
-                        {RPEOptions.map((RPEValue) => (
-                          <IonSelectOption key={RPEValue} value={RPEValue}>
-                            {RPEValue}
-                          </IonSelectOption>
-                        ))}
-                      </IonSelect>
-                    </IonItem>
-                  </div>
-                  <div>
-                    <IonIcon
-                      icon={checkmarkOutline}
-                      style={{
-                        marginRight: "10px",
-                        color: set.done ? "green" : "grey",
-                        fontSize: "24px",
-                      }}
-                      onClick={() => toggleDone(exerciseIndex, setIndex)}
-                    />
-                    <IonIcon
-                      icon={closeOutline}
-                      style={{ fontSize: "24px" }}
-                      onClick={() => deleteSet(exerciseIndex, setIndex)}
-                    />
-                  </div>
+                        Delete
+                      </IonItemOption>
+                    </IonItemOptions>
+
+                  </IonItemSliding>
                 </div>
               ))}
             </div>
@@ -391,12 +408,12 @@ function WorkoutForm() {
               Delete Exercise
             </IonButton> */}
 
-            
+
             <IonActionSheet
                 isOpen={isOpen}
                 buttons={[
                   {
-                    text: 'Delete',
+                    text: 'Delete Exercise',
                     role: 'destructive',
                     handler: () => {
                       console.log('Delete clicked');
