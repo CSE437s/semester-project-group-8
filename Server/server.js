@@ -377,16 +377,18 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
     // Await the resolution of simplemaxcalculate before proceeding
     const theoreticMaxLift = await simplemaxcalculate(weight, rep_num, rpe);
     console.log("theoreticMaxLift: ", theoreticMaxLift);
-    
+    var new_reps = 10;
     if (lift_id == 1 || lift_id == 2 || lift_id == 3){
-      const new_reps = 7;
+      new_reps = 7;
     }
-    else{
-    const new_reps = 10;
+    var new_rpe = 7; 
+    if ((dayvars/15) < .5){
+      new_rpe = 5;
     }
-    const new_rpe = 8; // For future dynamic input
 
-    // Since you're already in an async function, use await for the query
+    if ((dayvars/15) >= .85){
+      new_rpe = 9;
+    }
     try {
       const rpeColumn = `\`${new_rpe}\``;
       const sql = `SELECT ${rpeColumn} FROM RPE WHERE reps = ?`;
@@ -407,7 +409,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
       const percentage = data;
       console.log("dayvars: " + dayvars);
       const weight_rec =
-        Math.round((Number(theoreticMaxLift) * percentage * Math.max(dayvars/15, .9)) / 5) * 5;
+        Math.round((Number(theoreticMaxLift) * percentage) / 5) * 5;
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
