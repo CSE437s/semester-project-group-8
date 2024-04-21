@@ -264,14 +264,13 @@ function WorkoutForm() {
 
       <div className="workout-container">
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
-          <IonList>
+        <IonList>
             <IonSearchbar placeholder="Search" onIonChange={handleSearch} debounce={500} />
             {exercises.map((exercise) => (
-              <div>
+              <div key={exercise.lift_id}> {/* Moved the key to the div */}
                 <IonItem
-                key={exercise.lift_id}
-                button
-                onClick={() => selectExercise(exercise)}>
+                  button
+                  onClick={() => selectExercise(exercise)}>
                     {exercise.lift_name}
                 </IonItem>
               </div>
