@@ -401,7 +401,7 @@ async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
       const percentage = data;
       console.log("dayvars: " + dayvars);
       const weight_rec =
-        Math.round((Number(theoreticMaxLift) * percentage * Math.max(dayvars/15, .8)) / 5) * 5;
+        Math.round((Number(theoreticMaxLift) * percentage * Math.max(dayvars/15, .9)) / 5) * 5;
       console.log("weight_rec: ", weight_rec);
 
       // Now directly return the JSON stringified object with correct values
@@ -508,3 +508,6 @@ db.on("error", function (err) {
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });
+
+
+module.exports = { simplemaxcalculate, recommendlift};
