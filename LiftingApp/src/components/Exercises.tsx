@@ -49,6 +49,8 @@ const Exercises: React.FC = () => {
   const [currentVideoUrl, setCurrentVideoUrl] = useState('');
   const [currentDescription, setCurrentDescription] = useState('');
   const [currentExerciseName, setCurrentExerciseName] = useState('');
+  const [selectedExercise, setSelectedExercise] = useState(null);
+
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -75,12 +77,13 @@ const Exercises: React.FC = () => {
     return description;
   }
 
-  const openModalWithVideo = (videoUrl: string, description: string, exerciseName: string) => {
-    setCurrentVideoUrl(videoUrl);
-    setCurrentDescription(description);
-    setShowModal(true);
-    setCurrentExerciseName(exerciseName);
-  };
+  const openModalWithVideo = (exercise) => {
+  setCurrentVideoUrl(exercise.link);
+  setCurrentDescription(exercise.description);
+  setCurrentExerciseName(exercise.lift_name);
+  setSelectedExercise(exercise); // Save the selected exercise
+  setShowModal(true);
+};
 
   const handleSearch = (event: CustomEvent) => {
     const query = event.detail.value?.toLowerCase() || "";
@@ -109,51 +112,32 @@ const Exercises: React.FC = () => {
         ></IonSearchbar>
 
         <div className="exercises-container">
-          <IonList>
+        <IonList>
             {searchResults.map((exercise) => (
-              <div key={exercise.lift_id}>
-                <IonItem
-                  button={true}
-                  detail={false}
-                  id={`click-trigger-${exercise.lift_id}`}
-                >
-                  <img
-                    src={liftIconMap[exercise.lift_name] || barbell}
-                    alt="Exercise Icon"
-                    style={{ width: "25px", marginRight: "10px" }}
-                  />
-                  <IonLabel>{exercise.lift_name}</IonLabel>
-                </IonItem>
-
-                <IonPopover
-                  trigger={`click-trigger-${exercise.lift_id}`}
-                  keepContentsMounted={true}
-                >
-                  <IonContent class="ion-padding popup">
-                    <IonText>
-                      <h2>{exercise.lift_name}</h2>
-                    </IonText>
-                    <p>{formatDescription(exercise.description)}</p>
-                    {exercise.link && (
-                      <IonButton onClick={() => openModalWithVideo(exercise.link, exercise.description, exercise.lift_name)}>
-                        Learn more
-                      </IonButton>
-                    )}
-                    <VideoModal
-                      isOpen={showModal}
-                      videoUrl={currentVideoUrl}
-                      description={currentDescription}
-                      exerciseName={currentExerciseName}
-                      onClose={() => setShowModal(false)}
-                    />
-                  </IonContent>
-                </IonPopover>
-              </div>
+              <IonItem
+                key={exercise.lift_id}
+                button={true}
+                onClick={() => openModalWithVideo(exercise)}
+              >
+                <img
+                  src={liftIconMap[exercise.lift_name] || barbell}
+                  alt="Exercise Icon"
+                  style={{ width: "25px", marginRight: "10px" }}
+                />
+                <IonLabel>{exercise.lift_name}</IonLabel>
+              </IonItem>
             ))}
           </IonList>
         </div>
+        <VideoModal
+            isOpen={showModal}
+            videoUrl={currentVideoUrl}
+            description={currentDescription}
+            exerciseName={currentExerciseName}
+            onClose={() => setShowModal(false)}
+          />
       </div>
-
+      
       <IonFooter>
         <IonTabBar>
           <IonTabButton tab="Home">
