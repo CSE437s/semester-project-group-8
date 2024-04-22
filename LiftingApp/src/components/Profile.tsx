@@ -26,6 +26,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import "./Profile.css";
 
 import MonthlyCalendar from "./MonthlyCal";
+import { set } from "date-fns";
 
 const Profile: React.FC = () => {
   console.log("Profile page called");
@@ -42,6 +43,7 @@ const Profile: React.FC = () => {
     username: "John Doe",
     birthday: "",
   });
+  const [numerofWorkouts, setNumberOfWorkouts] = useState(0);
 
   const calculateAge = (isoString) => {
     if (!isoString) return "";
@@ -55,6 +57,7 @@ const Profile: React.FC = () => {
     }
     return age;
   };
+
 
   const [totalPoundsLifted, setTotalPoundsLifted] = useState(0);
   const [isDataFetched, setIsDataFetched] = useState(true);
@@ -71,7 +74,6 @@ const Profile: React.FC = () => {
         if (data.length === 0) {
           throw new Error("No user data found");
         }
-        console.log()
         setProfile({
           username: data[0].username,
           birthday: data[0].birthday, 
@@ -80,6 +82,32 @@ const Profile: React.FC = () => {
       .catch(error => {
         console.error("Error fetching profile data:", error);
       });
+    
+    
+    fetch(`${apiUrl}/exercisehistory?user_id=${user_id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    })
+    .then (response => response.json())
+    .then (data => {
+      if (data.length === 0) {
+        throw new Error("No user data found");
+      }
+      // Process the data here and count the number of different dates. 
+      const uniqueDates = new Set();
+      data.forEach(item => {
+        const datePart = item.date.split("T")[0];
+        uniqueDates.add(datePart);
+      });
+      setNumberOfWorkouts(uniqueDates.size);
+    })
+    .catch(error => {
+      console.error("Error fetching exercise history data:", error);
+    
+    });
+
 
     fetch(`${apiUrl}/totalpoundslifted`, {
       method: "POST",
@@ -147,7 +175,7 @@ const Profile: React.FC = () => {
           <IonGrid>
             <IonRow>
               <IonCol>
-                <IonText className="scoreboard-text">Workouts</IonText>
+                <IonText className="scoreboard-text">{numerofWorkouts} Workouts</IonText>
                 {/* FIXME: Add dynamic data here */}
               </IonCol>
               <IonCol>
