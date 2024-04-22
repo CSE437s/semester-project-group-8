@@ -319,37 +319,29 @@ function WorkoutForm() {
             </div>
 
             <div className="sets-container">
-              <div className="header-row">
-                <div>Set</div>
-                <div>Lbs</div>
-                <div>Reps</div>
-                <div>RPE</div>
-                <div>Action</div> {/* Added Actions header */}
-              </div>
-              {sets[exerciseIndex].map((set, setIndex) => (
-                <div>
-                  <IonItemSliding key={setIndex}>
-                    <div
-                      key={setIndex}
-                      className={`set-row ${set.done ? "green-background" : ""}`}
-                    >
+                <div className="header-row">
+                  <div>Set</div>
+                  <div>Lbs</div>
+                  <div>Reps</div>
+                  <div>RPE</div>
+                  <div>Action</div> {/* Added Actions header */}
+                </div>
+                {sets[exerciseIndex].map((set, setIndex) => (
+                  <IonItemSliding key={`sliding-${setIndex}`}> {/* Unique key for sliding item */}
+                    <div className={`set-row ${set.done ? "green-background" : ""}`}>
                       <div>{set.setNumber}</div>
                       <div>
                         <IonInput
                           value={set.lbs}
                           placeholder="lbs"
-                          onIonChange={(e) =>
-                            updateSet(exerciseIndex, setIndex, "lbs", e.detail.value)
-                          }
+                          onIonChange={(e) => updateSet(exerciseIndex, setIndex, "lbs", e.detail.value)}
                         />
                       </div>
                       <div>
                         <IonInput
                           value={set.reps}
                           placeholder="Reps"
-                          onIonChange={(e) =>
-                            updateSet(exerciseIndex, setIndex, "reps", e.detail.value)
-                          }
+                          onIonChange={(e) => updateSet(exerciseIndex, setIndex, "reps", e.detail.value)}
                         />
                       </div>
                       <div>
@@ -358,12 +350,7 @@ function WorkoutForm() {
                             value={set.RPE}
                             placeholder="RPE"
                             onIonChange={(e) =>
-                              updateSet(
-                                exerciseIndex,
-                                setIndex,
-                                "RPE",
-                                parseFloat(e.detail.value),
-                              )
+                              updateSet(exerciseIndex, setIndex, "RPE", parseFloat(e.detail.value))
                             }
                             interface="popover"
                           >
@@ -375,37 +362,23 @@ function WorkoutForm() {
                           </IonSelect>
                         </IonItem>
                       </div>
-                      <div>
+                      <div className="icon-container">
                         <IonIcon
                           icon={checkmarkOutline}
-                          style={{
-                            marginRight: "10px",
-                            color: set.done ? "green" : "grey",
-                            fontSize: "34px",
-                          }}
+                          style={{ color: set.done ? "green" : "grey", fontSize: "34px" }}
                           onClick={() => toggleDone(exerciseIndex, setIndex)}
                         />
-                        {/* <IonIcon
-                          icon={closeOutline}
-                          style={{ fontSize: "24px" }}
-                          onClick={() => deleteSet(exerciseIndex, setIndex)}
-                        /> */}
                       </div>
                     </div>
-
-                    <IonItemOptions side="end" >
-                      <IonItemOption
-                        color="danger"
-                        onClick={() => deleteSet(exerciseIndex, setIndex)}
-                      >
+                    <IonItemOptions side="end">
+                      <IonItemOption color="danger" onClick={() => deleteSet(exerciseIndex, setIndex)}>
                         Delete
                       </IonItemOption>
                     </IonItemOptions>
-
                   </IonItemSliding>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+
             <IonButton
               className="add-set-button"
               onClick={() => addSet(exerciseIndex)}
@@ -457,63 +430,6 @@ function WorkoutForm() {
         {/* Todo (Sam) Add an IonActionSheet? */}
         <br></br>
         <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-
-
-        <IonFooter>
-          <IonTabBar>
-            <IonTabButton tab="Home">
-              <IonIcon
-                icon={homeOutline}
-                onClick={() =>
-                  history.push({
-                    pathname: "/homepage",
-                    state: user_id,
-                  })
-                }
-              />
-              <IonLabel>Home</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Exercises">
-              <IonIcon
-                icon={barbell}
-                onClick={() =>
-                  history.push({
-                    pathname: "/exercises",
-                    state: user_id,
-                  })
-                }
-              />
-              <IonLabel>Exercises</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Templates">
-              <IonIcon
-                icon={timeOutline}
-                onClick={() =>
-                  history.push({
-                    pathname: "/history",
-                    state: user_id,
-                  })
-                }
-              />
-              <IonLabel>History</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Profile">
-              <IonIcon
-                icon={personOutline}
-                onClick={() =>
-                  history.push({
-                    pathname: "/profile",
-                    state: user_id,
-                  })
-                }
-              />
-              <IonLabel>Profile</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonFooter>
 
       </div>
     </div>
