@@ -362,6 +362,10 @@ function simplemaxcalculate(weight, rep_num, rpereq) {
 }
 
 async function recommendlift(weight, rep_num, rpe, lift_id, set_num, dayvars) {
+  if (Number(rep_num) > 12){
+    rep_num = Number(12);
+  }
+  console.log("checking what re_num is: " + rep_num);
   if (dayvars == null){
     dayvars = Number(12);
   }
