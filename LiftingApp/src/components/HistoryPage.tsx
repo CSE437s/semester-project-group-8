@@ -205,7 +205,7 @@ const History: React.FC = () => {
         totalPounds={modalData.totalPounds}
       />
       <IonFooter>
-        <IonTabBar>
+        <IonTabBar className="tab">
           <IonTabButton tab="Home">
             <IonIcon
               icon={homeOutline}
@@ -224,7 +224,7 @@ const History: React.FC = () => {
             />
             <IonLabel>Exercises</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Templates">
+          <IonTabButton tab="Templates" className="history-tab">
             <IonIcon
               icon={timeOutline}
               onClick={() =>

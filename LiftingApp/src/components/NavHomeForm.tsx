@@ -70,7 +70,7 @@ function NavHomeForm() {
 
       <IonFooter>
         <IonTabBar>
-          <IonTabButton tab="Home">
+          <IonTabButton tab="Home" className="home-tab">
             <IonIcon
               icon={homeOutline}
               onClick={() =>

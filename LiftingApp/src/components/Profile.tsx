@@ -235,7 +235,7 @@ const Profile: React.FC = () => {
             />
             <IonLabel>History</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Profile">
+          <IonTabButton tab="Profile" className="profile-tab">
             <IonIcon
               icon={personOutline}
               onClick={() =>

@@ -35,3 +35,13 @@
 .history-start-workout-text {
   border-bottom: 3px solid lightgray;
 }
+
+ion-tab-bar {
+  --color: #ff4b4b !important;
+  /* --background: lightgray; */
+  padding-bottom: 3px;
+}
+
+.history-tab {
+  --color: #483c32 !important;
+}

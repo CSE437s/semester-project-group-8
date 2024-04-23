@@ -22,3 +22,14 @@
   min-height: 50px;
   --padding-bottom: env(safe-area-inset-bottom, 0);
 }
+
+
+ion-tab-bar {
+  --color: #ff4b4b !important;
+  /* --background: lightgray; */
+  padding-bottom: 3px;
+}
+
+.exercises-tab {
+  --color: #483c32 !important;
+}

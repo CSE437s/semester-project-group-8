@@ -162,7 +162,7 @@ const Exercises: React.FC = () => {
             />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Exercises">
+          <IonTabButton tab="Exercises" className="exercises-tab">
             <IonIcon
               icon={barbell}
               onClick={() =>
