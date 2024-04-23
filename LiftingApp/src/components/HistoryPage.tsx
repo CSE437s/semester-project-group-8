@@ -194,6 +194,9 @@ const History: React.FC = () => {
           </IonText>
         )}
       </IonContent>
+      <br/>
+      <br/>
+      <br/>
       <ExerciseDetailModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
