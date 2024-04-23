@@ -135,7 +135,7 @@ const Profile: React.FC = () => {
 
   return (
     <IonPage>
-      <div>
+      <div className="profile-content">
         <IonText className="start-workout-text">
           <h1>My Profile</h1>
         </IonText>
@@ -160,7 +160,7 @@ const Profile: React.FC = () => {
                   {calculateAge(profile.birthday) !== "" ? `, ${calculateAge(profile.birthday)}` : ""}
                 </h2>
 
-{/* HAVENT IMPLEMENTED ANYTHING YET FOR EDITING SO COMMENTED OUT */}
+                {/* HAVENT IMPLEMENTED ANYTHING YET FOR EDITING SO COMMENTED OUT */}
                 {/* <IonIcon
                   icon={settingsOutline}
                   style={{ marginLeft: "auto", fontSize: "24px" }}
@@ -190,7 +190,7 @@ const Profile: React.FC = () => {
           </IonGrid>
         </IonCard>
 
-        <br></br>
+        {/* <br></br> */}
         {/* <h2>Lifting Calendar</h2> */}
         <div className="statistics-container">
           <MonthlyCalendar />

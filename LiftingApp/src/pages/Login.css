@@ -1,0 +1,14 @@
+.login-title {
+    font-size: 42px;
+    font-family: "Arial", sans-serif;
+
+    /* text-align: left; */
+}
+
+.form-header-image {
+    width: calc(100% - 10%);
+    border-radius: 15px;
+    object-fit: cover;
+    height: 35vh; 
+    margin: 5%;
+  }

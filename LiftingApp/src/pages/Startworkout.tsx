@@ -2,6 +2,7 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -20,7 +21,7 @@ const StartingWorkoutPage: React.FC = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Start Workout</IonTitle>
+            <h3 id="title">Start Workout</h3>
           </IonToolbar>
         </IonHeader>
 

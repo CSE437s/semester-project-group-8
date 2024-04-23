@@ -175,7 +175,7 @@ ion-footer {
   
 }
 
-.finish-workout-button {
+#finish-workout-button {
   margin-left: auto; /* Pushes the button to the right */
   --background: #67dd2f !important;
   font-weight: bold;
@@ -188,4 +188,11 @@ ion-footer {
   align-items: center;
   height: 100%;
   width: 100%;
+}
+
+.finish-workout-button{
+  /* --button-background: #4CAF50; */
+  --button-color: black;
+  --button-text-font-weight: bold;
+  font-weight: bold;
 }

@@ -20,10 +20,15 @@ const Login: React.FC = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Login</IonTitle>
+            <IonTitle className="login-title">Login</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        <img src="assets/washu_gym.jpg" className="form-header-image"/>
+
+
         <LoginForm />
+
       </IonContent>
     </IonPage>
   );

@@ -44,34 +44,37 @@ function LoginForm() {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="login-form">
-      <IonItem className="login-input">
-        <IonInput name="username" required label="Username"></IonInput>
-      </IonItem>
-      <IonItem className="login-input">
-        <IonInput
-          name="password"
-          type="password"
-          required
-          label="Password"
-        ></IonInput>
-      </IonItem>
-      <IonButton className="login-button" type="submit" expand="block">
-        Login
-      </IonButton>
-      <IonButton
-        className="login-sign-up-button"
-        fill="clear"
-        onClick={() => history.push("/Signup")}
-      >
-        Don't have an account? Sign Up
-      </IonButton>
-      {loginStatus && (
-        <div className={isError ? "error-message" : "success-message"}>
-          {loginStatus}
-        </div>
-      )}
-    </form>
+    <div>
+
+      <form ref={formRef} onSubmit={handleSubmit} className="login-form">
+        <IonItem className="login-input">
+          <IonInput name="username" required label="Username"></IonInput>
+        </IonItem>
+        <IonItem className="login-input">
+          <IonInput
+            name="password"
+            type="password"
+            required
+            label="Password"
+          ></IonInput>
+        </IonItem>
+        <IonButton className="login-button" type="submit" expand="block">
+          Login
+        </IonButton>
+        <IonButton
+          className="login-sign-up-button"
+          fill="clear"
+          onClick={() => history.push("/Signup")}
+        >
+          Don't have an account? Sign Up
+        </IonButton>
+        {loginStatus && (
+          <div className={isError ? "error-message" : "success-message"}>
+            {loginStatus}
+          </div>
+        )}
+      </form>
+    </div>
   );
 }
 
