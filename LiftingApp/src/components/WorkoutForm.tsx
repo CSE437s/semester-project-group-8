@@ -55,6 +55,8 @@ function WorkoutForm() {
   const user_id = history.location.state || {};
   const RPEOptions = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]; // for RPE dropdown
   const apiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const [searchResults, setSearchResults] = useState([]);
+
   useEffect(() => {
     fetch(`${apiUrl}/getlifts`, {
       method: "GET",
@@ -65,6 +67,7 @@ function WorkoutForm() {
       .then((response) => response.json())
       .then((data) => {
         setExercises(data);
+        setSearchResults(data);
       })
       .catch((error) => console.error("Fetch error:", error));
   }, []);
@@ -73,6 +76,7 @@ function WorkoutForm() {
     setSelectedExercises((currentExercises) => [...currentExercises, exercise]);
     setSets((currentSets) => [...currentSets, []]);
     setShowModal(false);
+    setSearchResults(exercises);
   };
   const addSet = (exerciseIndex, weight = "", reps = "", RPE = "") => {
     const newSet = {
@@ -235,10 +239,10 @@ function WorkoutForm() {
     }
   };
 
-  const [searchResults, setSearchResults] = useState([]);
   const [displayedExercises, setDisplayedExercises] = useState([]);  
 
   const handleSearch = (event: CustomEvent) => {
+    console.log("add exercise search called")
     const query = event.detail.value?.toLowerCase() || "";
     if (query === "") {
       setSearchResults(exercises); // Show all exercises if query is empty
@@ -276,9 +280,11 @@ function WorkoutForm() {
 
       <div className="workout-container">
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+
         <IonList>
-            <IonSearchbar placeholder="Search" onIonChange={handleSearch} debounce={500} />
-            {exercises.map((exercise) => (
+          <IonSearchbar placeholder="Search Exercises" onIonChange={handleSearch} debounce={500} showClearButton="focus"/>
+
+            {searchResults.map((exercise) => (
               <div key={exercise.lift_id}> {/* Moved the key to the div */}
                 <IonItem
                   button
@@ -289,7 +295,13 @@ function WorkoutForm() {
             ))}
         </IonList>
         <div className="exercise-list-div">
-          <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
+          <IonButton className="add-exercise-button" 
+                  onClick={() => {
+                    setShowModal(false);
+                    setSearchResults(exercises);
+                  }}
+            >
+            Close</IonButton>
         </div>
         </IonModal>
         {showRecommendation &&
