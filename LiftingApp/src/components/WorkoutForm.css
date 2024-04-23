@@ -120,9 +120,11 @@
 }
 
 .add-exercise-button {
-  --background: #bad6ff !important;
+  /* --background: #bad6ff !important;
+  color: #1573ff !important; */
+  --background: #ff4b4b;
+  color: white;
   font-weight: bold;
-  color: #1573ff !important;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -165,7 +167,7 @@ ion-footer {
   display: flex;
   justify-content: space-between; 
   align-items: center; 
-  border-bottom: solid lightgray;
+  border-bottom: 3px solid lightgray;
   padding-right: 10px;
   background-color: white;
   width: 100%;
@@ -194,5 +196,12 @@ ion-footer {
   /* --button-background: #4CAF50; */
   --button-color: black;
   --button-text-font-weight: bold;
-  font-weight: bold;
+  
+}
+
+.exercise-list-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
 }

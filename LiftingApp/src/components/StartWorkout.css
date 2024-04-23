@@ -43,9 +43,15 @@ ion-range::part(pin) {
     }
   }
 
+ion-button {
+    --ion-color-activated: #fc8787 !important; 
+  }
+
 .workout-form .workout-begin-button {
   margin-top: 4em;
   --background: #ff4b4b;
+  --ion-color-activated: #fc8787 !important; 
+  --background-activated: #fc8787;
   color: white;
 }
 

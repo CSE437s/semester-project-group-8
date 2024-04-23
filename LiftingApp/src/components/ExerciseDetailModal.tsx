@@ -3,6 +3,7 @@ import { IonModal, IonIcon, IonHeader, IonToolbar, IonTitle, IonButton, IonList,
 import { closeCircle} from "ionicons/icons";
 
 import "./ExerciseDetailModal.css";
+import { color } from 'd3';
 
 const ExerciseDetailModal = ({ isOpen, onClose, exerciseDetails, date, totalPounds }) => {
   return (
@@ -12,7 +13,7 @@ const ExerciseDetailModal = ({ isOpen, onClose, exerciseDetails, date, totalPoun
             <h2>{date}</h2>
             <IonButtons slot="end">
               <IonButton onClick={onClose}>
-                <IonIcon icon={closeCircle} style={{ fontSize: '32px' }}></IonIcon>
+                <IonIcon icon={closeCircle} className='close-icon'></IonIcon>
               </IonButton>
             </IonButtons>
         </IonToolbar>

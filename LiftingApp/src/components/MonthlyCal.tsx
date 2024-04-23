@@ -253,7 +253,7 @@ const MonthlyCalendar = () => {
               day: 'numeric',   
             });
             
-            handleDateSectionClick(formattedDate)
+            handleDateSectionClick(formattedDate);
           };
   
           week.push(

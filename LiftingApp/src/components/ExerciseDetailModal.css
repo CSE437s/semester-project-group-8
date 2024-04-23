@@ -20,3 +20,8 @@
   ion-toolbar {
     --min-height: 56px; 
   }
+
+  .close-icon {
+    font-size: 32px;
+    color: #ff4b4b;
+  }

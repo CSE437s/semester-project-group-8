@@ -2,8 +2,17 @@
 http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
+ion-button {
+  --ion-color-activated: #fc8787; 
+  --background-activated: #fc8787;
+
+}
+
 :root {
   --ion-font-family: "Arial", sans-serif;
+  --ion-color-activated: #fc8787;
+  --background-activated: #fc8787;
+
 
   /** primary **/
   --ion-color-primary: #3880ff;

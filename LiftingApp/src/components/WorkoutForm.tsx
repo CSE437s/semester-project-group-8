@@ -264,7 +264,7 @@ function WorkoutForm() {
             id="finish-workout-button" 
             // onClick={() => setIsDoneOpen(true)}
             type="button"> 
-          Done
+            Done
         </IonButton>
       </div>
 
@@ -283,7 +283,9 @@ function WorkoutForm() {
               </div>
             ))}
           </IonList>
-          <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
+          <div className="exercise-list-div">
+            <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
+          </div>
         </IonModal>
         {showRecommendation &&
           recommendation &&

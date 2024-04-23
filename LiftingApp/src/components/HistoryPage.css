@@ -32,6 +32,6 @@
   padding: 10px 0;
 }
 
-.start-workout-text {
-  border-bottom: solid lightgray;
+.history-start-workout-text {
+  border-bottom: 3px solid lightgray;
 }

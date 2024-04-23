@@ -162,7 +162,7 @@ const History: React.FC = () => {
 
   return (
     <IonPage>
-        <IonText className="start-workout-text">
+        <IonText className="history-start-workout-text">
           <h1 className="ion-padding">History</h1>
         </IonText>
 
