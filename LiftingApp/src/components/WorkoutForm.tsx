@@ -236,6 +236,8 @@ function WorkoutForm() {
   };
 
   const [searchResults, setSearchResults] = useState([]);
+  const [displayedExercises, setDisplayedExercises] = useState([]);  
+
   const handleSearch = (event: CustomEvent) => {
     const query = event.detail.value?.toLowerCase() || "";
     if (query === "") {
@@ -262,7 +264,10 @@ function WorkoutForm() {
         {/* onClick={() => setIsDoneOpen(true)} */}
         <IonButton 
             id="finish-workout-button" 
-            // onClick={() => setIsDoneOpen(true)}
+            onClick={() => {
+              setIsDoneOpen(true);
+              console.log("Attempting to open Action Sheet, isDoneOpen:", isDoneOpen);
+            }}
             type="button"> 
             Done
         </IonButton>
@@ -282,10 +287,10 @@ function WorkoutForm() {
                 </IonItem>
               </div>
             ))}
-          </IonList>
-          <div className="exercise-list-div">
-            <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
-          </div>
+        </IonList>
+        <div className="exercise-list-div">
+          <IonButton className="add-exercise-button" onClick={() => setShowModal(false)}>Close</IonButton>
+        </div>
         </IonModal>
         {showRecommendation &&
           recommendation &&
@@ -323,7 +328,11 @@ function WorkoutForm() {
                 style={{ 
                   fontSize: "36px",
                 }}
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                  setIsOpen(true);
+                  console.log("Attempting to open Action Sheet, isOpen:", isOpen);
+                }}
+                
               />
             </div>
 
@@ -420,42 +429,6 @@ function WorkoutForm() {
                 onDidDismiss={() => setIsOpen(false)}
             >
             </IonActionSheet>
-
-            {/* FOR THE WORKOUT DONE/CANCEL OPTION */}
-            <IonActionSheet
-                trigger="finish-workout-button"
-                // isOpen={isDoneOpen}
-                buttons={[
-                  {
-                    text: 'Finish Workout!',
-                    handler: () => {
-                      console.log('Finish Workout Clicked');
-                      cancelWorkout();
-                      setIsDoneOpen(false);
-                    },
-                    cssClass: 'finish-workout-button'
-                  },
-                  {
-                    text: 'Delete Workout',
-                    role: 'destructive',
-                    handler: () => {
-                      console.log('Delete Workout clicked');
-                      cancelWorkout();
-                      setIsDoneOpen(false);
-                    }
-                  },
-                  {
-                    text: 'Cancel',
-                    role: 'cancel',
-                    handler: () => {
-                      console.log('Cancel clicked');
-                      setIsDoneOpen(false);
-                    }
-                  }
-                ]}
-                onDidDismiss={() => setIsDoneOpen(false)}
-            >
-            </IonActionSheet>
           </div>
         ))}
         <IonButton
@@ -465,7 +438,45 @@ function WorkoutForm() {
           Add Exercises
         </IonButton>
 
-        {/* Todo (Sam) Add an IonActionSheet? */}
+        {/* FOR THE WORKOUT DONE/CANCEL OPTION */}
+        <IonActionSheet
+            // trigger="finish-workout-button"
+            isOpen={isDoneOpen}
+            buttons={[
+              {
+                text: 'Finish Workout!',
+                handler: () => {
+                  console.log('Finish Workout Clicked');
+                  setIsDoneOpen(false);
+                  cancelWorkout();
+                },
+                cssClass: 'done-workout-button'
+              },
+              {
+                text: 'Delete Workout',
+                role: 'destructive',
+                handler: () => {
+                  console.log('Delete Workout clicked');
+                  setIsDoneOpen(false);
+                  cancelWorkout();
+                }
+              },
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                  setIsDoneOpen(false);
+                }
+              }
+            ]}
+            onDidDismiss={() => {
+              console.log("Action sheet dismissed");
+              setIsDoneOpen(false);
+            }}
+        >
+        </IonActionSheet>
+        
         <br></br>
         <br></br>
 
